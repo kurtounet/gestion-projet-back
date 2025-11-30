@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Entity;
+
+
+use App\Repository\FileRepository;
+
+
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+
+
+
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
+
+use App\Dto\File\FileResponseDto;
+use App\Dto\File\FileUpdateDto;
+use App\Dto\File\FileCreateDto;
+use App\State\File\FileProvider;
+use App\State\File\FileProcessor;
+use App\Traits\TimestampTrait;
+
+#[GetCollection(
+    provider: FileProvider::class,
+    output: FileResponseDto::class
+)]
+#[Get(
+    provider: FileProvider::class,
+    output: FileResponseDto::class
+)]
+#[Post(
+    processor: FileProcessor::class,
+    input: FileCreateDto::class
+)]
+#[Patch(
+    processor: FileProcessor::class,
+    input: FileUpdateDto::class
+)]
+#[Delete()]
+
+
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity(repositoryClass: FileRepository::class)]
+class File
+{
+    use TimestampTrait;
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $path = null;
+
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $keyWord = null;
+
+
+
+
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+
+
+    public function setPath(string $path): static
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+
+    public function getKeyWord(): ?string
+    {
+        return $this->keyWord;
+    }
+
+
+
+    public function setKeyWord(string $keyWord): static
+    {
+        $this->keyWord = $keyWord;
+        return $this;
+    }
+}

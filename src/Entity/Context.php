@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Entity;
+
+
+use App\Repository\ContextRepository;
+
+
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+
+
+
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
+
+use App\Dto\Context\ContextResponseDto;
+use App\Dto\Context\ContextUpdateDto;
+use App\Dto\Context\ContextCreateDto;
+use App\State\Context\ContextProvider;
+use App\State\Context\ContextProcessor;
+use App\Traits\TimestampTrait;
+
+#[GetCollection(
+    provider: ContextProvider::class,
+    output: ContextResponseDto::class
+)]
+#[Get(
+    provider: ContextProvider::class,
+    output: ContextResponseDto::class
+)]
+#[Post(
+    processor: ContextProcessor::class,
+    input: ContextCreateDto::class
+)]
+#[Patch(
+    processor: ContextProcessor::class,
+    input: ContextUpdateDto::class
+)]
+#[Delete()]
+
+
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity(repositoryClass: ContextRepository::class)]
+class Context
+{
+    use TimestampTrait;
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $contextLabel = null;
+
+
+
+
+
+
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+
+
+    public function getContextLabel(): ?string
+    {
+        return $this->contextLabel;
+    }
+
+
+
+    public function setContextLabel(string $contextLabel): static
+    {
+        $this->contextLabel = $contextLabel;
+        return $this;
+    }
+}
