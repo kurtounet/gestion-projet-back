@@ -14,10 +14,10 @@ final class TypeTaskUpdateDto
 
         public ?int $codeId = null,
 
-        #[Assert\Length(max: 100)]
+        #[Assert\Length(max: 100, maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $name = null,
 
-        #[Assert\Length(max: 255)]
+        #[Assert\Length(max: 255, maxMessage: 'Le chemin du fichier de script ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $pathFileScript = null,
 
         public ?string $description = null,

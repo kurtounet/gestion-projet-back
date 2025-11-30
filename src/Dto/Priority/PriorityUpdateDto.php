@@ -14,7 +14,7 @@ final class PriorityUpdateDto
 
         public ?int $priorityId = null,
 
-        #[Assert\Length(max: 50)]
+        #[Assert\Length(max: 50, maxMessage: 'Le libellé de la priorité ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $priorityLabel = null,
 
         public ?int $priorityNumber = null,

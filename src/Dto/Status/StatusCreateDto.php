@@ -10,14 +10,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class StatusCreateDto
 {
     public function __construct(
-        #[Assert\NotNull]
+        #[Assert\NotNull(message: 'L\'identifiant du statut ne doit pas être nul.')]
         public int $statusId,
 
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 50)]
+        #[Assert\NotBlank(message: 'Le nom du statut ne doit pas être vide.')]
+        #[Assert\Length(max: 50, maxMessage: 'Le nom du statut ne doit pas dépasser {{ limit }} caractères.')]
         public string $statusName,
 
-        #[Assert\NotNull]
+        #[Assert\NotNull(message: 'Le contexte du statut ne doit pas être nul.')]
         public int $statusContext,
 
         public ?DateTimeInterface $createdAt = null,

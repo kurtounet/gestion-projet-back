@@ -24,7 +24,7 @@ final class TaskInstanceUpdateDto
 
         public ?int $typeTaskId = null,
 
-        #[Assert\Length(max: 255)]
+        #[Assert\Length(max: 255, maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $name = null,
 
         public ?string $description = null,

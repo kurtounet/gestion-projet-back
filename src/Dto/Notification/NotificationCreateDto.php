@@ -10,17 +10,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class NotificationCreateDto
 {
     public function __construct(
-        #[Assert\NotNull]
+        #[Assert\NotNull(message: 'L\'identifiant de l\'utilisateur ne doit pas être nul.')]
         public int $userId,
 
-        #[Assert\NotBlank]
+        #[Assert\NotBlank(message: 'Le message ne doit pas être vide.')]
         public string $message,
 
-        #[Assert\NotNull]
+        #[Assert\NotNull(message: 'La date ne doit pas être nulle.')]
         public DateTimeInterface $date,
 
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 50)]
+        #[Assert\NotBlank(message: 'Le type ne doit pas être vide.')]
+        #[Assert\Length(max: 50, maxMessage: 'Le type ne doit pas dépasser {{ limit }} caractères.')]
         public string $type,
 
         public ?DateTimeInterface $createdAt = null,

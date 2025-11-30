@@ -12,7 +12,7 @@ final class UserUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        #[Assert\Length(max: 180)]
+        #[Assert\Length(max: 180, maxMessage: 'L\'email ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $email = null,
 
         public ?array $roles = null,

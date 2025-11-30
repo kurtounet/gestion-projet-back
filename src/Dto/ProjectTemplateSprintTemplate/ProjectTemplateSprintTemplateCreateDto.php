@@ -10,13 +10,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class ProjectTemplateSprintTemplateCreateDto
 {
     public function __construct(
-        #[Assert\NotNull]
+        #[Assert\NotNull(message: 'L\'identifiant du modèle de projet ne doit pas être nul.')]
         public int $projectTemplateId,
 
-        #[Assert\NotNull]
+        #[Assert\NotNull(message: 'L\'identifiant du modèle de sprint ne doit pas être nul.')]
         public int $sprintTemplateId,
 
-        #[Assert\NotNull]
+        #[Assert\NotNull(message: 'L\'ordre du sprint ne doit pas être nul.')]
         public int $sprintOrder,
 
         public ?DateTimeInterface $createdAt = null,

@@ -14,7 +14,7 @@ final class StatusUpdateDto
 
         public ?int $statusId = null,
 
-        #[Assert\Length(max: 50)]
+        #[Assert\Length(max: 50, maxMessage: 'Le nom du statut ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $statusName = null,
 
         public ?int $statusContext = null,

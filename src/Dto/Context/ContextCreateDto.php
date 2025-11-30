@@ -10,8 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class ContextCreateDto
 {
     public function __construct(
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 50)]
+        #[Assert\NotBlank(message: 'Le libellé du contexte ne doit pas être vide.')]
+        #[Assert\Length(max: 50, maxMessage: 'Le libellé du contexte ne doit pas dépasser {{ limit }} caractères.')]
         public string $contextLabel,
 
         public ?DateTimeInterface $createdAt = null,

@@ -12,7 +12,7 @@ final class FileUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        #[Assert\Length(max: 255)]
+        #[Assert\Length(max: 255, maxMessage: 'Le chemin ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $path = null,
 
         public ?string $keyWord = null,

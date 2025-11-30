@@ -16,7 +16,7 @@ final class CommentUpdateDto
 
         public ?int $userId = null,
 
-        #[Assert\Length(max: 255)]
+        #[Assert\Length(max: 255, maxMessage: 'Le sujet ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $subject = null,
 
         public ?string $content = null,

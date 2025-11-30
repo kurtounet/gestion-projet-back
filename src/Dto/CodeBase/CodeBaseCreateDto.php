@@ -10,19 +10,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class CodeBaseCreateDto
 {
     public function __construct(
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 255)]
+        #[Assert\NotBlank(message: 'Le libellé ne doit pas être vide.')]
+        #[Assert\Length(max: 255, maxMessage: 'Le libellé ne doit pas dépasser {{ limit }} caractères.')]
         public string $label,
 
-        #[Assert\NotBlank]
+        #[Assert\NotBlank(message: 'Le code ne doit pas être vide.')]
         public string $code,
 
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 255)]
+        #[Assert\NotBlank(message: 'Le chemin du fichier ne doit pas être vide.')]
+        #[Assert\Length(max: 255, maxMessage: 'Le chemin du fichier ne doit pas dépasser {{ limit }} caractères.')]
         public string $pathFile,
 
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 255)]
+        #[Assert\NotBlank(message: 'La fonctionnalité ne doit pas être vide.')]
+        #[Assert\Length(max: 255, maxMessage: 'La fonctionnalité ne doit pas dépasser {{ limit }} caractères.')]
         public string $feature,
 
         public ?DateTimeInterface $createdAt = null,

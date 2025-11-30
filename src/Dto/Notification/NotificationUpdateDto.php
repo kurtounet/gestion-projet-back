@@ -18,7 +18,7 @@ final class NotificationUpdateDto
 
         public ?DateTimeInterface $date = null,
 
-        #[Assert\Length(max: 50)]
+        #[Assert\Length(max: 50, maxMessage: 'Le type ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $type = null,
 
         public ?DateTimeInterface $createdAt = null,

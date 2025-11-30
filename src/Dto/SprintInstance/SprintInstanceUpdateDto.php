@@ -20,7 +20,7 @@ final class SprintInstanceUpdateDto
 
         public ?int $sprintDependencyId = null,
 
-        #[Assert\Length(max: 100)]
+        #[Assert\Length(max: 100, maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères.')]
         public ?string $name = null,
 
         public ?DateTimeInterface $startDate = null,
