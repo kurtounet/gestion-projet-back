@@ -8,3 +8,22 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+###cli-local
+/.cli-local
+/cli-local-config.json
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+.env.local
+.env.test
+
+src/Command/*
