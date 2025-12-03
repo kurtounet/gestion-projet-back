@@ -5,79 +5,90 @@ declare(strict_types=1);
 namespace App\State\User;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\Metadata\CollectionOperationInterface;
-use ApiPlatform\Metadata\ItemOperationInterface;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
-
+use App\Dto\User\UserCreateDto;
+use App\Dto\User\UserUpdateDto;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 /**
- * Processor pour l'entité User.
+ * Processor pour User.
  *
- * À brancher dans la ressource API Platform :
- *  - via attribut : processor: App\State\User\UserProcessor::class
- *  - ou via config YAML/XML.
- *
- * Si tu utilises des DTO (CreateUserDto / UpdateUserDto / UserResponseDto),
- * adapte la méthode process() pour transformer DTO <-> entité.
+ * À brancher sur la ressource :
+ * #[ApiResource(processor: UserProcessor::class)]
  */
 final class UserProcessor implements ProcessorInterface
 {
+
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+        #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
+        private readonly ProcessorInterface $persistProcessor,
+
+        #[Autowire(service: 'api_platform.doctrine.orm.state.remove_processor')]
+        private readonly ProcessorInterface $removeProcessor,
+    ) {}
+
 
     /**
-     * @param mixed $data DTO ou entité selon ta config API Platform
-     * @return mixed
+     * @param User|mixed $data
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        // Exemple très basique si $data est déjà une entité User
-        // À adapter si $data est un DTO :
-
-        if ($operation instanceof CollectionOperationInterface) {
-            // POST (création)
-            if (!$data instanceof User) {
-                // TODO: hydrater une entité User à partir d'un DTO
-                // $entity = new User(...);
-                // $this->entityManager->persist($entity);
-                // $this->entityManager->flush();
-                // return $entity;
-
-                return $data;
-            }
-
-            $this->entityManager->persist($data);
-            $this->entityManager->flush();
-
-            return $data;
+        // Cas DELETE : on délègue au remove_processor
+        if ($operation instanceof Delete) {
+            $this->removeProcessor->process($data, $operation, $uriVariables, $context);
+            return null;
         }
 
-        if ($operation instanceof ItemOperationInterface) {
-            // PUT/PATCH/DELETE sur un item
-            if ($operation->getMethod() === 'DELETE') {
-                if ($data instanceof User) {
-                    $this->entityManager->remove($data);
-                    $this->entityManager->flush();
-                }
+        // Création: Dans operation POST -> DTO Create dans l'entité
+        if ($operation instanceof Post && $data instanceof UserCreateDto) {
+            // Ici, tu vas chercher les relations à partir des *Id :
+            /*
+            $status = $this->em->getRepository(Status::class)->find($data->statusId);
+            $comment = $this->em->getRepository(Comment::class)->find($data->commentId);
+            $priority = $this->em->getRepository(Priority::class)->find($data->priorityId);
+            $projectTemplate = $this->em->getRepository(ProjectTemplate::class)->find($data->projectTemplateId);
 
-                return null;
-            }
+            $entity = new User();
+            $entity->setName($data->name);
+            $entity->setDescription($data->description);
+            $entity->setStartDate($data->startDate);
+            $entity->setEndDate($data->endDate);
 
-            // PUT/PATCH : mise à jour
-            if ($data instanceof User) {
-                $this->entityManager->persist($data);
-                $this->entityManager->flush();
+            $entity->setStatus($status);
+            $entity->setPriority($priority);
+            $entity->setProjectTemplate($projectTemplate);
+            $entity->setComment($comment);
 
-                return $data;
-            }
+            $this->em->persist($entity);
+            $this->em->flush();
 
-            // TODO: cas DTO -> entité à gérer ici
+            return $entity;
+            */
         }
 
-        // Autres cas (custom operation, subresource, etc.)
+        // Mise à jour PATCH/PUT si tu as un DTO Update
+        // if ($operation instanceof Patch || $operation instanceof Put && $data instanceof UserUpdateDto) {
+        //     $entity = $this->em->getRepository(User::class)->find($data->id);
+        //     $entity->setName($data->name);
+        //     $entity->setDescription($data->description);
+        //     $entity->setStartDate($data->startDate);
+        //     $entity->setEndDate($data->endDate);
+        //     $this->em->persist($entity);
+        //     $this->em->flush();
+        //     return $entity;
+        // }
+
+        // Cas où $data est déjà une entité, on peut faire :
+        // if ($data instanceof User) {
+        //     $this->em->persist($data);
+        //     $this->em->flush();
+
+        //     return $data;
+        // }
+
         return $data;
     }
 }
