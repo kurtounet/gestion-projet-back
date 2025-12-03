@@ -5,51 +5,73 @@ declare(strict_types=1);
 namespace App\State\TypeTask;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\Metadata\CollectionOperationInterface;
-use ApiPlatform\Metadata\ItemOperationInterface;
 use ApiPlatform\State\ProviderInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use ApiPlatform\Metadata\CollectionOperationInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\Entity\TypeTask;
+use App\Dto\TypeTask\TypeTaskResponseDto;
 
-/**
- * Provider pour l'entité TypeTask.
- *
- * À brancher dans la ressource API Platform :
- *  - via attribut : provider: App\State\TypeTask\TypeTaskProvider::class
- *  - ou via config YAML/XML.
- */
+
 final class TypeTaskProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $registry,
-    ) {
-    }
+        #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
+        private readonly ProviderInterface $collectionProvider,
 
-    /**
-     * @return TypeTask|TypeTask[]|null
+        #[Autowire(service: 'api_platform.doctrine.orm.state.item_provider')]
+        private readonly ProviderInterface $itemProvider,
+    ) {}
+
+     /**
+     * @return TypeTask|iterable<TypeTask>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        $repository = $this->registry->getRepository(TypeTask::class);
 
-        // Exemple basique à adapter :
+        // Collection : on délègue au provider Doctrine
         if ($operation instanceof CollectionOperationInterface) {
-            // Collection : GET /{resource}
-            return $repository->findAll();
-        }
 
-        if ($operation instanceof ItemOperationInterface) {
-            // Item : GET /{resource}/{id}
-            $id = $uriVariables['id'] ?? null;
+            $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
 
-            if ($id === null) {
-                return null;
+            $dtos = [];
+            foreach ($result as $entity) {
+                if (!$entity instanceof TypeTask) {
+                    continue;
+                }
+                $dtos[] = $this->mapEntityToDto($entity);
             }
-
-            return $repository->find($id);
+            return $dtos;
         }
 
-        // Autres cas (subresource, custom operation...) : à gérer si besoin
-        return null;
+        // Item : idem, on délègue au provider Doctrine
+
+        $item = $this->itemProvider->provide($operation, $uriVariables, $context);
+
+        if ($item instanceof TypeTask) {
+            return $this->mapEntityToDto($item);
+        }
+
+        return $item;
+    }
+
+    private function mapEntityToDto(TypeTask $entity) //: TypeTaskResponseDto
+    {
+
+        return new TypeTaskResponseDto(
+
+            
+$entity->getId(),
+$entity->getName(),
+$entity->getPathFileScript(),
+$entity->getDescription(),
+$entity->getAutomatique(),
+$entity->getCreatedAt(),
+$entity->getUpdatedAt(),
+            
+$entity->getCode()->getId(),
+
+        );
+
     }
 }

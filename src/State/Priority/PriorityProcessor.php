@@ -5,79 +5,90 @@ declare(strict_types=1);
 namespace App\State\Priority;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\Metadata\CollectionOperationInterface;
-use ApiPlatform\Metadata\ItemOperationInterface;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Priority;
-
+use App\Dto\Priority\PriorityCreateDto;
+use App\Dto\Priority\PriorityUpdateDto;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 /**
- * Processor pour l'entité Priority.
+ * Processor pour Priority.
  *
- * À brancher dans la ressource API Platform :
- *  - via attribut : processor: App\State\Priority\PriorityProcessor::class
- *  - ou via config YAML/XML.
- *
- * Si tu utilises des DTO (CreatePriorityDto / UpdatePriorityDto / PriorityResponseDto),
- * adapte la méthode process() pour transformer DTO <-> entité.
+ * À brancher sur la ressource :
+ * #[ApiResource(processor: PriorityProcessor::class)]
  */
 final class PriorityProcessor implements ProcessorInterface
 {
+
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+        #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
+        private readonly ProcessorInterface $persistProcessor,
+
+        #[Autowire(service: 'api_platform.doctrine.orm.state.remove_processor')]
+        private readonly ProcessorInterface $removeProcessor,
+    ) {}
+
 
     /**
-     * @param mixed $data DTO ou entité selon ta config API Platform
-     * @return mixed
+     * @param Priority|mixed $data
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        // Exemple très basique si $data est déjà une entité Priority
-        // À adapter si $data est un DTO :
-
-        if ($operation instanceof CollectionOperationInterface) {
-            // POST (création)
-            if (!$data instanceof Priority) {
-                // TODO: hydrater une entité Priority à partir d'un DTO
-                // $entity = new Priority(...);
-                // $this->entityManager->persist($entity);
-                // $this->entityManager->flush();
-                // return $entity;
-
-                return $data;
-            }
-
-            $this->entityManager->persist($data);
-            $this->entityManager->flush();
-
-            return $data;
+        // Cas DELETE : on délègue au remove_processor
+        if ($operation instanceof Delete) {
+            $this->removeProcessor->process($data, $operation, $uriVariables, $context);
+            return null;
         }
 
-        if ($operation instanceof ItemOperationInterface) {
-            // PUT/PATCH/DELETE sur un item
-            if ($operation->getMethod() === 'DELETE') {
-                if ($data instanceof Priority) {
-                    $this->entityManager->remove($data);
-                    $this->entityManager->flush();
-                }
+        // Création: Dans operation POST -> DTO Create dans l'entité
+        if ($operation instanceof Post && $data instanceof PriorityCreateDto) {
+            // Ici, tu vas chercher les relations à partir des *Id :
+            /*
+            $status = $this->em->getRepository(Status::class)->find($data->statusId);
+            $comment = $this->em->getRepository(Comment::class)->find($data->commentId);
+            $priority = $this->em->getRepository(Priority::class)->find($data->priorityId);
+            $projectTemplate = $this->em->getRepository(ProjectTemplate::class)->find($data->projectTemplateId);
 
-                return null;
-            }
+            $entity = new Priority();
+            $entity->setName($data->name);
+            $entity->setDescription($data->description);
+            $entity->setStartDate($data->startDate);
+            $entity->setEndDate($data->endDate);
 
-            // PUT/PATCH : mise à jour
-            if ($data instanceof Priority) {
-                $this->entityManager->persist($data);
-                $this->entityManager->flush();
+            $entity->setStatus($status);
+            $entity->setPriority($priority);
+            $entity->setProjectTemplate($projectTemplate);
+            $entity->setComment($comment);
 
-                return $data;
-            }
+            $this->em->persist($entity);
+            $this->em->flush();
 
-            // TODO: cas DTO -> entité à gérer ici
+            return $entity;
+            */
         }
 
-        // Autres cas (custom operation, subresource, etc.)
+        // Mise à jour PATCH/PUT si tu as un DTO Update
+        // if ($operation instanceof Patch || $operation instanceof Put && $data instanceof PriorityUpdateDto) {
+        //     $entity = $this->em->getRepository(Priority::class)->find($data->id);
+        //     $entity->setName($data->name);
+        //     $entity->setDescription($data->description);
+        //     $entity->setStartDate($data->startDate);
+        //     $entity->setEndDate($data->endDate);
+        //     $this->em->persist($entity);
+        //     $this->em->flush();
+        //     return $entity;
+        // }
+
+        // Cas où $data est déjà une entité, on peut faire :
+        // if ($data instanceof Priority) {
+        //     $this->em->persist($data);
+        //     $this->em->flush();
+
+        //     return $data;
+        // }
+
         return $data;
     }
 }

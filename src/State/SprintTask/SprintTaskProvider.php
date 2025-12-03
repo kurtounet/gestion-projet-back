@@ -5,51 +5,71 @@ declare(strict_types=1);
 namespace App\State\SprintTask;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\Metadata\CollectionOperationInterface;
-use ApiPlatform\Metadata\ItemOperationInterface;
 use ApiPlatform\State\ProviderInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use ApiPlatform\Metadata\CollectionOperationInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\Entity\SprintTask;
+use App\Dto\SprintTask\SprintTaskResponseDto;
 
-/**
- * Provider pour l'entité SprintTask.
- *
- * À brancher dans la ressource API Platform :
- *  - via attribut : provider: App\State\SprintTask\SprintTaskProvider::class
- *  - ou via config YAML/XML.
- */
+
 final class SprintTaskProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $registry,
-    ) {
-    }
+        #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
+        private readonly ProviderInterface $collectionProvider,
 
-    /**
-     * @return SprintTask|SprintTask[]|null
+        #[Autowire(service: 'api_platform.doctrine.orm.state.item_provider')]
+        private readonly ProviderInterface $itemProvider,
+    ) {}
+
+     /**
+     * @return SprintTask|iterable<SprintTask>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        $repository = $this->registry->getRepository(SprintTask::class);
 
-        // Exemple basique à adapter :
+        // Collection : on délègue au provider Doctrine
         if ($operation instanceof CollectionOperationInterface) {
-            // Collection : GET /{resource}
-            return $repository->findAll();
-        }
 
-        if ($operation instanceof ItemOperationInterface) {
-            // Item : GET /{resource}/{id}
-            $id = $uriVariables['id'] ?? null;
+            $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
 
-            if ($id === null) {
-                return null;
+            $dtos = [];
+            foreach ($result as $entity) {
+                if (!$entity instanceof SprintTask) {
+                    continue;
+                }
+                $dtos[] = $this->mapEntityToDto($entity);
             }
-
-            return $repository->find($id);
+            return $dtos;
         }
 
-        // Autres cas (subresource, custom operation...) : à gérer si besoin
-        return null;
+        // Item : idem, on délègue au provider Doctrine
+
+        $item = $this->itemProvider->provide($operation, $uriVariables, $context);
+
+        if ($item instanceof SprintTask) {
+            return $this->mapEntityToDto($item);
+        }
+
+        return $item;
+    }
+
+    private function mapEntityToDto(SprintTask $entity) //: SprintTaskResponseDto
+    {
+
+        return new SprintTaskResponseDto(
+
+            
+$entity->getId(),
+$entity->getTaskOrder(),
+$entity->getCreatedAt(),
+$entity->getUpdatedAt(),
+            
+$entity->getSprintTemplate()->getId(),
+$entity->getTaskTemplate()->getId(),
+
+        );
+
     }
 }

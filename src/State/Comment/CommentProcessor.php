@@ -5,79 +5,90 @@ declare(strict_types=1);
 namespace App\State\Comment;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\Metadata\CollectionOperationInterface;
-use ApiPlatform\Metadata\ItemOperationInterface;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Comment;
-
+use App\Dto\Comment\CommentCreateDto;
+use App\Dto\Comment\CommentUpdateDto;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 /**
- * Processor pour l'entité Comment.
+ * Processor pour Comment.
  *
- * À brancher dans la ressource API Platform :
- *  - via attribut : processor: App\State\Comment\CommentProcessor::class
- *  - ou via config YAML/XML.
- *
- * Si tu utilises des DTO (CreateCommentDto / UpdateCommentDto / CommentResponseDto),
- * adapte la méthode process() pour transformer DTO <-> entité.
+ * À brancher sur la ressource :
+ * #[ApiResource(processor: CommentProcessor::class)]
  */
 final class CommentProcessor implements ProcessorInterface
 {
+
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+        #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
+        private readonly ProcessorInterface $persistProcessor,
+
+        #[Autowire(service: 'api_platform.doctrine.orm.state.remove_processor')]
+        private readonly ProcessorInterface $removeProcessor,
+    ) {}
+
 
     /**
-     * @param mixed $data DTO ou entité selon ta config API Platform
-     * @return mixed
+     * @param Comment|mixed $data
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        // Exemple très basique si $data est déjà une entité Comment
-        // À adapter si $data est un DTO :
-
-        if ($operation instanceof CollectionOperationInterface) {
-            // POST (création)
-            if (!$data instanceof Comment) {
-                // TODO: hydrater une entité Comment à partir d'un DTO
-                // $entity = new Comment(...);
-                // $this->entityManager->persist($entity);
-                // $this->entityManager->flush();
-                // return $entity;
-
-                return $data;
-            }
-
-            $this->entityManager->persist($data);
-            $this->entityManager->flush();
-
-            return $data;
+        // Cas DELETE : on délègue au remove_processor
+        if ($operation instanceof Delete) {
+            $this->removeProcessor->process($data, $operation, $uriVariables, $context);
+            return null;
         }
 
-        if ($operation instanceof ItemOperationInterface) {
-            // PUT/PATCH/DELETE sur un item
-            if ($operation->getMethod() === 'DELETE') {
-                if ($data instanceof Comment) {
-                    $this->entityManager->remove($data);
-                    $this->entityManager->flush();
-                }
+        // Création: Dans operation POST -> DTO Create dans l'entité
+        if ($operation instanceof Post && $data instanceof CommentCreateDto) {
+            // Ici, tu vas chercher les relations à partir des *Id :
+            /*
+            $status = $this->em->getRepository(Status::class)->find($data->statusId);
+            $comment = $this->em->getRepository(Comment::class)->find($data->commentId);
+            $priority = $this->em->getRepository(Priority::class)->find($data->priorityId);
+            $projectTemplate = $this->em->getRepository(ProjectTemplate::class)->find($data->projectTemplateId);
 
-                return null;
-            }
+            $entity = new Comment();
+            $entity->setName($data->name);
+            $entity->setDescription($data->description);
+            $entity->setStartDate($data->startDate);
+            $entity->setEndDate($data->endDate);
 
-            // PUT/PATCH : mise à jour
-            if ($data instanceof Comment) {
-                $this->entityManager->persist($data);
-                $this->entityManager->flush();
+            $entity->setStatus($status);
+            $entity->setPriority($priority);
+            $entity->setProjectTemplate($projectTemplate);
+            $entity->setComment($comment);
 
-                return $data;
-            }
+            $this->em->persist($entity);
+            $this->em->flush();
 
-            // TODO: cas DTO -> entité à gérer ici
+            return $entity;
+            */
         }
 
-        // Autres cas (custom operation, subresource, etc.)
+        // Mise à jour PATCH/PUT si tu as un DTO Update
+        // if ($operation instanceof Patch || $operation instanceof Put && $data instanceof CommentUpdateDto) {
+        //     $entity = $this->em->getRepository(Comment::class)->find($data->id);
+        //     $entity->setName($data->name);
+        //     $entity->setDescription($data->description);
+        //     $entity->setStartDate($data->startDate);
+        //     $entity->setEndDate($data->endDate);
+        //     $this->em->persist($entity);
+        //     $this->em->flush();
+        //     return $entity;
+        // }
+
+        // Cas où $data est déjà une entité, on peut faire :
+        // if ($data instanceof Comment) {
+        //     $this->em->persist($data);
+        //     $this->em->flush();
+
+        //     return $data;
+        // }
+
         return $data;
     }
 }
