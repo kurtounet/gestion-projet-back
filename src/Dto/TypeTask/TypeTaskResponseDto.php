@@ -10,8 +10,6 @@ final class TypeTaskResponseDto
     public function __construct(
         public int $id,
 
-        public int $codeId,
-
         public string $name,
 
         public string $pathFileScript,

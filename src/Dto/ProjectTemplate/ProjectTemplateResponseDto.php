@@ -10,17 +10,15 @@ final class ProjectTemplateResponseDto
     public function __construct(
         public int $id,
 
-        public int $projectTemplateId,
-
         public string $name,
 
         public string $description,
 
-        public DateTimeInterface $duration,
+        public int $duration,
 
         public DateTimeInterface $createdAt,
 
-        public DateTimeInterface $updatedAt,
+        public ?DateTimeInterface $updatedAt = null,
     ) {
     }
 }

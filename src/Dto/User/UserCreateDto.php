@@ -10,19 +10,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class UserCreateDto
 {
     public function __construct(
-        #[Assert\NotBlank(message: 'L\'email ne doit pas être vide.')]
-        #[Assert\Length(max: 180, maxMessage: 'L\'email ne doit pas dépasser {{ limit }} caractères.')]
+        #[Assert\NotBlank]
+        #[Assert\Length(max: 180)]
         public string $email,
 
-        #[Assert\NotNull(message: 'Les rôles ne doivent pas être nuls.')]
+        #[Assert\NotNull]
         public array $roles,
 
-        #[Assert\NotBlank(message: 'Le mot de passe ne doit pas être vide.')]
+        #[Assert\NotBlank]
         public string $password,
-
-        public ?DateTimeInterface $createdAt = null,
-
-        public ?DateTimeInterface $updatedAt = null,
     ) {
     }
 }

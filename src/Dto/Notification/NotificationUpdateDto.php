@@ -12,17 +12,16 @@ final class NotificationUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        public ?int $userId = null,
-
         public ?string $message = null,
 
         public ?DateTimeInterface $date = null,
 
-        #[Assert\Length(max: 50, maxMessage: 'Le type ne doit pas dépasser {{ limit }} caractères.')]
+        #[Assert\Length(max: 50)]
         public ?string $type = null,
 
         public ?DateTimeInterface $createdAt = null,
 
         public ?DateTimeInterface $updatedAt = null,
-    ) {}
+    ) {
+    }
 }

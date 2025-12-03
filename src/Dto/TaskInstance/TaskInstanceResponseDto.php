@@ -10,18 +10,6 @@ final class TaskInstanceResponseDto
     public function __construct(
         public int $id,
 
-        public int $userId,
-
-        public int $taskTemplateId,
-
-        public int $sprintInstanceId,
-
-        public int $priorityId,
-
-        public int $statusId,
-
-        public int $typeTaskId,
-
         public string $name,
 
         public string $description,
@@ -31,12 +19,6 @@ final class TaskInstanceResponseDto
         public DateTimeInterface $dueDate,
 
         public int $order,
-
-        public int $parentTask,
-
-        public int $dependencyId,
-
-        public int $commentId,
 
         public DateTimeInterface $createdAt,
 

@@ -12,7 +12,7 @@ final class ContextUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        #[Assert\Length(max: 50, maxMessage: 'Le libellé du contexte ne doit pas dépasser {{ limit }} caractères.')]
+        #[Assert\Length(max: 50)]
         public ?string $contextLabel = null,
 
         public ?DateTimeInterface $createdAt = null,

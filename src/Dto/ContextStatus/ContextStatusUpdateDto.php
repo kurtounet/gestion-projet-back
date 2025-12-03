@@ -12,10 +12,6 @@ final class ContextStatusUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        public ?int $contextId = null,
-
-        public ?string $statusId = null,
-
         public ?DateTimeInterface $createdAt = null,
 
         public ?DateTimeInterface $updatedAt = null,

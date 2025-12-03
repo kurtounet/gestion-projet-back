@@ -12,7 +12,7 @@ final class FeatureUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        #[Assert\Length(max: 255, maxMessage: 'Le libellé ne doit pas dépasser {{ limit }} caractères.')]
+        #[Assert\Length(max: 255)]
         public ?string $label = null,
 
         public ?DateTimeInterface $createdAt = null,

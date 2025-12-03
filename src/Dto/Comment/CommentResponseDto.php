@@ -10,10 +10,6 @@ final class CommentResponseDto
     public function __construct(
         public int $id,
 
-        public int $taskId,
-
-        public int $userId,
-
         public string $subject,
 
         public string $content,

@@ -12,10 +12,6 @@ final class SprintTaskUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        public ?int $sprintTemplateId = null,
-
-        public ?int $taskTemplateId = null,
-
         public ?int $taskOrder = null,
 
         public ?DateTimeInterface $createdAt = null,

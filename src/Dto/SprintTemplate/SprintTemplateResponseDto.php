@@ -10,8 +10,6 @@ final class SprintTemplateResponseDto
     public function __construct(
         public int $id,
 
-        public int $sprintTemplateId,
-
         public string $name,
 
         public string $description,

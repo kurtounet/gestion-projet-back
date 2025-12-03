@@ -10,14 +10,6 @@ final class ProjectInstanceResponseDto
     public function __construct(
         public int $id,
 
-        public int $statusId,
-
-        public int $priorityId,
-
-        public int $projectTemplateId,
-
-        public int $commentId,
-
         public string $name,
 
         public string $description,

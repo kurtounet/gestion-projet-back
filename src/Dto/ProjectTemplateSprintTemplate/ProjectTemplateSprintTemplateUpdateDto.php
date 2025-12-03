@@ -12,10 +12,6 @@ final class ProjectTemplateSprintTemplateUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        public ?int $projectTemplateId = null,
-
-        public ?int $sprintTemplateId = null,
-
         public ?int $sprintOrder = null,
 
         public ?DateTimeInterface $createdAt = null,

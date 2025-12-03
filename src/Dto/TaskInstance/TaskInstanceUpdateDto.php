@@ -12,19 +12,7 @@ final class TaskInstanceUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        public ?int $userId = null,
-
-        public ?int $taskTemplateId = null,
-
-        public ?int $sprintInstanceId = null,
-
-        public ?int $priorityId = null,
-
-        public ?int $statusId = null,
-
-        public ?int $typeTaskId = null,
-
-        #[Assert\Length(max: 255, maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères.')]
+        #[Assert\Length(max: 255)]
         public ?string $name = null,
 
         public ?string $description = null,
@@ -34,12 +22,6 @@ final class TaskInstanceUpdateDto
         public ?DateTimeInterface $dueDate = null,
 
         public ?int $order = null,
-
-        public ?int $parentTask = null,
-
-        public ?int $dependencyId = null,
-
-        public ?int $commentId = null,
 
         public ?DateTimeInterface $createdAt = null,
 

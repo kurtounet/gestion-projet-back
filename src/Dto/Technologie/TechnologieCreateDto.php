@@ -10,13 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class TechnologieCreateDto
 {
     public function __construct(
-        #[Assert\NotBlank(message: 'Le libellé ne doit pas être vide.')]
-        #[Assert\Length(max: 50, maxMessage: 'Le libellé ne doit pas dépasser {{ limit }} caractères.')]
+        #[Assert\NotBlank]
+        #[Assert\Length(max: 50)]
         public string $label,
-
-        public ?DateTimeInterface $createdAt = null,
-
-        public ?DateTimeInterface $updatedAt = null,
     ) {
     }
 }

@@ -10,19 +10,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class PriorityCreateDto
 {
     public function __construct(
-        #[Assert\NotNull(message: 'L\'identifiant de la priorité ne doit pas être nul.')]
-        public int $priorityId,
+        #[Assert\NotBlank]
+        #[Assert\Length(max: 50)]
+        public string $label,
 
-        #[Assert\NotBlank(message: 'Le libellé de la priorité ne doit pas être vide.')]
-        #[Assert\Length(max: 50, maxMessage: 'Le libellé de la priorité ne doit pas dépasser {{ limit }} caractères.')]
-        public string $priorityLabel,
-
-        #[Assert\NotNull(message: 'Le numéro de la priorité ne doit pas être nul.')]
+        #[Assert\NotNull]
         public int $priorityNumber,
-
-        public ?DateTimeInterface $createdAt = null,
-
-        public ?DateTimeInterface $updatedAt = null,
     ) {
     }
 }

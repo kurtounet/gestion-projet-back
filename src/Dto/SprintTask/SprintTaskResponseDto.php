@@ -10,15 +10,11 @@ final class SprintTaskResponseDto
     public function __construct(
         public int $id,
 
-        public int $sprintTemplateId,
-
-        public int $taskTemplateId,
-
         public int $taskOrder,
 
         public DateTimeInterface $createdAt,
 
-        public DateTimeInterface $updatedAt,
+        public ?DateTimeInterface $updatedAt = null,
     ) {
     }
 }

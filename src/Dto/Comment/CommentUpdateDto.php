@@ -12,11 +12,7 @@ final class CommentUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        public ?int $taskId = null,
-
-        public ?int $userId = null,
-
-        #[Assert\Length(max: 255, maxMessage: 'Le sujet ne doit pas dépasser {{ limit }} caractères.')]
+        #[Assert\Length(max: 255)]
         public ?string $subject = null,
 
         public ?string $content = null,

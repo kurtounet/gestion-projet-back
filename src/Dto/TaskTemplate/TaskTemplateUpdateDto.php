@@ -12,16 +12,12 @@ final class TaskTemplateUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        public ?int $sprintTemplateId = null,
-
-        #[Assert\Length(max: 255, maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères.')]
+        #[Assert\Length(max: 255)]
         public ?string $name = null,
 
         public ?string $description = null,
 
         public ?int $parentTask = null,
-
-        public ?int $typeTaskId = null,
 
         public ?DateTimeInterface $createdAt = null,
 

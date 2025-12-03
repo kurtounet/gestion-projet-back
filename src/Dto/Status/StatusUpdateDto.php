@@ -12,12 +12,8 @@ final class StatusUpdateDto
     public function __construct(
         public ?int $id = null,
 
-        public ?int $statusId = null,
-
-        #[Assert\Length(max: 50, maxMessage: 'Le nom du statut ne doit pas dépasser {{ limit }} caractères.')]
-        public ?string $statusName = null,
-
-        public ?int $statusContext = null,
+        #[Assert\Length(max: 50)]
+        public ?string $label = null,
 
         public ?DateTimeInterface $createdAt = null,
 
