@@ -26,12 +26,12 @@ use App\State\TaskTemplate\TaskTemplateProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: TaskTemplateProvider::class,
-    output: TaskTemplateResponseDto::class
+    // provider: TaskTemplateProvider::class,
+    // output: TaskTemplateResponseDto::class
 )]
 #[Get(
-    provider: TaskTemplateProvider::class,
-    output: TaskTemplateResponseDto::class
+    // provider: TaskTemplateProvider::class,
+    // output: TaskTemplateResponseDto::class
 )]
 #[Post(
     processor: TaskTemplateProcessor::class,
@@ -56,8 +56,6 @@ class TaskTemplate
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $sprintTemplateId = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -68,37 +66,35 @@ class TaskTemplate
     #[ORM\Column]
     private ?int $parentTask = null;
 
-    #[ORM\Column]
-    private ?int $typeTaskId = null;
 
+    #[ORM\ManyToOne(targetEntity: SprintTemplate::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?SprintTemplate $sprintTemplate = null;
+
+    #[ORM\ManyToOne(targetEntity: TypeTask::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TypeTask $typeTask = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getSprintTemplateId(): ?int
+    public function getSprintTemplate(): ?SprintTemplate
     {
-        return $this->sprintTemplateId;
+        return $this->sprintTemplate;
     }
 
-
-
-    public function setSprintTemplateId(int $sprintTemplateId): static
+    public function setSprintTemplate(?SprintTemplate $sprintTemplate): static
     {
-        $this->sprintTemplateId = $sprintTemplateId;
+        $this->sprintTemplate = $sprintTemplate;
         return $this;
     }
-
 
     public function getName(): ?string
     {
         return $this->name;
     }
-
-
 
     public function setName(string $name): static
     {
@@ -106,13 +102,10 @@ class TaskTemplate
         return $this;
     }
 
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
-
 
     public function setDescription(string $description): static
     {
@@ -120,13 +113,10 @@ class TaskTemplate
         return $this;
     }
 
-
     public function getParentTask(): ?int
     {
         return $this->parentTask;
     }
-
-
 
     public function setParentTask(int $parentTask): static
     {
@@ -134,17 +124,14 @@ class TaskTemplate
         return $this;
     }
 
-
-    public function getTypeTaskId(): ?int
+    public function getTypeTask(): ?TypeTask
     {
-        return $this->typeTaskId;
+        return $this->typeTask;
     }
 
-
-
-    public function setTypeTaskId(int $typeTaskId): static
+    public function setTypeTask(?TypeTask $typeTask): static
     {
-        $this->typeTaskId = $typeTaskId;
+        $this->typeTask = $typeTask;
         return $this;
     }
 }

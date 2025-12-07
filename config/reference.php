@@ -1642,6 +1642,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         nelmio_cors?: NelmioCorsConfig,
  *         api_platform?: ApiPlatformConfig,
+ *         maker?: MakerConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         web_profiler?: WebProfilerConfig,
  *     },

@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 
-use App\Repository\TechnologieRepository;
+use App\Repository\TechnologyRepository;
 
 
 use ApiPlatform\Metadata\GetCollection;
@@ -18,36 +18,36 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 
-use App\Dto\Technologie\TechnologieResponseDto;
-use App\Dto\Technologie\TechnologieUpdateDto;
-use App\Dto\Technologie\TechnologieCreateDto;
-use App\State\Technologie\TechnologieProvider;
-use App\State\Technologie\TechnologieProcessor;
+use App\Dto\Technology\TechnologyResponseDto;
+use App\Dto\Technology\TechnologyUpdateDto;
+use App\Dto\Technology\TechnologyCreateDto;
+use App\State\Technology\TechnologyProvider;
+use App\State\Technology\TechnologyProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: TechnologieProvider::class,
-    output: TechnologieResponseDto::class
+    // provider: TechnologyProvider::class,
+    // output: TechnologyResponseDto::class
 )]
 #[Get(
-    provider: TechnologieProvider::class,
-    output: TechnologieResponseDto::class
+    // provider: TechnologyProvider::class,
+    // output: TechnologyResponseDto::class
 )]
 #[Post(
-    processor: TechnologieProcessor::class,
-    input: TechnologieCreateDto::class
+    // processor: TechnologyProcessor::class,
+    // input: TechnologyCreateDto::class
 )]
 #[Patch(
-    processor: TechnologieProcessor::class,
-    input: TechnologieUpdateDto::class
+    // processor: TechnologyProcessor::class,
+    // input: TechnologyUpdateDto::class
 )]
 #[Delete()]
 
 
 
 #[ORM\HasLifecycleCallbacks]
-#[ORM\Entity(repositoryClass: TechnologieRepository::class)]
-class Technologie
+#[ORM\Entity(repositoryClass: TechnologyRepository::class)]
+class Technology
 {
     use TimestampTrait;
 

@@ -26,12 +26,12 @@ use App\State\Notification\NotificationProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: NotificationProvider::class,
-    output: NotificationResponseDto::class
+    // provider: NotificationProvider::class,
+    // output: NotificationResponseDto::class
 )]
 #[Get(
-    provider: NotificationProvider::class,
-    output: NotificationResponseDto::class
+    // provider: NotificationProvider::class,
+    // output: NotificationResponseDto::class
 )]
 #[Post(
     processor: NotificationProcessor::class,
@@ -55,20 +55,21 @@ class Notification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $userId = null;
+
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(length: 50)]
     private ?string $type = null;
 
 
-
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
 
 
@@ -77,18 +78,14 @@ class Notification
         return $this->id;
     }
 
-
-
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-
-
-    public function setUserId(int $userId): static
+    public function setUser(?User $user): static
     {
-        $this->userId = $userId;
+        $this->user = $user;
         return $this;
     }
 

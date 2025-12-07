@@ -2,19 +2,18 @@
 
 namespace App\Entity;
 
-
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use App\Repository\SprintInstanceRepository;
 
 
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-
-
-
-use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\QueryParameter;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -24,14 +23,19 @@ use App\Dto\SprintInstance\SprintInstanceCreateDto;
 use App\State\SprintInstance\SprintInstanceProvider;
 use App\State\SprintInstance\SprintInstanceProcessor;
 use App\Traits\TimestampTrait;
+use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[GetCollection(
-    provider: SprintInstanceProvider::class,
-    output: SprintInstanceResponseDto::class
+    // normalizationContext: ['groups' => ['sprint:list:read']],
+    // provider: SprintInstanceProvider::class,
+    // output: SprintInstanceResponseDto::class,
 )]
 #[Get(
-    provider: SprintInstanceProvider::class,
-    output: SprintInstanceResponseDto::class
+    // normalizationContext: ['groups' => ['projectInstance:item', 'item:read']],
+    // denormalizationContext: ['groups' => ['item:write']],
+    // provider: SprintInstanceProvider::class,
+    // output: SprintInstanceResponseDto::class
 )]
 #[Post(
     processor: SprintInstanceProcessor::class,
@@ -45,6 +49,19 @@ use App\Traits\TimestampTrait;
 
 
 #[ORM\HasLifecycleCallbacks]
+#[ApiFilter(SearchFilter::class, properties: [
+    'name' => 'partial',
+    'color' => 'partial',
+    'priority' => 'exact',
+    'status' => 'exact',
+
+    // Relation directe
+    'projectInstance' => 'exact',
+
+    // Champs internes à la relation
+    'projectInstance.id' => 'exact',
+    'projectInstance.color' => 'partial'
+])]
 #[ORM\Entity(repositoryClass: SprintInstanceRepository::class)]
 class SprintInstance
 {
@@ -52,113 +69,119 @@ class SprintInstance
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
+    #[Groups(['sprint:list:read', 'item:read'])]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $projectInstanceId = null;
-
-    #[ORM\Column]
-    private ?int $priorityId = null;
-
-    #[ORM\Column]
-    private ?int $sprintTemplateId = null;
-
-    #[ORM\Column]
-    private ?int $sprintDependencyId = null;
-
     #[ORM\Column(length: 100)]
+    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['sprint:list:read', 'item:read'])]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 100)]
+    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
+    private ?string $icon = null;
+
+    #[ORM\Column(length: 7)]
+    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
+    private ?string $color = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     private ?\DateTimeImmutable $startDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     private ?\DateTimeImmutable $endDate = null;
 
-    #[ORM\Column]
-    private ?int $statusId = null;
+    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
+    #[ORM\Column(nullable: true)]
+    private ?int $position = null;
 
-    #[ORM\Column]
-    private ?int $order = null;
+    #[Groups(['projectInstance:item', 'item:read'])]
+    #[ORM\ManyToOne(targetEntity: Priority::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Priority $priority = null;
 
-    #[ORM\Column]
-    private ?int $commentId = null;
+    #[Groups(['projectInstance:item', 'item:read'])]
+    #[ORM\ManyToOne(targetEntity: SprintTemplate::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?SprintTemplate $sprintTemplate = null;
 
+    #[ORM\ManyToOne(targetEntity: Status::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['projectInstance:item', 'item:read'])]
+    private ?Status $status = null;
 
+    #[ORM\ManyToOne(targetEntity: Comment::class)]
+    #[Groups(['projectInstance:item', 'item:read'])]
+    private ?Comment $comment = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    #[Groups(['projectInstance:item', 'item:read'])]
+    private ?self $sprintDependency = null;
 
-
-
+    #[ORM\ManyToOne(inversedBy: 'sprintInstances')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['projectInstance:item', 'item:read '])]
+    private ?ProjectInstance $projectInstance = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getProjectInstanceId(): ?int
+    public function getDescription(): ?string
     {
-        return $this->projectInstanceId;
+        return $this->description;
     }
 
-
-
-    public function setProjectInstanceId(int $projectInstanceId): static
+    public function setDescription(string $description): static
     {
-        $this->projectInstanceId = $projectInstanceId;
+        $this->description = $description;
         return $this;
     }
 
-
-    public function getPriorityId(): ?int
+    public function getPriority(): ?Priority
     {
-        return $this->priorityId;
+        return $this->priority;
     }
 
-
-
-    public function setPriorityId(int $priorityId): static
+    public function setPriority(?Priority $priority): static
     {
-        $this->priorityId = $priorityId;
+        $this->priority = $priority;
         return $this;
     }
 
-
-    public function getSprintTemplateId(): ?int
+    public function getSprintTemplate(): ?SprintTemplate
     {
-        return $this->sprintTemplateId;
+        return $this->sprintTemplate;
     }
 
-
-
-    public function setSprintTemplateId(int $sprintTemplateId): static
+    public function setSprintTemplate(?SprintTemplate $sprintTemplate): static
     {
-        $this->sprintTemplateId = $sprintTemplateId;
+        $this->sprintTemplate = $sprintTemplate;
         return $this;
     }
 
-
-    public function getSprintDependencyId(): ?int
+    public function getSprintDependency(): ?self
     {
-        return $this->sprintDependencyId;
+        return $this->sprintDependency;
     }
 
-
-
-    public function setSprintDependencyId(int $sprintDependencyId): static
+    public function setSprintDependency(?self $sprintDependency): static
     {
-        $this->sprintDependencyId = $sprintDependencyId;
+        $this->sprintDependency = $sprintDependency;
         return $this;
     }
-
 
     public function getName(): ?string
     {
         return $this->name;
     }
-
-
 
     public function setName(string $name): static
     {
@@ -166,13 +189,10 @@ class SprintInstance
         return $this;
     }
 
-
     public function getStartDate(): ?\DateTimeImmutable
     {
         return $this->startDate;
     }
-
-
 
     public function setStartDate(\DateTimeImmutable $startDate): static
     {
@@ -180,13 +200,10 @@ class SprintInstance
         return $this;
     }
 
-
     public function getEndDate(): ?\DateTimeImmutable
     {
         return $this->endDate;
     }
-
-
 
     public function setEndDate(\DateTimeImmutable $endDate): static
     {
@@ -194,45 +211,88 @@ class SprintInstance
         return $this;
     }
 
-
-    public function getStatusId(): ?int
+    public function getStatus(): ?Status
     {
-        return $this->statusId;
+        return $this->status;
     }
 
-
-
-    public function setStatusId(int $statusId): static
+    public function setStatus(?Status $status): static
     {
-        $this->statusId = $statusId;
+        $this->status = $status;
         return $this;
     }
 
-
-    public function getOrder(): ?int
+    public function getPosition(): ?int
     {
-        return $this->order;
+        return $this->position;
     }
 
-
-
-    public function setOrder(int $order): static
+    public function setPosition(int $order): static
     {
-        $this->order = $order;
+        $this->position = $order;
         return $this;
     }
 
-
-    public function getCommentId(): ?int
+    public function getComment(): ?Comment
     {
-        return $this->commentId;
+        return $this->comment;
     }
 
-
-
-    public function setCommentId(int $commentId): static
+    public function setComment(?Comment $comment): static
     {
-        $this->commentId = $commentId;
+        $this->comment = $comment;
+        return $this;
+    }
+
+    public function getProjectInstance(): ?ProjectInstance
+    {
+        return $this->projectInstance;
+    }
+
+    public function setProjectInstance(?ProjectInstance $projectInstance): static
+    {
+        $this->projectInstance = $projectInstance;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of icon
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set the value of icon
+     *
+     * @return  self
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of color
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set the value of color
+     *
+     * @return  self
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
         return $this;
     }
 }

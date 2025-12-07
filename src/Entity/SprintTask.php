@@ -26,12 +26,12 @@ use App\State\SprintTask\SprintTaskProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: SprintTaskProvider::class,
-    output: SprintTaskResponseDto::class
+    // provider: SprintTaskProvider::class,
+    // output: SprintTaskResponseDto::class
 )]
 #[Get(
-    provider: SprintTaskProvider::class,
-    output: SprintTaskResponseDto::class
+    // provider: SprintTaskProvider::class,
+    // output: SprintTaskResponseDto::class
 )]
 #[Post(
     processor: SprintTaskProcessor::class,
@@ -57,19 +57,16 @@ class SprintTask
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $sprintTemplateId = null;
-
-    #[ORM\Column]
-    private ?int $taskTemplateId = null;
-
-    #[ORM\Column]
     private ?int $taskOrder = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\ManyToOne(targetEntity: SprintTemplate::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?SprintTemplate $sprintTemplate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\ManyToOne(targetEntity: TaskTemplate::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TaskTemplate $taskTemplate = null;
+
 
 
 
@@ -82,31 +79,25 @@ class SprintTask
     }
 
 
-
-    public function getSprintTemplateId(): ?int
+    public function getSprintTemplate(): ?SprintTemplate
     {
-        return $this->sprintTemplateId;
+        return $this->sprintTemplate;
     }
 
-
-
-    public function setSprintTemplateId(int $sprintTemplateId): static
+    public function setSprintTemplate(?SprintTemplate $sprintTemplate): static
     {
-        $this->sprintTemplateId = $sprintTemplateId;
+        $this->sprintTemplate = $sprintTemplate;
         return $this;
     }
 
-
-    public function getTaskTemplateId(): ?int
+    public function getTaskTemplate(): ?TaskTemplate
     {
-        return $this->taskTemplateId;
+        return $this->taskTemplate;
     }
 
-
-
-    public function setTaskTemplateId(int $taskTemplateId): static
+    public function setTaskTemplate(?TaskTemplate $taskTemplate): static
     {
-        $this->taskTemplateId = $taskTemplateId;
+        $this->taskTemplate = $taskTemplate;
         return $this;
     }
 

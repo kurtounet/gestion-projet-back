@@ -26,8 +26,8 @@ use App\State\ContextStatus\ContextStatusProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: ContextStatusProvider::class,
-    output: ContextStatusResponseDto::class
+    // provider: ContextStatusProvider::class,
+    // output: ContextStatusResponseDto::class
 )]
 #[Get(
     provider: ContextStatusProvider::class,
@@ -56,42 +56,38 @@ class ContextStatus
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $contextId = null;
+    #[ORM\ManyToOne(targetEntity: Context::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Context $context = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    private ?string $statusId = null;
-
-
-
-
-
-
-
+    #[ORM\ManyToOne(targetEntity: Status::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Status $status = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getContextId(): ?int
+    public function getContext(): ?Context
     {
-        return $this->contextId;
+        return $this->context;
     }
 
-
-
-    public function setContextId(int $contextId): static
+    public function setContext(?Context $context): static
     {
-        $this->contextId = $contextId;
+        $this->context = $context;
         return $this;
     }
 
-
-    public function getStatusId(): ?string
+    public function getStatus(): ?Status
     {
-        return $this->statusId;
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): static
+    {
+        $this->status = $status;
+        return $this;
     }
 }

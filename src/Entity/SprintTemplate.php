@@ -25,12 +25,12 @@ use App\State\SprintTemplate\SprintTemplateProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: SprintTemplateProvider::class,
-    output: SprintTemplateResponseDto::class
+    // provider: SprintTemplateProvider::class,
+    // output: SprintTemplateResponseDto::class
 )]
 #[Get(
-    provider: SprintTemplateProvider::class,
-    output: SprintTemplateResponseDto::class
+    // provider: SprintTemplateProvider::class,
+    // output: SprintTemplateResponseDto::class
 )]
 #[Post(
     processor: SprintTemplateProcessor::class,
@@ -55,9 +55,6 @@ class SprintTemplate
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $sprintTemplateId = null;
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -67,33 +64,10 @@ class SprintTemplate
     #[ORM\Column]
     private ?int $duration = null;
 
-
-
-
-
-
-
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
-
-
-    public function getSprintTemplateId(): ?int
-    {
-        return $this->sprintTemplateId;
-    }
-
-
-
-    public function setSprintTemplateId(int $sprintTemplateId): static
-    {
-        $this->sprintTemplateId = $sprintTemplateId;
-        return $this;
-    }
-
 
     public function getName(): ?string
     {

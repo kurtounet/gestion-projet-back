@@ -26,12 +26,12 @@ use App\State\Comment\CommentProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: CommentProvider::class,
-    output: CommentResponseDto::class
+    // provider: CommentProvider::class,
+    // output: CommentResponseDto::class
 )]
 #[Get(
-    provider: CommentProvider::class,
-    output: CommentResponseDto::class
+    // provider: CommentProvider::class,
+    // output: CommentResponseDto::class
 )]
 #[Post(
     processor: CommentProcessor::class,
@@ -55,56 +55,44 @@ class Comment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $taskId = null;
-
-    #[ORM\Column]
-    private ?int $userId = null;
-
     #[ORM\Column(length: 255)]
     private ?string $subject = null;
 
     #[ORM\Column(type: Types::STRING)]
     private ?string $content = null;
 
+    #[ORM\ManyToOne(targetEntity: TaskInstance::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TaskInstance $task = null;
 
-
-
-
-
-
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getTaskId(): ?int
+    public function getTask(): ?TaskInstance
     {
-        return $this->taskId;
+        return $this->task;
     }
 
-
-
-    public function setTaskId(int $taskId): static
+    public function setTask(?TaskInstance $task): static
     {
-        $this->taskId = $taskId;
+        $this->task = $task;
         return $this;
     }
 
-
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-
-
-    public function setUserId(int $userId): static
+    public function setUser(?User $user): static
     {
-        $this->userId = $userId;
+        $this->user = $user;
         return $this;
     }
 

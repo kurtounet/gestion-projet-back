@@ -46,10 +46,13 @@ use App\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateProcess
 
 */
 use DateTimeImmutable;
+use App\Traits\TimestampTrait;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectTemplateSprintTemplateRepository::class)]
 class ProjectTemplateSprintTemplate
 {
+    use TimestampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -57,23 +60,15 @@ class ProjectTemplateSprintTemplate
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $projectTemplateId = null;
-
-    #[ORM\Column]
-    private ?int $sprintTemplateId = null;
-
-    #[ORM\Column]
     private ?int $sprintOrder = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\ManyToOne(targetEntity: ProjectTemplate::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ProjectTemplate $projectTemplate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
-
-
-
+    #[ORM\ManyToOne(targetEntity: SprintTemplate::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?SprintTemplate $sprintTemplate = null;
 
 
     public function getId(): ?int
@@ -81,74 +76,36 @@ class ProjectTemplateSprintTemplate
         return $this->id;
     }
 
-
-
-    public function getProjectTemplateId(): ?int
+    public function getProjectTemplate(): ?ProjectTemplate
     {
-        return $this->projectTemplateId;
+        return $this->projectTemplate;
     }
 
-
-
-    public function setProjectTemplateId(int $projectTemplateId): static
+    public function setProjectTemplate(?ProjectTemplate $projectTemplate): static
     {
-        $this->projectTemplateId = $projectTemplateId;
+        $this->projectTemplate = $projectTemplate;
         return $this;
     }
 
-
-    public function getSprintTemplateId(): ?int
+    public function getSprintTemplate(): ?SprintTemplate
     {
-        return $this->sprintTemplateId;
+        return $this->sprintTemplate;
     }
 
-
-
-    public function setSprintTemplateId(int $sprintTemplateId): static
+    public function setSprintTemplate(?SprintTemplate $sprintTemplate): static
     {
-        $this->sprintTemplateId = $sprintTemplateId;
+        $this->sprintTemplate = $sprintTemplate;
         return $this;
     }
-
 
     public function getSprintOrder(): ?int
     {
         return $this->sprintOrder;
     }
 
-
-
     public function setSprintOrder(int $sprintOrder): static
     {
         $this->sprintOrder = $sprintOrder;
-        return $this;
-    }
-
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
         return $this;
     }
 }

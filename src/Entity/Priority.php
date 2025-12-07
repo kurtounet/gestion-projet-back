@@ -24,12 +24,15 @@ use App\Dto\Priority\PriorityCreateDto;
 use App\State\Priority\PriorityProvider;
 use App\State\Priority\PriorityProcessor;
 use App\Traits\TimestampTrait;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[GetCollection(
+    normalizationContext: ['groups' => ['priority:list:read']],
     provider: PriorityProvider::class,
     output: PriorityResponseDto::class
 )]
 #[Get(
+    normalizationContext: ['groups' => ['projectInstance:item', 'priority:item:read']],
     provider: PriorityProvider::class,
     output: PriorityResponseDto::class
 )]
@@ -55,62 +58,33 @@ class Priority
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $priorityId = null;
-
     #[ORM\Column(length: 50)]
-    private ?string $priorityLabel = null;
+    #[Groups(['projectInstance:item', 'priority:list:read', 'priority:item:read'])]
+    private ?string $label = null;
 
     #[ORM\Column]
     private ?int $priorityNumber = null;
-
-
-
-
-
-
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getPriorityId(): ?int
+    public function getLabel(): ?string
     {
-        return $this->priorityId;
+        return $this->label;
     }
 
-
-
-    public function setPriorityId(int $priorityId): static
+    public function setLabel(string $label): static
     {
-        $this->priorityId = $priorityId;
+        $this->label = $label;
         return $this;
     }
-
-
-    public function getPriorityLabel(): ?string
-    {
-        return $this->priorityLabel;
-    }
-
-
-
-    public function setPriorityLabel(string $priorityLabel): static
-    {
-        $this->priorityLabel = $priorityLabel;
-        return $this;
-    }
-
 
     public function getPriorityNumber(): ?int
     {
         return $this->priorityNumber;
     }
-
-
 
     public function setPriorityNumber(int $priorityNumber): static
     {

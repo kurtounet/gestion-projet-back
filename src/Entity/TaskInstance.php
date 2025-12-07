@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use App\Repository\TaskInstanceRepository;
 
 
@@ -24,15 +25,17 @@ use App\Dto\TaskInstance\TaskInstanceCreateDto;
 use App\State\TaskInstance\TaskInstanceProvider;
 use App\State\TaskInstance\TaskInstanceProcessor;
 use App\Traits\TimestampTrait;
-
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[GetCollection(
-    provider: TaskInstanceProvider::class,
-    output: TaskInstanceResponseDto::class
+    normalizationContext: ['groups' => ['taskInstance:list:read']],
+    // provider: TaskInstanceProvider::class,
+    // output: TaskInstanceResponseDto::class
 )]
 #[Get(
-    provider: TaskInstanceProvider::class,
-    output: TaskInstanceResponseDto::class
+    normalizationContext: ['groups' => ['sprintInstance:item', 'taskInstance:item:read']],
+    // provider: TaskInstanceProvider::class,
+    // output: TaskInstanceResponseDto::class
 )]
 #[Post(
     processor: TaskInstanceProcessor::class,
@@ -44,6 +47,19 @@ use App\Traits\TimestampTrait;
 )]
 #[Delete()]
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'name' => 'partial',
+    'color' => 'partial',
+    'priority' => 'exact',
+    'status' => 'exact',
+
+    // Relation directe
+    'sprintInstance' => 'exact',
+
+    // Champs internes à la relation
+    'sprintInstance.id' => 'exact',
+    'sprintInstance.color' => 'partial'
+])]
 
 
 #[ORM\HasLifecycleCallbacks]
@@ -54,153 +70,152 @@ class TaskInstance
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $userId = null;
-
-    #[ORM\Column]
-    private ?int $taskTemplateId = null;
-
-    #[ORM\Column]
-    private ?int $sprintInstanceId = null;
-
-    #[ORM\Column]
-    private ?int $priorityId = null;
-
-    #[ORM\Column]
-    private ?int $statusId = null;
-
-    #[ORM\Column]
-    private ?int $typeTaskId = null;
-
     #[ORM\Column(length: 255)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
     private ?\DateTimeImmutable $startDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
     private ?\DateTimeImmutable $dueDate = null;
 
-    #[ORM\Column]
-    private ?int $order = null;
+    #[ORM\Column(nullable: true)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?int $position = null;
 
-    #[ORM\Column]
-    private ?int $parentTask = null;
+    #[ORM\Column(length: 100)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?string $icon = null;
 
-    #[ORM\Column]
-    private ?int $dependencyId = null;
+    #[ORM\Column(length: 7)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?string $color = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
-    #[ORM\Column]
-    private ?int $commentId = null;
+    #[ORM\ManyToOne(targetEntity: TaskTemplate::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TaskTemplate $taskTemplate = null;
 
+    #[ORM\ManyToOne(targetEntity: SprintInstance::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?SprintInstance $sprintInstance = null;
 
+    #[ORM\ManyToOne(targetEntity: Priority::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?Priority $priority = null;
 
+    #[ORM\ManyToOne(targetEntity: Status::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?Status $status = null;
 
+    #[ORM\ManyToOne(targetEntity: TypeTask::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?TypeTask $typeTask = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?self $parentTask = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?self $dependency = null;
+
+    #[ORM\ManyToOne(targetEntity: Comment::class)]
+    #[Groups(['sprintInstance:item', 'taskInstance:list:read', 'taskInstance:item:read'])]
+    private ?Comment $comment = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-
-
-    public function setUserId(int $userId): static
+    public function setUser(?User $user): static
     {
-        $this->userId = $userId;
+        $this->user = $user;
         return $this;
     }
 
-
-    public function getTaskTemplateId(): ?int
+    public function getTaskTemplate(): ?TaskTemplate
     {
-        return $this->taskTemplateId;
+        return $this->taskTemplate;
     }
 
-
-
-    public function setTaskTemplateId(int $taskTemplateId): static
+    public function setTaskTemplate(?TaskTemplate $taskTemplate): static
     {
-        $this->taskTemplateId = $taskTemplateId;
+        $this->taskTemplate = $taskTemplate;
         return $this;
     }
 
-
-    public function getSprintInstanceId(): ?int
+    public function getSprintInstance(): ?SprintInstance
     {
-        return $this->sprintInstanceId;
+        return $this->sprintInstance;
     }
 
-
-
-    public function setSprintInstanceId(int $sprintInstanceId): static
+    public function setSprintInstance(?SprintInstance $sprintInstance): static
     {
-        $this->sprintInstanceId = $sprintInstanceId;
+        $this->sprintInstance = $sprintInstance;
         return $this;
     }
 
-
-    public function getPriorityId(): ?int
+    public function getPriority(): ?Priority
     {
-        return $this->priorityId;
+        return $this->priority;
     }
 
-
-
-    public function setPriorityId(int $priorityId): static
+    public function setPriority(?Priority $priority): static
     {
-        $this->priorityId = $priorityId;
+        $this->priority = $priority;
         return $this;
     }
 
-
-    public function getStatusId(): ?int
+    public function getStatus(): ?Status
     {
-        return $this->statusId;
+        return $this->status;
     }
 
-
-
-    public function setStatusId(int $statusId): static
+    public function setStatus(?Status $status): static
     {
-        $this->statusId = $statusId;
+        $this->status = $status;
         return $this;
     }
 
-
-    public function getTypeTaskId(): ?int
+    public function getTypeTask(): ?TypeTask
     {
-        return $this->typeTaskId;
+        return $this->typeTask;
     }
 
-
-
-    public function setTypeTaskId(int $typeTaskId): static
+    public function setTypeTask(?TypeTask $typeTask): static
     {
-        $this->typeTaskId = $typeTaskId;
+        $this->typeTask = $typeTask;
         return $this;
     }
-
 
     public function getName(): ?string
     {
         return $this->name;
     }
-
-
 
     public function setName(string $name): static
     {
@@ -208,13 +223,10 @@ class TaskInstance
         return $this;
     }
 
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
-
 
     public function setDescription(string $description): static
     {
@@ -222,13 +234,10 @@ class TaskInstance
         return $this;
     }
 
-
     public function getStartDate(): ?\DateTimeImmutable
     {
         return $this->startDate;
     }
-
-
 
     public function setStartDate(\DateTimeImmutable $startDate): static
     {
@@ -236,13 +245,10 @@ class TaskInstance
         return $this;
     }
 
-
     public function getDueDate(): ?\DateTimeImmutable
     {
         return $this->dueDate;
     }
-
-
 
     public function setDueDate(\DateTimeImmutable $dueDate): static
     {
@@ -250,62 +256,87 @@ class TaskInstance
         return $this;
     }
 
-
-    public function getOrder(): ?int
+    public function getPosition(): ?int
     {
-        return $this->order;
+        return $this->position;
     }
 
-
-
-    public function setOrder(int $order): static
+    public function setPosition(int $order): static
     {
-        $this->order = $order;
+        $this->position = $order;
         return $this;
     }
 
-
-    public function getParentTask(): ?int
+    public function getParentTask(): ?self
     {
         return $this->parentTask;
     }
 
-
-
-    public function setParentTask(int $parentTask): static
+    public function setParentTask(?self $parentTask): static
     {
         $this->parentTask = $parentTask;
         return $this;
     }
 
-
-    public function getDependencyId(): ?int
+    public function getDependency(): ?self
     {
-        return $this->dependencyId;
+        return $this->dependency;
     }
 
-
-
-    public function setDependencyId(int $dependencyId): static
+    public function setDependency(?self $dependency): static
     {
-        $this->dependencyId = $dependencyId;
+        $this->dependency = $dependency;
         return $this;
     }
 
-
-
-
-
-    public function getCommentId(): ?int
+    public function getComment(): ?Comment
     {
-        return $this->commentId;
+        return $this->comment;
     }
 
-
-
-    public function setCommentId(int $commentId): static
+    public function setComment(?Comment $comment): static
     {
-        $this->commentId = $commentId;
+        $this->comment = $comment;
+        return $this;
+    }
+
+    /**
+     * Get the value of icon
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set the value of icon
+     *
+     * @return  self
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of color
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set the value of color
+     *
+     * @return  self
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
         return $this;
     }
 }

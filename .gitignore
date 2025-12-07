@@ -27,3 +27,9 @@ yarn-error.log
 .env.test
 
 src/Command/*
+.doc/*
+bruno/*
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

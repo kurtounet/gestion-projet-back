@@ -26,12 +26,12 @@ use App\Traits\TimestampTrait;
 
 
 #[GetCollection(
-    provider: TypeTaskProvider::class,
-    output: TypeTaskResponseDto::class
+    // provider: TypeTaskProvider::class,
+    // output: TypeTaskResponseDto::class
 )]
 #[Get(
-    provider: TypeTaskProvider::class,
-    output: TypeTaskResponseDto::class
+    // provider: TypeTaskProvider::class,
+    // output: TypeTaskResponseDto::class
 )]
 #[Post(
     processor: TypeTaskProcessor::class,
@@ -54,9 +54,6 @@ class TypeTask
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $codeId = null;
-
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
@@ -69,24 +66,23 @@ class TypeTask
     #[ORM\Column]
     private ?bool $automatique = null;
 
+    #[ORM\ManyToOne(targetEntity: CodeBase::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CodeBase $code = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getCodeId(): ?int
+    public function getCode(): ?CodeBase
     {
-        return $this->codeId;
+        return $this->code;
     }
 
-
-
-    public function setCodeId(int $codeId): static
+    public function setCode(?CodeBase $code): static
     {
-        $this->codeId = $codeId;
+        $this->code = $code;
         return $this;
     }
 

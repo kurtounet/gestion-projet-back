@@ -20,6 +20,7 @@ use App\Entity\Status;
 use App\Entity\TaskInstance;
 use App\Entity\TaskTemplate;
 use App\Entity\Technologie;
+use App\Entity\Technology;
 use App\Entity\TypeTask;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -95,7 +96,7 @@ class AppFixtures extends Fixture
             $contexts[] = $context;
         }
         $manager->flush();
-        // 2. Créer les Status (30 items)
+
         $statusData = [
             'À faire',
             'En cours',
@@ -131,29 +132,30 @@ class AppFixtures extends Fixture
 
         foreach ($statusData as $index => $label) {
             $status = new Status();
-            $status->setLabel($label);
-            $status->setContext($contexts[$index % count($contexts)]);
+            $status->setLabel($label)
+                ->setContext($contexts[$index % count($contexts)]);
             $manager->persist($status);
             $statuses[] = $status;
         }
         $manager->flush();
-        // 3. Créer les Priorities (30 items)
-        for ($i = 1; $i <= 30; $i++) {
+        $labels = ['Critique', 'Très haute', 'Haute', 'Moyenne', 'Basse', 'Très basse', 'Mineure', 'Majeure', 'Bloquante', 'Normale'];
+        foreach ($labels as $i => $label) {
             $priority = new Priority();
-            $labels = ['Critique', 'Très haute', 'Haute', 'Moyenne', 'Basse', 'Très basse', 'Mineure', 'Majeure', 'Bloquante', 'Normale'];
-            $priority->setLabel($labels[($i - 1) % count($labels)] . ' ' . $i);
-            $priority->setPriorityNumber($i);
+            $priority->setLabel($label)
+                ->setPriorityNumber($i);
             $manager->persist($priority);
             $priorities[] = $priority;
         }
         $manager->flush();
         // 4. Créer les Users (30 items)
         $userRoles = [['ROLE_ADMIN'], ['ROLE_USER'], ['ROLE_MANAGER'], ['ROLE_DEVELOPER'], ['ROLE_TESTER']];
-        for ($i = 1; $i <= 30; $i++) {
+        foreach ($userRoles as $i => $role) {
             $user = new User();
-            $user->setEmail("user{$i}@example.com");
-            $user->setRoles($userRoles[($i - 1) % count($userRoles)]);
-            $user->setPassword($this->passwordHasher->hashPassword($user, 'password123'));
+            $user->setEmail(str_replace('role_', '', strtolower($role[0])) . "@gmail.com")
+                ->setFirstName("User {$i}")
+                ->setLastName("User {$i}")
+                ->setRoles($role)
+                ->setPassword($this->passwordHasher->hashPassword($user, 'password123'));
             $manager->persist($user);
             $users[] = $user;
         }
@@ -234,7 +236,7 @@ class AppFixtures extends Fixture
         ];
 
         foreach ($techData as $label) {
-            $tech = new Technologie();
+            $tech = new Technology();
             $tech->setLabel($label);
             $manager->persist($tech);
             $technologies[] = $tech;
@@ -252,14 +254,25 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
         // 8. Créer les TypeTask (30 items)
-        $typeTaskNames = ['Développement', 'Test', 'Bug', 'Feature', 'Refactoring', 'Documentation', 'Review', 'Deploy', 'Maintenance', 'Support'];
+        $typeTaskNames = [
+            'Développement',
+            'Test',
+            'Bug',
+            'Feature',
+            'Refactoring',
+            'Documentation',
+            'Review',
+            'Deploy',
+            'Maintenance',
+            'Support'
+        ];
         for ($i = 1; $i <= 30; $i++) {
             $typeTask = new TypeTask();
-            $typeTask->setCode($codeBases[($i - 1) % count($codeBases)]);
-            $typeTask->setName($typeTaskNames[($i - 1) % count($typeTaskNames)] . " {$i}");
-            $typeTask->setPathFileScript("/scripts/task-{$i}.sh");
-            $typeTask->setDescription("Description pour type de tâche {$i}");
-            $typeTask->setAutomatique($i % 2 === 0);
+            $typeTask->setCode($codeBases[($i - 1) % count($codeBases)])
+                ->setName($typeTaskNames[($i - 1) % count($typeTaskNames)] . " {$i}")
+                ->setPathFileScript("/scripts/task-{$i}.sh")
+                ->setDescription("Description pour type de tâche {$i}")
+                ->setAutomatique($i % 2 === 0);
             $manager->persist($typeTask);
             $typeTasks[] = $typeTask;
         }
@@ -356,7 +369,7 @@ class AppFixtures extends Fixture
 
                 for ($t = 1; $t <= 10; $t++) {
                     $taskInstance = new TaskInstance();
-                    $taskInstance->setUser($users[($t - 1) % count($users)])
+                    $taskInstance->setUser($users[array_rand($users)])
                         ->setTaskTemplate($taskTemplates[($t - 1) % count($taskTemplates)])
                         ->setSprintInstance($sprintInstance)
                         ->setPriority($priorities[($t - 1) % count($priorities)])

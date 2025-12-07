@@ -4,19 +4,14 @@ namespace App\Entity;
 
 
 use App\Repository\CodeBaseRepository;
-
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-
-
-
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
 
 use App\Dto\CodeBase\CodeBaseResponseDto;
 use App\Dto\CodeBase\CodeBaseUpdateDto;
@@ -26,12 +21,12 @@ use App\State\CodeBase\CodeBaseProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: CodeBaseProvider::class,
-    output: CodeBaseResponseDto::class
+    // provider: CodeBaseProvider::class,
+    // output: CodeBaseResponseDto::class
 )]
 #[Get(
-    provider: CodeBaseProvider::class,
-    output: CodeBaseResponseDto::class
+    // provider: CodeBaseProvider::class,
+    // output: CodeBaseResponseDto::class
 )]
 #[Post(
     processor: CodeBaseProcessor::class,
@@ -71,29 +66,19 @@ class CodeBase
     {
         return $this->id;
     }
-
-
-
     public function getLabel(): ?string
     {
         return $this->label;
     }
-
-
-
     public function setLabel(string $label): static
     {
         $this->label = $label;
         return $this;
     }
-
-
     public function getCode(): ?string
     {
         return $this->code;
     }
-
-
 
     public function setCode(string $code): static
     {

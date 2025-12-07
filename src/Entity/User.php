@@ -8,6 +8,37 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+
+use App\Dto\User\UserResponseDto;
+use App\Dto\User\UserUpdateDto;
+use App\Dto\User\UserCreateDto;
+use App\State\User\UserProvider;
+use App\State\User\UserProcessor;
+
+#[GetCollection(
+    // provider: UserProvider::class,
+    // output: UserResponseDto::class
+)]
+#[Get(
+    // provider: UserProvider::class,
+    // output: UserResponseDto::class
+)]
+#[Post(
+    processor: UserProcessor::class,
+    input: UserCreateDto::class
+)]
+#[Patch(
+    processor: UserProcessor::class,
+    input: UserUpdateDto::class
+)]
+#[Delete()]
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\HasLifecycleCallbacks]
@@ -20,6 +51,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $lastName = null;
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
@@ -115,5 +152,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // @deprecated, to be removed when upgrading to Symfony 8
+    }
+
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+        return $this;
     }
 }

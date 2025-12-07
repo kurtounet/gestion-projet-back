@@ -24,12 +24,15 @@ use App\Dto\Status\StatusCreateDto;
 use App\State\Status\StatusProvider;
 use App\State\Status\StatusProcessor;
 use App\Traits\TimestampTrait;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[GetCollection(
+    normalizationContext: ['groups' => ['status:list:read']],
     provider: StatusProvider::class,
     output: StatusResponseDto::class
 )]
 #[Get(
+    normalizationContext: ['groups' => ['projectInstance:item', 'status:item:read']],
     provider: StatusProvider::class,
     output: StatusResponseDto::class
 )]
@@ -55,61 +58,38 @@ class Status
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $statusId = null;
-
     #[ORM\Column(length: 50)]
-    private ?string $statusName = null;
+    #[Groups(['projectInstance:item', 'status:list:read', 'status:item:read'])]
+    private ?string $label = null;
 
-    #[ORM\Column]
-    private ?int $statusContext = null;
-
+    #[ORM\ManyToOne(targetEntity: Context::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Context $context = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
-    public function getStatusId(): ?int
+    public function getLabel(): ?string
     {
-        return $this->statusId;
+        return $this->label;
     }
 
-
-
-    public function setStatusId(int $statusId): static
+    public function setLabel(string $label): static
     {
-        $this->statusId = $statusId;
+        $this->label = $label;
         return $this;
     }
 
-
-    public function getStatusName(): ?string
+    public function getContext(): ?Context
     {
-        return $this->statusName;
+        return $this->context;
     }
 
-
-
-    public function setStatusName(string $statusName): static
+    public function setContext(?Context $context): static
     {
-        $this->statusName = $statusName;
-        return $this;
-    }
-
-
-    public function getStatusContext(): ?int
-    {
-        return $this->statusContext;
-    }
-
-
-
-    public function setStatusContext(int $statusContext): static
-    {
-        $this->statusContext = $statusContext;
+        $this->context = $context;
         return $this;
     }
 }

@@ -26,12 +26,12 @@ use App\State\ProjectTemplate\ProjectTemplateProcessor;
 use App\Traits\TimestampTrait;
 
 #[GetCollection(
-    provider: ProjectTemplateProvider::class,
-    output: ProjectTemplateResponseDto::class
+    // provider: ProjectTemplateProvider::class,
+    // output: ProjectTemplateResponseDto::class
 )]
 #[Get(
-    provider: ProjectTemplateProvider::class,
-    output: ProjectTemplateResponseDto::class
+    // provider: ProjectTemplateProvider::class,
+    // output: ProjectTemplateResponseDto::class
 )]
 #[Post(
     processor: ProjectTemplateProcessor::class,
@@ -49,13 +49,11 @@ use App\Traits\TimestampTrait;
 class ProjectTemplate
 {
     use TimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column]
-    private ?int $projectTemplateId = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -63,14 +61,14 @@ class ProjectTemplate
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeImmutable $duration = null;
+    #[ORM\Column]
+    private ?int $duration = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeImmutable $createdAt = null;
+    // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    // private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    // private ?\DateTimeImmutable $updatedAt = null;
 
 
 
@@ -82,20 +80,6 @@ class ProjectTemplate
         return $this->id;
     }
 
-
-
-    public function getProjectTemplateId(): ?int
-    {
-        return $this->projectTemplateId;
-    }
-
-
-
-    public function setProjectTemplateId(int $projectTemplateId): static
-    {
-        $this->projectTemplateId = $projectTemplateId;
-        return $this;
-    }
 
 
     public function getName(): ?string
@@ -126,14 +110,14 @@ class ProjectTemplate
     }
 
 
-    public function getDuration(): ?\DateTimeImmutable
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
 
 
 
-    public function setDuration(\DateTimeImmutable $duration): static
+    public function setDuration(int $duration): static
     {
         $this->duration = $duration;
         return $this;
