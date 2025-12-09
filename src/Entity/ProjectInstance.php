@@ -142,7 +142,7 @@ class ProjectInstance
     /**
      * @var Collection<int, SprintInstance>
      */
-    #[ORM\OneToMany(targetEntity: SprintInstance::class, mappedBy: 'projectInstance')]
+    #[ORM\OneToMany(targetEntity: SprintInstance::class, mappedBy: 'projectInstance')] //, orphanRemoval: true
     #[Groups(['projectInstance:item'])]
     private Collection $sprintInstances;
 
