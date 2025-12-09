@@ -38,12 +38,12 @@ use Symfony\Component\Serializer\Attribute\Groups;
     // output: TaskInstanceResponseDto::class
 )]
 #[Post(
-    processor: TaskInstanceProcessor::class,
-    input: TaskInstanceCreateDto::class
+    // processor: TaskInstanceProcessor::class,
+    // input: TaskInstanceCreateDto::class
 )]
 #[Patch(
-    processor: TaskInstanceProcessor::class,
-    input: TaskInstanceUpdateDto::class
+    // processor: TaskInstanceProcessor::class,
+    // input: TaskInstanceUpdateDto::class
 )]
 #[Delete()]
 
