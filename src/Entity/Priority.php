@@ -27,22 +27,22 @@ use App\Traits\TimestampTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[GetCollection(
-    normalizationContext: ['groups' => ['priority:list:read']],
-    provider: PriorityProvider::class,
-    output: PriorityResponseDto::class
+    // normalizationContext: ['groups' => ['priority:list:read']],
+    // provider: PriorityProvider::class,
+    // output: PriorityResponseDto::class
 )]
 #[Get(
-    normalizationContext: ['groups' => ['projectInstance:item', 'priority:item:read']],
-    provider: PriorityProvider::class,
-    output: PriorityResponseDto::class
+    // normalizationContext: ['groups' => ['projectInstance:item', 'priority:item:read']],
+    // provider: PriorityProvider::class,
+    // output: PriorityResponseDto::class
 )]
 #[Post(
-    processor: PriorityProcessor::class,
-    input: PriorityCreateDto::class
+    // processor: PriorityProcessor::class,
+    // input: PriorityCreateDto::class
 )]
 #[Patch(
-    processor: PriorityProcessor::class,
-    input: PriorityUpdateDto::class
+    // processor: PriorityProcessor::class,
+    // input: PriorityUpdateDto::class
 )]
 #[Delete()]
 
@@ -61,6 +61,10 @@ class Priority
     #[ORM\Column(length: 50)]
     #[Groups(['projectInstance:item', 'priority:list:read', 'priority:item:read'])]
     private ?string $label = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    #[Groups(['projectInstance:item', 'priority:list:read', 'priority:item:read'])]
+    private ?string $color = '#84e712ff';
 
     #[ORM\Column]
     private ?int $priorityNumber = null;
@@ -89,6 +93,26 @@ class Priority
     public function setPriorityNumber(int $priorityNumber): static
     {
         $this->priorityNumber = $priorityNumber;
+        return $this;
+    }
+
+    /**
+     * Get the value of color
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set the value of color
+     *
+     * @return  self
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
         return $this;
     }
 }

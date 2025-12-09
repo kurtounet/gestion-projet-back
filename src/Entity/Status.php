@@ -27,22 +27,22 @@ use App\Traits\TimestampTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[GetCollection(
-    normalizationContext: ['groups' => ['status:list:read']],
-    provider: StatusProvider::class,
-    output: StatusResponseDto::class
+    // normalizationContext: ['groups' => ['status:list:read']],
+    // provider: StatusProvider::class,
+    // output: StatusResponseDto::class
 )]
 #[Get(
-    normalizationContext: ['groups' => ['projectInstance:item', 'status:item:read']],
-    provider: StatusProvider::class,
-    output: StatusResponseDto::class
+    // normalizationContext: ['groups' => ['projectInstance:item', 'status:item:read']],
+    // provider: StatusProvider::class,
+    // output: StatusResponseDto::class
 )]
 #[Post(
-    processor: StatusProcessor::class,
-    input: StatusCreateDto::class
+    // processor: StatusProcessor::class,
+    // input: StatusCreateDto::class
 )]
 #[Patch(
-    processor: StatusProcessor::class,
-    input: StatusUpdateDto::class
+    // processor: StatusProcessor::class,
+    // input: StatusUpdateDto::class
 )]
 #[Delete()]
 
@@ -61,6 +61,10 @@ class Status
     #[ORM\Column(length: 50)]
     #[Groups(['projectInstance:item', 'status:list:read', 'status:item:read'])]
     private ?string $label = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    #[Groups(['projectInstance:item', 'status:list:read', 'status:item:read'])]
+    private ?string $color = '#84e712ff';
 
     #[ORM\ManyToOne(targetEntity: Context::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -90,6 +94,26 @@ class Status
     public function setContext(?Context $context): static
     {
         $this->context = $context;
+        return $this;
+    }
+
+    /**
+     * Get the value of color
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set the value of color
+     *
+     * @return  self
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
         return $this;
     }
 }
