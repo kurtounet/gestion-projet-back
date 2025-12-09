@@ -23,7 +23,7 @@ use App\State\TypeTask\TypeTaskProvider;
 use App\State\TypeTask\TypeTaskProcessor;
 
 use App\Traits\TimestampTrait;
-
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[GetCollection(
     // provider: TypeTaskProvider::class,
@@ -34,12 +34,12 @@ use App\Traits\TimestampTrait;
     // output: TypeTaskResponseDto::class
 )]
 #[Post(
-    processor: TypeTaskProcessor::class,
-    input: TypeTaskCreateDto::class
+    // processor: TypeTaskProcessor::class,
+    // input: TypeTaskCreateDto::class
 )]
 #[Patch(
-    processor: TypeTaskProcessor::class,
-    input: TypeTaskUpdateDto::class
+    // processor: TypeTaskProcessor::class,
+    // input: TypeTaskUpdateDto::class
 )]
 #[Delete()]
 
@@ -56,6 +56,9 @@ class TypeTask
 
     #[ORM\Column(length: 100)]
     private ?string $name = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $color = '#84e712ff';
 
     #[ORM\Column(length: 255)]
     private ?string $pathFileScript = null;
@@ -141,6 +144,26 @@ class TypeTask
     public function setAutomatique(bool $automatique): static
     {
         $this->automatique = $automatique;
+        return $this;
+    }
+
+    /**
+     * Get the value of color
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set the value of color
+     *
+     * @return  self
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
         return $this;
     }
 }
