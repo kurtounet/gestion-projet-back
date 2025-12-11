@@ -2,32 +2,34 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use App\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
 
-use App\Dto\User\UserResponseDto;
-use App\Dto\User\UserUpdateDto;
-use App\Dto\User\UserCreateDto;
-use App\State\User\UserProvider;
-use App\State\User\UserProcessor;
+use App\ApiResource\Dto\User\UserCreateDto;
+use App\ApiResource\Dto\User\UserUpdateDto;
+use App\ApiResource\Dto\User\UserResponseDto;
+
+use App\ApiResource\State\User\UserProvider;
+use App\ApiResource\State\User\UserProcessor;
 
 #[GetCollection(
-    // provider: UserProvider::class,
-    // output: UserResponseDto::class
+    provider: UserProvider::class,
+    output: UserResponseDto::class
 )]
 #[Get(
-    // provider: UserProvider::class,
-    // output: UserResponseDto::class
+    provider: UserProvider::class,
+    output: UserResponseDto::class
 )]
 #[Post(
     processor: UserProcessor::class,
@@ -37,7 +39,11 @@ use App\State\User\UserProcessor;
     processor: UserProcessor::class,
     input: UserUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: UserProcessor::class,
+    output: UserResponseDto::class,
+    status: 204
+)]
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -154,13 +160,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
-
-
 
     public function setFirstName(string $firstName): static
     {
@@ -168,13 +171,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
-
-
 
     public function setLastName(string $lastName): static
     {

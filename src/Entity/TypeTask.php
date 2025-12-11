@@ -2,46 +2,47 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use App\Repository\TypeTaskRepository;
-
-
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-
-use App\Dto\TypeTask\TypeTaskResponseDto;
-use App\Dto\TypeTask\TypeTaskUpdateDto;
-use App\Dto\TypeTask\TypeTaskCreateDto;
-
-
-use App\State\TypeTask\TypeTaskProvider;
-use App\State\TypeTask\TypeTaskProcessor;
+use App\Repository\TypeTaskRepository;
 
 use App\Traits\TimestampTrait;
-use Symfony\Component\Serializer\Attribute\Groups;
+
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\TypeTask\TypeTaskCreateDto;
+use App\ApiResource\Dto\TypeTask\TypeTaskUpdateDto;
+use App\ApiResource\Dto\TypeTask\TypeTaskResponseDto;
+
+use App\ApiResource\State\TypeTask\TypeTaskProvider;
+use App\ApiResource\State\TypeTask\TypeTaskProcessor;
 
 #[GetCollection(
-    // provider: TypeTaskProvider::class,
-    // output: TypeTaskResponseDto::class
+    provider: TypeTaskProvider::class,
+    output: TypeTaskResponseDto::class
 )]
 #[Get(
-    // provider: TypeTaskProvider::class,
-    // output: TypeTaskResponseDto::class
+    provider: TypeTaskProvider::class,
+    output: TypeTaskResponseDto::class
 )]
 #[Post(
-    // processor: TypeTaskProcessor::class,
-    // input: TypeTaskCreateDto::class
+    processor: TypeTaskProcessor::class,
+    input: TypeTaskCreateDto::class
 )]
 #[Patch(
-    // processor: TypeTaskProcessor::class,
-    // input: TypeTaskUpdateDto::class
+    processor: TypeTaskProcessor::class,
+    input: TypeTaskUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: TypeTaskProcessor::class,
+    output: TypeTaskResponseDto::class,
+    status: 204
+)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TypeTaskRepository::class)]
@@ -89,13 +90,10 @@ class TypeTask
         return $this;
     }
 
-
     public function getName(): ?string
     {
         return $this->name;
     }
-
-
 
     public function setName(string $name): static
     {
@@ -103,13 +101,10 @@ class TypeTask
         return $this;
     }
 
-
     public function getPathFileScript(): ?string
     {
         return $this->pathFileScript;
     }
-
-
 
     public function setPathFileScript(string $pathFileScript): static
     {
@@ -117,13 +112,10 @@ class TypeTask
         return $this;
     }
 
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
-
 
     public function setDescription(string $description): static
     {
@@ -131,15 +123,10 @@ class TypeTask
         return $this;
     }
 
-
-
-
     public function getAutomatique(): ?bool
     {
         return $this->automatique;
     }
-
-
 
     public function setAutomatique(bool $automatique): static
     {
@@ -147,19 +134,11 @@ class TypeTask
         return $this;
     }
 
-    /**
-     * Get the value of color
-     */
     public function getColor()
     {
         return $this->color;
     }
 
-    /**
-     * Set the value of color
-     *
-     * @return  self
-     */
     public function setColor($color)
     {
         $this->color = $color;

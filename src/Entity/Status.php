@@ -2,50 +2,47 @@
 
 namespace App\Entity;
 
-
-use App\Repository\StatusRepository;
-
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-
-
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
-
-use App\Dto\Status\StatusResponseDto;
-use App\Dto\Status\StatusUpdateDto;
-use App\Dto\Status\StatusCreateDto;
-use App\State\Status\StatusProvider;
-use App\State\Status\StatusProcessor;
-use App\Traits\TimestampTrait;
+use App\Repository\StatusRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
 
+use App\Traits\TimestampTrait;
+
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\Status\StatusCreateDto;
+use App\ApiResource\Dto\Status\StatusUpdateDto;
+use App\ApiResource\Dto\Status\StatusResponseDto;
+
+use App\ApiResource\State\Status\StatusProvider;
+use App\ApiResource\State\Status\StatusProcessor;
+
+
 #[GetCollection(
-    // normalizationContext: ['groups' => ['status:list:read']],
-    // provider: StatusProvider::class,
-    // output: StatusResponseDto::class
+    provider: StatusProvider::class,
+    output: StatusResponseDto::class
 )]
 #[Get(
-    // normalizationContext: ['groups' => ['projectInstance:item', 'status:item:read']],
-    // provider: StatusProvider::class,
-    // output: StatusResponseDto::class
+    provider: StatusProvider::class,
+    output: StatusResponseDto::class
 )]
 #[Post(
-    // processor: StatusProcessor::class,
-    // input: StatusCreateDto::class
+    processor: StatusProcessor::class,
+    input: StatusCreateDto::class
 )]
 #[Patch(
-    // processor: StatusProcessor::class,
-    // input: StatusUpdateDto::class
+    processor: StatusProcessor::class,
+    input: StatusUpdateDto::class
 )]
-#[Delete()]
-
+#[Delete(
+    processor: StatusProcessor::class,
+    output: false,
+    status: 204
+)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
@@ -97,19 +94,11 @@ class Status
         return $this;
     }
 
-    /**
-     * Get the value of color
-     */
     public function getColor()
     {
         return $this->color;
     }
 
-    /**
-     * Set the value of color
-     *
-     * @return  self
-     */
     public function setColor($color)
     {
         $this->color = $color;

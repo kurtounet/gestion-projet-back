@@ -2,49 +2,47 @@
 
 namespace App\Entity;
 
-
-use App\Repository\PriorityRepository;
-
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-
-
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-
-use App\Dto\Priority\PriorityResponseDto;
-use App\Dto\Priority\PriorityUpdateDto;
-use App\Dto\Priority\PriorityCreateDto;
-use App\State\Priority\PriorityProvider;
-use App\State\Priority\PriorityProcessor;
 use App\Traits\TimestampTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 
+use App\Repository\PriorityRepository;
+
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\Priority\PriorityCreateDto;
+use App\ApiResource\Dto\Priority\PriorityUpdateDto;
+use App\ApiResource\Dto\Priority\PriorityResponseDto;
+
+use App\ApiResource\State\Priority\PriorityProvider;
+use App\ApiResource\State\Priority\PriorityProcessor;
+
 #[GetCollection(
-    // normalizationContext: ['groups' => ['priority:list:read']],
-    // provider: PriorityProvider::class,
-    // output: PriorityResponseDto::class
+    provider: PriorityProvider::class,
+    output: PriorityResponseDto::class
 )]
 #[Get(
-    // normalizationContext: ['groups' => ['projectInstance:item', 'priority:item:read']],
-    // provider: PriorityProvider::class,
-    // output: PriorityResponseDto::class
+    provider: PriorityProvider::class,
+    output: PriorityResponseDto::class
 )]
 #[Post(
-    // processor: PriorityProcessor::class,
-    // input: PriorityCreateDto::class
+    processor: PriorityProcessor::class,
+    input: PriorityCreateDto::class
 )]
 #[Patch(
-    // processor: PriorityProcessor::class,
-    // input: PriorityUpdateDto::class
+    processor: PriorityProcessor::class,
+    input: PriorityUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: PriorityProcessor::class,
+    output: false,
+    status: 204
+)]
 
 
 #[ORM\HasLifecycleCallbacks]
@@ -96,19 +94,11 @@ class Priority
         return $this;
     }
 
-    /**
-     * Get the value of color
-     */
     public function getColor()
     {
         return $this->color;
     }
 
-    /**
-     * Set the value of color
-     *
-     * @return  self
-     */
     public function setColor($color)
     {
         $this->color = $color;

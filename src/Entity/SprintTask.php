@@ -2,36 +2,32 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
 use App\Repository\SprintTaskRepository;
 
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-
-
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
-
-use App\Dto\SprintTask\SprintTaskResponseDto;
-use App\Dto\SprintTask\SprintTaskUpdateDto;
-use App\Dto\SprintTask\SprintTaskCreateDto;
-use App\State\SprintTask\SprintTaskProvider;
-use App\State\SprintTask\SprintTaskProcessor;
 use App\Traits\TimestampTrait;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\SprintTask\SprintTaskCreateDto;
+use App\ApiResource\Dto\SprintTask\SprintTaskUpdateDto;
+use App\ApiResource\Dto\SprintTask\SprintTaskResponseDto;
+
+use App\ApiResource\State\SprintTask\SprintTaskProvider;
+use App\ApiResource\State\SprintTask\SprintTaskProcessor;
+
 #[GetCollection(
-    // provider: SprintTaskProvider::class,
-    // output: SprintTaskResponseDto::class
+    provider: SprintTaskProvider::class,
+    output: SprintTaskResponseDto::class
 )]
 #[Get(
-    // provider: SprintTaskProvider::class,
-    // output: SprintTaskResponseDto::class
+    provider: SprintTaskProvider::class,
+    output: SprintTaskResponseDto::class
 )]
 #[Post(
     processor: SprintTaskProcessor::class,
@@ -41,9 +37,11 @@ use App\Traits\TimestampTrait;
     processor: SprintTaskProcessor::class,
     input: SprintTaskUpdateDto::class
 )]
-#[Delete()]
-
-
+#[Delete(
+    rocessor: SprintTaskProcessor::class,
+    output: false,
+    status: 204
+)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: SprintTaskRepository::class)]

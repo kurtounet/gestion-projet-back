@@ -2,90 +2,53 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\SprintInstanceRepository;
 
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-
-
-use App\Dto\SprintInstance\SprintInstanceUpdateDto;
-use App\Dto\SprintInstance\SprintInstanceCreateDto;
-use App\Dto\SprintInstance\UpdateSprintInstanceOrderDto;
-use App\State\SprintInstance\UpdateSprintInstanceOrderProcessor;
-use App\Traits\TimestampTrait;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\SprintInstanceRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
 
+use App\Traits\UserStampTrait;
+use App\Traits\TimestampTrait;
 
-#[ApiResource(
-    operations: [
-        new GetCollection(),
-        new Get(),
-        new Post(),
-        new Patch(), // PATCH item /api/sprint_instances/{id}
-        // new Patch(
-        //     uriTemplate: '/sprint_instances/order',
-        //     uriVariables: [],    // ← indispensable pour dire "ce n’est pas une op item"
-        //     name: 'sprint_instances_update_order',
-        //     input: UpdateSprintInstanceOrderDto::class,
-        //     // commande pure : pas de lecture de ressource
-        //     read: false,
-        //     write: true,
-        //     deserialize: true,
-        //     validate: true,
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
-        //     output: false,
-        //     provider: null,
-        //     processor: UpdateSprintInstanceOrderProcessor::class,
-        //     status: 204,
-        //     denormalizationContext: ['groups' => ['sprint_order:write']],
-        //     extraProperties: [
-        //         'openapi_context' => [
-        //             'summary' => 'Update sprint ordering',
-        //             'responses' => [
-        //                 '204' => [
-        //                     'description' => 'Order updated successfully',
-        //                 ],
-        //             ],
-        //         ],
-        //     ],
-        // ),
-        new Delete(),
-    ]
-)]
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
 
-/*
+use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
+use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
+use App\ApiResource\Dto\SprintInstance\SprintInstanceResponseDto;
+
+use App\ApiResource\State\SprintInstance\SprintInstanceProvider;
+use App\ApiResource\State\SprintInstance\SprintInstanceProcessor;
+
 #[GetCollection(
-    // normalizationContext: ['groups' => ['sprint:list:read']],
-    // provider: SprintInstanceProvider::class,
-    // output: SprintInstanceResponseDto::class,
+    provider: SprintInstanceProvider::class,
+    output: SprintInstanceResponseDto::class,
 )]
 #[Get(
-    // normalizationContext: ['groups' => ['projectInstance:item', 'item:read']],
-    // denormalizationContext: ['groups' => ['item:write']],
-    // provider: SprintInstanceProvider::class,
-    // output: SprintInstanceResponseDto::class
+    provider: SprintInstanceProvider::class,
+    output: SprintInstanceResponseDto::class
 )]
 #[Post(
-    // processor: SprintInstanceProcessor::class,
-    // input: SprintInstanceCreateDto::class
+    processor: SprintInstanceProcessor::class,
+    input: SprintInstanceCreateDto::class
 )]
 #[Patch(
-    // processor: SprintInstanceProcessor::class,
-    // input: SprintInstanceUpdateDto::class
+    processor: SprintInstanceProcessor::class,
+    input: SprintInstanceUpdateDto::class
 )]
+#[Delete(processor: SprintInstanceProcessor::class, output: false, status: 204)]
+/* A restester
 #[Patch(
+
     uriTemplate: 'sprint_instances/order',
     name: 'sprint_instances_update_order',
     input: UpdateSprintInstanceOrderDto::class,
@@ -95,9 +58,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
     processor: UpdateSprintInstanceOrderProcessor::class,
     status: 204
 )]
-#[Delete()]
 */
 
+#[ApiResource()]
 #[ORM\HasLifecycleCallbacks]
 #[ApiFilter(SearchFilter::class, properties: [
     'name' => 'partial',
@@ -116,6 +79,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 class SprintInstance
 {
     use TimestampTrait;
+    use UserStampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

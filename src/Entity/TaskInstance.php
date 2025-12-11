@@ -2,51 +2,60 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use App\Repository\TaskInstanceRepository;
-
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-
-use App\Dto\TaskInstance\TaskInstanceResponseDto;
-use App\Dto\TaskInstance\TaskInstanceUpdateDto;
-use App\Dto\TaskInstance\TaskInstanceCreateDto;
-use App\State\TaskInstance\TaskInstanceProvider;
-use App\State\TaskInstance\TaskInstanceProcessor;
-use App\Traits\TimestampTrait;
+use App\Repository\TaskInstanceRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
 
+use App\Traits\TimestampTrait;
+use App\Traits\UserStampTrait;
+
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+
+
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\TaskInstance\TaskInstanceCreateDto;
+use App\ApiResource\Dto\TaskInstance\TaskInstanceUpdateDto;
+use App\ApiResource\Dto\TaskInstance\TaskInstanceResponseDto;
+
+use App\ApiResource\State\TaskInstance\TaskInstanceProvider;
+use App\ApiResource\State\TaskInstance\TaskInstanceProcessor;
+
 #[GetCollection(
-    normalizationContext: ['groups' => ['taskInstance:list:read']],
-    // provider: TaskInstanceProvider::class,
-    // output: TaskInstanceResponseDto::class
+    security: "is_granted('PROJECT_INSTANCE_LIST')",
+    provider: TaskInstanceProvider::class,
+    output: TaskInstanceResponseDto::class
 )]
 #[Get(
-    normalizationContext: ['groups' => ['sprintInstance:item', 'taskInstance:item:read']],
-    // provider: TaskInstanceProvider::class,
-    // output: TaskInstanceResponseDto::class
+    security: "is_granted('PROJECT_INSTANCE_VIEW', object)",
+    provider: TaskInstanceProvider::class,
+    output: TaskInstanceResponseDto::class
 )]
 #[Post(
-    // processor: TaskInstanceProcessor::class,
-    // input: TaskInstanceCreateDto::class
+    securityPostDenormalize: "is_granted('PROJECT_INSTANCE_CREATE', object)",
+    processor: TaskInstanceProcessor::class,
+    input: TaskInstanceCreateDto::class
 )]
 #[Patch(
-    // processor: TaskInstanceProcessor::class,
-    // input: TaskInstanceUpdateDto::class
+    security: "is_granted('PROJECT_INSTANCE_EDIT', object)",
+    processor: TaskInstanceProcessor::class,
+    input: TaskInstanceUpdateDto::class
 )]
-#[Delete()]
-
+#[Delete(
+    security: "is_granted('PROJECT_INSTANCE_DELETE', object)",
+    processor: TaskInstanceProcessor::class,
+    ouput: false,
+    status: 204
+)]
 #[ApiFilter(SearchFilter::class, properties: [
     'name' => 'partial',
     'color' => 'partial',
@@ -61,12 +70,16 @@ use Symfony\Component\Serializer\Attribute\Groups;
     'sprintInstance.color' => 'partial'
 ])]
 
-
+#[ApiResource(
+    security: "is_granted('ROLE_USER')"
+)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TaskInstanceRepository::class)]
 class TaskInstance
 {
     use TimestampTrait;
+    use UserStampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

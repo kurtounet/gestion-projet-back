@@ -2,35 +2,33 @@
 
 namespace App\Entity;
 
-
-use App\Repository\SprintTemplateRepository;
-
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Repository\SprintTemplateRepository;
 
-use App\Dto\SprintTemplate\SprintTemplateResponseDto;
-use App\Dto\SprintTemplate\SprintTemplateUpdateDto;
-use App\Dto\SprintTemplate\SprintTemplateCreateDto;
-use App\State\SprintTemplate\SprintTemplateProvider;
-use App\State\SprintTemplate\SprintTemplateProcessor;
 use App\Traits\TimestampTrait;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateCreateDto;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateUpdateDto;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateResponseDto;
+
+use App\ApiResource\State\SprintTemplate\SprintTemplateProvider;
+use App\ApiResource\State\SprintTemplate\SprintTemplateProcessor;
+
 #[GetCollection(
-    // provider: SprintTemplateProvider::class,
-    // output: SprintTemplateResponseDto::class
+    provider: SprintTemplateProvider::class,
+    output: SprintTemplateResponseDto::class
 )]
 #[Get(
-    // provider: SprintTemplateProvider::class,
-    // output: SprintTemplateResponseDto::class
+    provider: SprintTemplateProvider::class,
+    output: SprintTemplateResponseDto::class
 )]
 #[Post(
     processor: SprintTemplateProcessor::class,
@@ -40,9 +38,11 @@ use App\Traits\TimestampTrait;
     processor: SprintTemplateProcessor::class,
     input: SprintTemplateUpdateDto::class
 )]
-#[Delete()]
-
-
+#[Delete(
+    processor: SprintTemplateProcessor::class,
+    output: false,
+    status: 204
+)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: SprintTemplateRepository::class)]
@@ -74,21 +74,16 @@ class SprintTemplate
         return $this->name;
     }
 
-
-
     public function setName(string $name): static
     {
         $this->name = $name;
         return $this;
     }
 
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
-
 
     public function setDescription(string $description): static
     {
@@ -96,13 +91,10 @@ class SprintTemplate
         return $this;
     }
 
-
     public function getDuration(): ?int
     {
         return $this->duration;
     }
-
-
 
     public function setDuration(int $duration): static
     {
@@ -110,13 +102,10 @@ class SprintTemplate
         return $this;
     }
 
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-
-
 
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
@@ -124,13 +113,10 @@ class SprintTemplate
         return $this;
     }
 
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
-
-
 
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {

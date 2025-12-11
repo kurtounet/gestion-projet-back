@@ -2,36 +2,32 @@
 
 namespace App\Entity;
 
-
-use App\Repository\ProjectTemplateRepository;
-
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-
-
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-
-use App\Dto\ProjectTemplate\ProjectTemplateResponseDto;
-use App\Dto\ProjectTemplate\ProjectTemplateUpdateDto;
-use App\Dto\ProjectTemplate\ProjectTemplateCreateDto;
-use App\State\ProjectTemplate\ProjectTemplateProvider;
-use App\State\ProjectTemplate\ProjectTemplateProcessor;
 use App\Traits\TimestampTrait;
+use App\Repository\ProjectTemplateRepository;
+
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCreateDto;
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateUpdateDto;
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateResponseDto;
+
+use App\ApiResource\State\ProjectTemplate\ProjectTemplateProvider;
+use App\ApiResource\State\ProjectTemplate\ProjectTemplateProcessor;
 
 #[GetCollection(
-    // provider: ProjectTemplateProvider::class,
-    // output: ProjectTemplateResponseDto::class
+    provider: ProjectTemplateProvider::class,
+    output: ProjectTemplateResponseDto::class
 )]
 #[Get(
-    // provider: ProjectTemplateProvider::class,
-    // output: ProjectTemplateResponseDto::class
+    provider: ProjectTemplateProvider::class,
+    output: ProjectTemplateResponseDto::class
 )]
 #[Post(
     processor: ProjectTemplateProcessor::class,
@@ -41,7 +37,10 @@ use App\Traits\TimestampTrait;
     processor: ProjectTemplateProcessor::class,
     input: ProjectTemplateUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: ProjectTemplateProcessor::class,
+    ouput: false
+)]
 
 
 #[ORM\HasLifecycleCallbacks]
@@ -64,30 +63,15 @@ class ProjectTemplate
     #[ORM\Column]
     private ?int $duration = null;
 
-    // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    // private ?\DateTimeImmutable $createdAt = null;
-
-    // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    // private ?\DateTimeImmutable $updatedAt = null;
-
-
-
-
-
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
     public function getName(): ?string
     {
         return $this->name;
     }
-
-
 
     public function setName(string $name): static
     {
@@ -95,13 +79,10 @@ class ProjectTemplate
         return $this;
     }
 
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
-
 
     public function setDescription(string $description): static
     {
@@ -109,13 +90,10 @@ class ProjectTemplate
         return $this;
     }
 
-
     public function getDuration(): ?int
     {
         return $this->duration;
     }
-
-
 
     public function setDuration(int $duration): static
     {
