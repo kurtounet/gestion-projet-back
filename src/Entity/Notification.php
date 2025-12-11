@@ -2,36 +2,32 @@
 
 namespace App\Entity;
 
-
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\NotificationRepository;
 
+use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
 
+use App\ApiResource\Dto\Notification\NotificationCreateDto;
+use App\ApiResource\Dto\Notification\NotificationUpdateDto;
+use App\ApiResource\Dto\Notification\NotificationResponseDto;
 
-
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
-
-use App\Dto\Notification\NotificationResponseDto;
-use App\Dto\Notification\NotificationUpdateDto;
-use App\Dto\Notification\NotificationCreateDto;
-use App\State\Notification\NotificationProvider;
-use App\State\Notification\NotificationProcessor;
-use App\Traits\TimestampTrait;
+use App\ApiResource\State\Notification\NotificationProcessor;
+use App\ApiResource\State\Notification\NotificationProvider;
 
 #[GetCollection(
-    // provider: NotificationProvider::class,
-    // output: NotificationResponseDto::class
+    provider: NotificationProvider::class,
+    output: NotificationResponseDto::class
 )]
 #[Get(
-    // provider: NotificationProvider::class,
-    // output: NotificationResponseDto::class
+    provider: NotificationProvider::class,
+    output: NotificationResponseDto::class
 )]
 #[Post(
     processor: NotificationProcessor::class,
@@ -41,7 +37,10 @@ use App\Traits\TimestampTrait;
     processor: NotificationProcessor::class,
     input: NotificationUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: NotificationProcessor::class,
+    output: false
+)]
 
 
 #[ORM\HasLifecycleCallbacks]
@@ -54,8 +53,6 @@ class Notification
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
