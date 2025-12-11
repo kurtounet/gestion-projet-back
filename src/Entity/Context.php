@@ -38,7 +38,8 @@ use App\ApiResource\State\Context\ContextProvider;
 )]
 #[Delete(
     processor: ContextProcessor::class,
-    output: false
+    output: false,
+    status: 204
 )]
 
 #[ORM\HasLifecycleCallbacks]

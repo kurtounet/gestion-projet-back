@@ -52,6 +52,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[Delete(
     processor: ProjectInstanceProcessor::class,
     output: false,
+    status: 204
 )]
 
 

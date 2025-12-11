@@ -41,7 +41,8 @@ use App\ApiResource\State\CodeBase\CodeBaseProvider;
 
 #[Delete(
     processor: CodeBaseProcessor::class,
-    output: false
+    output: false,
+    status: 204
 )]
 
 

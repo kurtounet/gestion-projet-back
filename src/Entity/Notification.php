@@ -39,7 +39,8 @@ use App\ApiResource\State\Notification\NotificationProvider;
 )]
 #[Delete(
     processor: NotificationProcessor::class,
-    output: false
+    output: false,
+    status: 204
 )]
 
 

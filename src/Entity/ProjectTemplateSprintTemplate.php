@@ -38,7 +38,11 @@ use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTem
     processor: ProjectTemplateSprintTemplateProcessor::class,
     input: ProjectTemplateSprintTemplateUpdateDto::class
 )]
-#[Delete(processor: ProjectTemplateSprintTemplateProcessor::class, output: false, status: 204)]
+#[Delete(
+    processor: ProjectTemplateSprintTemplateProcessor::class,
+    output: false,
+    status: 204
+)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectTemplateSprintTemplateRepository::class)]

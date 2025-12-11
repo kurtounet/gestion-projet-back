@@ -39,7 +39,8 @@ use App\ApiResource\State\Comment\CommentProvider;
 )]
 #[Delete(
     processor: CommentProcessor::class,
-    output: false
+    output: false,
+    status: 204
 )]
 
 

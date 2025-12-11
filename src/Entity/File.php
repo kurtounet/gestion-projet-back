@@ -39,7 +39,8 @@ use App\ApiResource\State\File\FileProvider;
 )]
 #[Delete(
     processor: FileProcessor::class,
-    output: false
+    output: false,
+    status: 204
 )]
 
 

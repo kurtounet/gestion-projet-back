@@ -39,7 +39,8 @@ use App\ApiResource\State\Feature\FeatureProvider;
 )]
 #[Delete(
     processor: FeatureProcessor::class,
-    output: false
+    output: false,
+    status: 204
 )]
 
 

@@ -41,7 +41,8 @@ use App\ApiResource\State\Framework\FrameworkProvider;
 )]
 #[Delete(
     processor: FrameworkProcessor::class,
-    output: false
+    output: false,
+    status: 204
 )]
 
 #[ApiResource]

@@ -41,6 +41,7 @@ use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkProvider;
 #[Delete(
     processor: ConfigProjectFrameworkProcessor::class,
     output: false,
+    status: 204
 )]
 
 #[ApiResource]
