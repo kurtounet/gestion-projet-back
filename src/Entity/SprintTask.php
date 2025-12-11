@@ -38,7 +38,7 @@ use App\ApiResource\State\SprintTask\SprintTaskProcessor;
     input: SprintTaskUpdateDto::class
 )]
 #[Delete(
-    rocessor: SprintTaskProcessor::class,
+    processor: SprintTaskProcessor::class,
     output: false,
     status: 204
 )]
