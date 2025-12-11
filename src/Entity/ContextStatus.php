@@ -2,32 +2,29 @@
 
 namespace App\Entity;
 
-
-use App\Repository\ContextStatusRepository;
-
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-
-
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Repository\ContextStatusRepository;
 
-use App\Dto\ContextStatus\ContextStatusResponseDto;
-use App\Dto\ContextStatus\ContextStatusUpdateDto;
-use App\Dto\ContextStatus\ContextStatusCreateDto;
-use App\State\ContextStatus\ContextStatusProvider;
-use App\State\ContextStatus\ContextStatusProcessor;
 use App\Traits\TimestampTrait;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\ContextStatus\ContextStatusCreateDto;
+use App\ApiResource\Dto\ContextStatus\ContextStatusUpdateDto;
+use App\ApiResource\Dto\ContextStatus\ContextStatusResponseDto;
+
+use App\ApiResource\State\ContextStatus\ContextStatusProcessor;
+use App\ApiResource\State\ContextStatus\ContextStatusProvider;
+
 #[GetCollection(
-    // provider: ContextStatusProvider::class,
-    // output: ContextStatusResponseDto::class
+    provider: ContextStatusProvider::class,
+    output: ContextStatusResponseDto::class
 )]
 #[Get(
     provider: ContextStatusProvider::class,
@@ -41,7 +38,10 @@ use App\Traits\TimestampTrait;
     processor: ContextStatusProcessor::class,
     input: ContextStatusUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: ContextStatusProcessor::class,
+    ouput: false
+)]
 
 
 
