@@ -2,28 +2,24 @@
 
 namespace App\Entity;
 
-
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FileRepository;
 
+use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
 
+use App\ApiResource\Dto\File\FileCreateDto;
+use App\ApiResource\Dto\File\FileUpdateDto;
+use App\ApiResource\Dto\File\FileResponseDto;
 
-
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
-
-use App\Dto\File\FileResponseDto;
-use App\Dto\File\FileUpdateDto;
-use App\Dto\File\FileCreateDto;
-use App\State\File\FileProvider;
-use App\State\File\FileProcessor;
-use App\Traits\TimestampTrait;
+use App\ApiResource\State\File\FileProcessor;
+use App\ApiResource\State\File\FileProvider;
 
 #[GetCollection(
     provider: FileProvider::class,
@@ -41,7 +37,10 @@ use App\Traits\TimestampTrait;
     processor: FileProcessor::class,
     input: FileUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: FileProcessor::class,
+    output: false
+)]
 
 
 #[ORM\HasLifecycleCallbacks]
