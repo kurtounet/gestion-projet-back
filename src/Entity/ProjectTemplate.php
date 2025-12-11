@@ -39,7 +39,7 @@ use App\ApiResource\State\ProjectTemplate\ProjectTemplateProcessor;
 )]
 #[Delete(
     processor: ProjectTemplateProcessor::class,
-    ouput: false
+    output: false
 )]
 
 

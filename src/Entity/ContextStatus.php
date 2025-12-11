@@ -40,7 +40,7 @@ use App\ApiResource\State\ContextStatus\ContextStatusProvider;
 )]
 #[Delete(
     processor: ContextStatusProcessor::class,
-    ouput: false
+    output: false
 )]
 
 

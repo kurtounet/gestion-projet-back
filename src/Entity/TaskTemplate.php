@@ -39,7 +39,7 @@ use App\ApiResource\State\TaskTemplate\TaskTemplateProcessor;
 )]
 #[Delete(
     processor: TaskTemplateProcessor::class,
-    ouput: false,
+    output: false,
     status: 204
 )]
 

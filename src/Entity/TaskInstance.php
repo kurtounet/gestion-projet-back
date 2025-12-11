@@ -53,7 +53,7 @@ use App\ApiResource\State\TaskInstance\TaskInstanceProcessor;
 #[Delete(
     security: "is_granted('PROJECT_INSTANCE_DELETE', object)",
     processor: TaskInstanceProcessor::class,
-    ouput: false,
+    output: false,
     status: 204
 )]
 #[ApiFilter(SearchFilter::class, properties: [
