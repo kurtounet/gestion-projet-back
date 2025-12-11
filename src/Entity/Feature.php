@@ -2,28 +2,24 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
 use App\Repository\FeatureRepository;
 
+use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
 
+use App\ApiResource\Dto\Feature\FeatureCreateDto;
+use App\ApiResource\Dto\Feature\FeatureUpdateDto;
+use App\ApiResource\Dto\Feature\FeatureResponseDto;
 
-
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
-
-use App\Dto\Feature\FeatureResponseDto;
-use App\Dto\Feature\FeatureUpdateDto;
-use App\Dto\Feature\FeatureCreateDto;
-use App\State\Feature\FeatureProvider;
-use App\State\Feature\FeatureProcessor;
-use App\Traits\TimestampTrait;
+use App\ApiResource\State\Feature\FeatureProcessor;
+use App\ApiResource\State\Feature\FeatureProvider;
 
 #[GetCollection(
     provider: FeatureProvider::class,
@@ -41,7 +37,10 @@ use App\Traits\TimestampTrait;
     processor: FeatureProcessor::class,
     input: FeatureUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: FeatureProcessor::class,
+    output: false
+)]
 
 
 
