@@ -2,36 +2,33 @@
 
 namespace App\Entity;
 
-
-use App\Repository\CommentRepository;
-
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-
-
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommentRepository;
 
-
-use App\Dto\Comment\CommentResponseDto;
-use App\Dto\Comment\CommentUpdateDto;
-use App\Dto\Comment\CommentCreateDto;
-use App\State\Comment\CommentProvider;
-use App\State\Comment\CommentProcessor;
 use App\Traits\TimestampTrait;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\Comment\CommentCreateDto;
+use App\ApiResource\Dto\Comment\CommentUpdateDto;
+use App\ApiResource\Dto\Comment\CommentResponseDto;
+
+use App\ApiResource\State\Comment\CommentProcessor;
+use App\ApiResource\State\Comment\CommentProvider;
+
+
 #[GetCollection(
-    // provider: CommentProvider::class,
-    // output: CommentResponseDto::class
+    provider: CommentProvider::class,
+    output: CommentResponseDto::class
 )]
 #[Get(
-    // provider: CommentProvider::class,
-    // output: CommentResponseDto::class
+    provider: CommentProvider::class,
+    output: CommentResponseDto::class
 )]
 #[Post(
     processor: CommentProcessor::class,
@@ -41,7 +38,10 @@ use App\Traits\TimestampTrait;
     processor: CommentProcessor::class,
     input: CommentUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: CommentProcessor::class,
+    output: false
+)]
 
 
 #[ORM\HasLifecycleCallbacks]
