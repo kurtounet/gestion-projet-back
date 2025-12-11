@@ -21,7 +21,6 @@ use App\ApiResource\Dto\Comment\CommentResponseDto;
 use App\ApiResource\State\Comment\CommentProcessor;
 use App\ApiResource\State\Comment\CommentProvider;
 
-
 #[GetCollection(
     provider: CommentProvider::class,
     output: CommentResponseDto::class
@@ -102,21 +101,16 @@ class Comment
         return $this->subject;
     }
 
-
-
     public function setSubject(string $subject): static
     {
         $this->subject = $subject;
         return $this;
     }
 
-
     public function getContent(): ?string
     {
         return $this->content;
     }
-
-
 
     public function setContent(string $content): static
     {

@@ -152,16 +152,11 @@ class ProjectInstance
     #[Groups(['PI:item:read'])]
     private ?ConfigProjectFramework $configFramework = null;
 
-
-
-
     public function __construct()
     {
         $this->sprintInstances = new ArrayCollection();
         $this->projectInstances = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -212,13 +207,10 @@ class ProjectInstance
         return $this;
     }
 
-
     public function getName(): ?string
     {
         return $this->name;
     }
-
-
 
     public function setName(string $name): static
     {
@@ -226,13 +218,10 @@ class ProjectInstance
         return $this;
     }
 
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
-
 
     public function setDescription(string $description): static
     {
@@ -240,13 +229,10 @@ class ProjectInstance
         return $this;
     }
 
-
     public function getStartDate(): ?\DateTimeImmutable
     {
         return $this->startDate;
     }
-
-
 
     public function setStartDate(\DateTimeImmutable $startDate): static
     {
@@ -254,13 +240,10 @@ class ProjectInstance
         return $this;
     }
 
-
     public function getEndDate(): ?\DateTimeImmutable
     {
         return $this->endDate;
     }
-
-
 
     public function setEndDate(\DateTimeImmutable $endDate): static
     {
@@ -334,19 +317,11 @@ class ProjectInstance
         return $this;
     }
 
-    /**
-     * Get the value of icon
-     */
     public function getIcon()
     {
         return $this->icon;
     }
 
-    /**
-     * Set the value of icon
-     *
-     * @return  self
-     */
     public function setIcon($icon)
     {
         $this->icon = $icon;
@@ -354,19 +329,11 @@ class ProjectInstance
         return $this;
     }
 
-    /**
-     * Get the value of color
-     */
     public function getColor()
     {
         return $this->color;
     }
 
-    /**
-     * Set the value of color
-     *
-     * @return  self
-     */
     public function setColor($color)
     {
         $this->color = $color;
@@ -428,19 +395,11 @@ class ProjectInstance
         return $this;
     }
 
-    /**
-     * Get the value of pathFileDatabase
-     */
     public function getPathFileDatabase()
     {
         return $this->pathFileDatabase;
     }
 
-    /**
-     * Set the value of pathFileDatabase
-     *
-     * @return  self
-     */
     public function setPathFileDatabase($pathFileDatabase)
     {
         $this->pathFileDatabase = $pathFileDatabase;

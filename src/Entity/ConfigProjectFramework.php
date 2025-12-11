@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ConfigProjectFrameworkRepository;
 
+use App\Repository\ConfigProjectFrameworkRepository;
 
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -20,7 +20,6 @@ use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkResponseDto
 
 use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkProcessor;
 use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkProvider;
-
 
 #[GetCollection(
     provider: ConfigProjectFrameworkProvider::class,
@@ -138,19 +137,11 @@ class ConfigProjectFramework
         return $this;
     }
 
-    /**
-     * Get the value of name
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * Set the value of name
-     *
-     * @return  self
-     */
     public function setName($name)
     {
         $this->name = $name;
