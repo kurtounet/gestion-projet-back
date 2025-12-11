@@ -7,26 +7,28 @@ use App\Repository\CodeBaseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-
-use App\Dto\CodeBase\CodeBaseResponseDto;
-use App\Dto\CodeBase\CodeBaseUpdateDto;
-use App\Dto\CodeBase\CodeBaseCreateDto;
-use App\State\CodeBase\CodeBaseProvider;
-use App\State\CodeBase\CodeBaseProcessor;
 use App\Traits\TimestampTrait;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\CodeBase\CodeBaseCreateDto;
+use App\ApiResource\Dto\CodeBase\CodeBaseResponseDto;
+use App\ApiResource\Dto\CodeBase\CodeBaseUpdateDto;
+
+use App\ApiResource\State\CodeBase\CodeBaseProcessor;
+use App\ApiResource\State\CodeBase\CodeBaseProvider;
+
 #[GetCollection(
-    // provider: CodeBaseProvider::class,
-    // output: CodeBaseResponseDto::class
+    provider: CodeBaseProvider::class,
+    output: CodeBaseResponseDto::class
 )]
 #[Get(
-    // provider: CodeBaseProvider::class,
-    // output: CodeBaseResponseDto::class
+    provider: CodeBaseProvider::class,
+    output: CodeBaseResponseDto::class
 )]
 #[Post(
     processor: CodeBaseProcessor::class,
@@ -36,7 +38,11 @@ use App\Traits\TimestampTrait;
     processor: CodeBaseProcessor::class,
     input: CodeBaseUpdateDto::class
 )]
-#[Delete()]
+
+#[Delete(
+    processor: CodeBaseProcessor::class,
+    output: false
+)]
 
 
 #[ORM\HasLifecycleCallbacks]
