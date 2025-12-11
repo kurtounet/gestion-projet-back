@@ -8,6 +8,7 @@ use App\Entity\Context;
 use App\Entity\ContextStatus;
 use App\Entity\Feature;
 use App\Entity\File;
+use App\Entity\Framework;
 use App\Entity\Notification;
 use App\Entity\Priority;
 use App\Entity\ProjectInstance;
@@ -55,7 +56,7 @@ class AppFixtures extends Fixture
         $taskInstances = [];
         $comments = [];
 
-        // 1. Créer les Contexts (30 items)
+
         $contextData = [
             'Développement',
             'Test',
@@ -89,11 +90,11 @@ class AppFixtures extends Fixture
             'Audit'
         ];
 
-        foreach ($contextData as $label) {
+        foreach ($contextData as $index => $label) {
             $context = new Context();
             $context->setContextLabel($label);
             $manager->persist($context);
-            $contexts[] = $context;
+            $contexts[$index] = $context;
         }
         $manager->flush();
 
@@ -135,19 +136,81 @@ class AppFixtures extends Fixture
             $status->setLabel($label)
                 ->setContext($contexts[$index % count($contexts)]);
             $manager->persist($status);
-            $statuses[] = $status;
+            $statuses[$index] = $status;
         }
         $manager->flush();
-        $labels = ['Critique', 'Très haute', 'Haute', 'Moyenne', 'Basse', 'Très basse', 'Mineure', 'Majeure', 'Bloquante', 'Normale'];
-        foreach ($labels as $i => $label) {
-            $priority = new Priority();
-            $priority->setLabel($label)
-                ->setPriorityNumber($i);
-            $manager->persist($priority);
-            $priorities[] = $priority;
+
+        $priorityData = [
+            [
+                'label' => 'Critique',
+                'color' => '#D32F2F',
+                'priority_number' => 0,
+            ],
+            [
+
+                'label' => 'Très haute',
+                'color' => '#F44336',
+                'priority_number' => 1,
+            ],
+            [
+
+                'label' => 'Haute',
+                'color' => '#FF5722',
+                'priority_number' => 2,
+            ],
+            [
+
+                'label' => 'Moyenne',
+                'color' => '#FF9800',
+                'priority_number' => 3,
+            ],
+            [
+
+                'label' => 'Basse',
+                'color' => '#FFC107',
+                'priority_number' => 4,
+            ],
+            [
+
+                'label' => 'Très basse',
+                'color' => '#CDDC39',
+                'priority_number' => 5,
+            ],
+            [
+
+                'label' => 'Mineure',
+                'color' => '#8BC34A',
+                'priority_number' => 6,
+            ],
+            [
+
+                'label' => 'Majeure',
+                'color' => '#4CAF50',
+                'priority_number' => 7,
+            ],
+            [
+
+                'label' => 'Bloquante',
+                'color' => '#9C27B0',
+                'priority_number' => 8,
+            ],
+            [
+
+                'label' => 'Normale',
+                'color' => '#2196F3',
+                'priority_number' => 9,
+            ],
+        ];
+        foreach ($priorityData as $index => $priority) {
+            $p = new Priority();
+            $p->setLabel($priority['label'])
+                ->setColor($priority['color'])
+                ->setPriorityNumber($priority['priority_number']);
+            $manager->persist($p);
+            $priorities[$index] = $p;
         }
         $manager->flush();
-        // 4. Créer les Users (30 items)
+
         $userRoles = [['ROLE_ADMIN'], ['ROLE_USER'], ['ROLE_MANAGER'], ['ROLE_DEVELOPER'], ['ROLE_TESTER']];
         foreach ($userRoles as $i => $role) {
             $user = new User();
@@ -160,7 +223,7 @@ class AppFixtures extends Fixture
             $users[] = $user;
         }
         $manager->flush();
-        // 5. Créer les Features (30 items)
+
         $featureData = [
             'Authentification',
             'API REST',
@@ -201,20 +264,12 @@ class AppFixtures extends Fixture
             $features[] = $feature;
         }
         $manager->flush();
-        // 6. Créer les Technologies (30 items)
+
         $techData = [
             'PHP',
-            'Symfony',
-            'React',
-            'Vue.js',
-            'Angular',
-            'Node.js',
             'TypeScript',
             'JavaScript',
             'Python',
-            'Django',
-            'Laravel',
-            'Spring Boot',
             'Java',
             'C#',
             '.NET',
@@ -223,26 +278,74 @@ class AppFixtures extends Fixture
             'MongoDB',
             'Redis',
             'Docker',
-            'Kubernetes',
-            'AWS',
-            'Azure',
-            'GCP',
             'Git',
             'Jenkins',
             'GitLab CI',
             'GitHub Actions',
-            'Terraform',
-            'Ansible'
         ];
-
-        foreach ($techData as $label) {
+        foreach ($techData as  $label) {
             $tech = new Technology();
             $tech->setLabel($label);
             $manager->persist($tech);
-            $technologies[] = $tech;
+            $technologies[$label] = $tech;
+        }
+
+
+        $frameworksData = [
+            [
+                "name" => "Symfony",
+                "version" => "7.4",
+                "configuration" => [],
+                "icon" => "https://symfony.com/favicon.ico",
+                "color" => "#000000",
+                "url" => "https://symfony.com/",
+                "technology" => $technologies['PHP'],
+            ],
+            [
+                "name" => "Angular",
+                "version" => "24.0",
+                "configuration" => [],
+                "icon" => "https://angular.io/favicon.ico",
+                "color" => "#C3002F",
+                "url" => "https://angular.io/",
+                "technology" => $technologies['TypeScript'],
+            ],
+            [
+                "name" => "Vue.js",
+                "version" => "3.0",
+                "configuration" => [],
+                "icon" => "https://vuejs.org/favicon.ico",
+                "color" => "#41B883",
+                "url" => "https://vuejs.org/",
+                "technology" => $technologies['TypeScript'],
+            ],
+            [
+                "name" => "Nuxt",
+                "version" => "4.0",
+                "configuration" => [],
+                "icon" => "https://nuxtjs.org/favicon.ico",
+                "color" => "#41B883",
+                "url" => "https://nuxtjs.org/",
+                "technology" => $technologies['TypeScript'],
+            ],
+        ];
+
+        $frameworks = [];
+        foreach ($frameworksData as $index => $framework) {
+            $f = new Framework();
+            $f->setName($framework["name"])
+                ->setVersion($framework["version"])
+                ->setIcon($framework["icon"])
+                ->setColor($framework["color"])
+                ->setTechnology($framework["technology"])
+                ->setConfiguration($framework["configuration"]);
+            $manager->persist($f);
+            $frameworks[$index] = $f;
         }
         $manager->flush();
-        // 7. Créer les CodeBases (30 items)
+
+
+
         for ($i = 1; $i <= 30; $i++) {
             $codeBase = new CodeBase();
             $codeBase->setLabel("CodeBase {$i}");
@@ -253,7 +356,7 @@ class AppFixtures extends Fixture
             $codeBases[] = $codeBase;
         }
         $manager->flush();
-        // 8. Créer les TypeTask (30 items)
+
         $typeTaskNames = [
             'Développement',
             'Test',
@@ -277,7 +380,7 @@ class AppFixtures extends Fixture
             $typeTasks[] = $typeTask;
         }
         $manager->flush();
-        // 9. Créer les ProjectTemplates (30 items)
+
         for ($i = 1; $i <= 30; $i++) {
             $projectTemplate = new ProjectTemplate();
             $projectTemplate->setName("Template Projet {$i}");
@@ -287,7 +390,7 @@ class AppFixtures extends Fixture
             $projectTemplates[] = $projectTemplate;
         }
         $manager->flush();
-        // 10. Créer les SprintTemplates (30 items)
+
         for ($i = 1; $i <= 30; $i++) {
             $sprintTemplate = new SprintTemplate();
             $sprintTemplate->setName("Sprint Template {$i}");
@@ -297,7 +400,7 @@ class AppFixtures extends Fixture
             $sprintTemplates[] = $sprintTemplate;
         }
         $manager->flush();
-        // 11. Créer les TaskTemplates (30 items)
+
         for ($i = 1; $i <= 30; $i++) {
             $taskTemplate = new TaskTemplate();
             $taskTemplate->setSprintTemplate($sprintTemplates[($i - 1) % count($sprintTemplates)]);
@@ -309,7 +412,7 @@ class AppFixtures extends Fixture
             $taskTemplates[] = $taskTemplate;
         }
         $manager->flush();
-        // 12. Créer les ProjectTemplateSprintTemplate (30 items)
+
         for ($i = 1; $i <= 30; $i++) {
             $ptst = new ProjectTemplateSprintTemplate();
             $ptst->setProjectTemplate($projectTemplates[($i - 1) % count($projectTemplates)]);
@@ -318,7 +421,7 @@ class AppFixtures extends Fixture
             $manager->persist($ptst);
         }
         $manager->flush();
-        // 13. Créer les SprintTask (30 items)
+
         for ($i = 1; $i <= 30; $i++) {
             $sprintTask = new SprintTask();
             $sprintTask->setSprintTemplate($sprintTemplates[($i - 1) % count($sprintTemplates)]);
@@ -327,25 +430,29 @@ class AppFixtures extends Fixture
             $manager->persist($sprintTask);
         }
         $manager->flush();
-        // 14. Créer les ProjectInstances (30 items)
+
         for ($i = 1; $i <= 10; $i++) {
             $projectInstance = new ProjectInstance();
             $projectInstance->setStatus($statuses[($i - 1) % count($statuses)])
-                ->setPriority($priorities[($i - 1) % count($priorities)])
-                ->setProjectTemplate($projectTemplates[($i - 1) % count($projectTemplates)])
                 ->setName("Projet {$i}")
+                ->setPathProject("/projet-{$i}")
+                ->setPathFileDatabase("/projet-{$i}")
                 ->setDescription("Description du projet instance {$i}")
-                ->setPosition($i)
-                ->setIsFavory($i % 2 === 0)
                 ->setIcon("icon-{$i}")
                 ->setColor('#' . dechex(rand(0x000000, 0xFFFFFF)))
+                ->setIsFavory($i % 2 === 0)
+                ->setPosition($i)
                 ->setStartDate(new \DateTimeImmutable("-{$i} days"))
-                ->setEndDate(new \DateTimeImmutable("+" . (60 + $i) . " days"));
+                ->setEndDate(new \DateTimeImmutable("+" . (60 + $i) . " days"))
+                ->setPriority($priorities[($i - 1) % count($priorities)])
+                ->setProjectTemplate($projectTemplates[($i - 1) % count($projectTemplates)])
+                ->setStatus($statuses[($i - 1) % count($statuses)]);
+
             $manager->persist($projectInstance);
             $projectInstances[] = $projectInstance;
         }
         $manager->flush();
-        // 15. Créer les SprintInstances (30 items)
+
         foreach ($projectInstances as $projectInstance) {
 
             for ($s = 1; $s <= 10; $s++) {
@@ -402,17 +509,17 @@ class AppFixtures extends Fixture
         }
 
         // Mise à jour des commentaires dans les entités (seulement pour les 30 premiers)
-        for ($i = 0; $i < min(30, count($comments)); $i++) {
-            if ($i < count($projectInstances)) {
-                $projectInstances[$i]->setComment($comments[$i]);
-            }
-            if ($i < count($sprintInstances)) {
-                $sprintInstances[$i]->setComment($comments[$i]);
-            }
-            if ($i < count($taskInstances)) {
-                $taskInstances[$i]->setComment($comments[$i]);
-            }
-        }
+        // for ($i = 0; $i < min(30, count($comments)); $i++) {
+        //     if ($i < count($projectInstances)) {
+        //         $projectInstances[$i]->setComment($comments[$i]);
+        //     }
+        //     if ($i < count($sprintInstances)) {
+        //         $sprintInstances[$i]->setComment($comments[$i]);
+        //     }
+        //     if ($i < count($taskInstances)) {
+        //         $taskInstances[$i]->setComment($comments[$i]);
+        //     }
+        // }
 
         // 18. Créer les Notifications (30 items)
         $notificationTypes = ['info', 'warning', 'error', 'success', 'task', 'message', 'alert', 'reminder', 'update', 'system'];
