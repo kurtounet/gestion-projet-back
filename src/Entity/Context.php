@@ -3,27 +3,26 @@
 namespace App\Entity;
 
 
+use Doctrine\ORM\Mapping as ORM;
+
+use App\Traits\TimestampTrait;
 use App\Repository\ContextRepository;
 
 
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+
+use App\ApiResource\Dto\Context\ContextCreateDto;
+use App\ApiResource\Dto\Context\ContextResponseDto;
+use App\ApiResource\Dto\Context\ContextUpdateDto;
+
+use App\ApiResource\State\Context\ContextProcessor;
+use App\ApiResource\State\Context\ContextProvider;
 
 
-
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
-
-use App\Dto\Context\ContextResponseDto;
-use App\Dto\Context\ContextUpdateDto;
-use App\Dto\Context\ContextCreateDto;
-use App\State\Context\ContextProvider;
-use App\State\Context\ContextProcessor;
-use App\Traits\TimestampTrait;
 
 #[GetCollection(
     provider: ContextProvider::class,
@@ -41,7 +40,10 @@ use App\Traits\TimestampTrait;
     processor: ContextProcessor::class,
     input: ContextUpdateDto::class
 )]
-#[Delete()]
+#[Delete(
+    processor: ContextProcessor::class,
+    output: false
+)]
 
 
 #[ORM\HasLifecycleCallbacks]
