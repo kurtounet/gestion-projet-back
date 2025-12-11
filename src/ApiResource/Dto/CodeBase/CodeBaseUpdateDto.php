@@ -1,0 +1,34 @@
+<?php
+
+namespace App\ApiResource\Dto\CodeBase;
+
+use App\Entity\CodeBase;
+use Symfony\Component\ObjectMapper\Attribute\Map;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * DTO de mise à jour partielle pour CodeBase.
+ * Utilisé typiquement pour PATCH/PUT.
+ */
+#[Map(target: CodeBase::class)]
+final class CodeBaseUpdateDto
+{
+    #[Groups(['CodeBase:update'])]
+    public ?string $label;
+
+    #[Groups(['CodeBase:update'])]
+    public ?string $code;
+
+    #[Groups(['CodeBase:update'])]
+    public ?string $pathFile;
+
+    #[Groups(['CodeBase:update'])]
+    public ?string $feature;
+
+    #[Groups(['CodeBase:update'])]
+    public ?\DateTimeInterface $createdAt;
+
+    #[Groups(['CodeBase:update'])]
+    public ?\DateTimeInterface $updatedAt;
+}
