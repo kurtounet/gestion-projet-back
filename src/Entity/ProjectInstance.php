@@ -2,45 +2,44 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ProjectInstanceRepository;
-
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
-
-
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
+use App\Repository\ProjectInstanceRepository;
+
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+
+use App\Traits\UserStampTrait;
 use App\Traits\TimestampTrait;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
 
-use App\Dto\ProjectInstance\ProjectInstanceResponseDto;
-use App\Dto\ProjectInstance\ProjectInstanceUpdateDto;
-use App\Dto\ProjectInstance\ProjectInstanceCreateDto;
-use App\State\ProjectInstance\ProjectInstanceProvider;
-use App\State\ProjectInstance\ProjectInstanceProcessor;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCreateDto;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceUpdateDto;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceResponseDto;
+
+use App\ApiResource\State\ProjectInstance\ProjectInstanceProvider;
+use App\ApiResource\State\ProjectInstance\ProjectInstanceProcessor;
+
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[GetCollection(
-
-    // normalizationContext: ['groups' => ['list:read']],
-    // provider: ProjectInstanceProvider::class,
-    // output: ProjectInstanceResponseDto::class
+    provider: ProjectInstanceProvider::class,
+    output: ProjectInstanceResponseDto::class
 )]
+
 #[Get(
-    // normalizationContext: ['groups' => ['projectInstance:item', 'item:read']],
-    // provider: ProjectInstanceProvider::class,
-    // output: ProjectInstanceResponseDto::class
+    provider: ProjectInstanceProvider::class,
+    output: ProjectInstanceResponseDto::class
 )]
 #[Post(
     processor: ProjectInstanceProcessor::class,
@@ -51,109 +50,110 @@ use Symfony\Component\Serializer\Attribute\Groups;
     input: ProjectInstanceUpdateDto::class
 )]
 #[Delete(
-    // processor: ProjectInstanceProcessor::class,
-    // output: false,
+    processor: ProjectInstanceProcessor::class,
+    output: false,
 )]
 
-// #[ApiFilter(SearchFilter::class, properties: [
-//     'isFavory' => 'true',
-// ])]
+
 #[ApiFilter(BooleanFilter::class, properties: [
     'isFavory' => 'true',
 ])]
-#[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: 'discr', type: 'string')]
-#[ORM\DiscriminatorMap([
-    'projectInstance' => ProjectInstance::class,
-    'framework' => Framework::class,
-])]
-#[ApiResource()]
+
+#[ApiResource]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectInstanceRepository::class)]
 class ProjectInstance
 {
+    use UserStampTrait;
     use TimestampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['list:read', 'item:read'])]
-    private ?int $id = null;
+    #[Groups(['PI:list:read', 'PI:item:read'])]
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: false)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $pathFileDatabase = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
+    private ?string $pathProject = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $icon = null;
 
     #[ORM\Column(length: 7, nullable: true)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $color = null;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?bool $isFavory = null;
 
     #[ORM\Column]
-    #[Groups(['list:read', 'item:read'])]
+    // #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?int $position = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['list:read', 'item:read'])]
-    private ?string $pathProject = null;
-
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?\DateTimeImmutable $endDate = null;
 
     #[ORM\ManyToOne(targetEntity: Status::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?Status $status = null;
 
     #[ORM\ManyToOne(targetEntity: Priority::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?Priority $priority = null;
 
     #[ORM\ManyToOne(targetEntity: ProjectTemplate::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?ProjectTemplate $projectTemplate = null;
 
     #[ORM\ManyToOne(targetEntity: Comment::class)]
-    #[Groups(['list:read', 'item:read'])]
+    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?Comment $comment = null;
 
     /**
      * @var Collection<int, SprintInstance>
      */
     #[ORM\OneToMany(targetEntity: SprintInstance::class, mappedBy: 'projectInstance')] //, orphanRemoval: true
-    #[Groups(['projectInstance:item'])]
+    #[Groups(['PI:item:read'])]
     private Collection $sprintInstances;
-
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'projectInstances')]
-    private ?self $parent = null;
-
     /**
      * @var Collection<int, self>
      */
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
+    #[Groups(['PI:item:read'])]
     private Collection $projectInstances;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'projectInstances')]
+    private ?self $parent = null;
+
+    #[ORM\OneToOne(inversedBy: 'projectInstance', cascade: ['persist', 'remove'])]
+    #[Groups(['PI:item:read'])]
+    private ?ConfigProjectFramework $configFramework = null;
+
+
+
 
     public function __construct()
     {
@@ -268,12 +268,12 @@ class ProjectInstance
         return $this;
     }
 
-    public function getpathProject(): ?string
+    public function getPathProject(): ?string
     {
         return $this->pathProject;
     }
 
-    public function setpathProject(?string $path): static
+    public function setPathProject(?string $path): static
     {
         $this->pathProject = $path;
 
@@ -394,24 +394,56 @@ class ProjectInstance
         return $this->projectInstances;
     }
 
-    public function addProjectInstance(self $projectInstance): static
+    public function addProjectInstances(self $projectInstances2): static
     {
-        if (!$this->projectInstances->contains($projectInstance)) {
-            $this->projectInstances->add($projectInstance);
-            $projectInstance->setParent($this);
+        if (!$this->projectInstances->contains($projectInstances2)) {
+            $this->projectInstances->add($projectInstances2);
+            $projectInstances2->setParent($this);
         }
 
         return $this;
     }
 
-    public function removeProjectInstance(self $projectInstance): static
+    public function removeProjectInstances(self $projectInstances2): static
     {
-        if ($this->projectInstances->removeElement($projectInstance)) {
+        if ($this->projectInstances->removeElement($projectInstances2)) {
             // set the owning side to null (unless already changed)
-            if ($projectInstance->getParent() === $this) {
-                $projectInstance->setParent(null);
+            if ($projectInstances2->getParent() === $this) {
+                $projectInstances2->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getConfigFramework(): ?ConfigProjectFramework
+    {
+        return $this->configFramework;
+    }
+
+    public function setConfigFramework(?ConfigProjectFramework $configFramework): static
+    {
+        $this->configFramework = $configFramework;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pathFileDatabase
+     */
+    public function getPathFileDatabase()
+    {
+        return $this->pathFileDatabase;
+    }
+
+    /**
+     * Set the value of pathFileDatabase
+     *
+     * @return  self
+     */
+    public function setPathFileDatabase($pathFileDatabase)
+    {
+        $this->pathFileDatabase = $pathFileDatabase;
 
         return $this;
     }
