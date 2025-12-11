@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20251209090531 extends AbstractMigration
+final class Version20251210103827 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,14 +22,15 @@ final class Version20251209090531 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE code_base (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, code VARCHAR(255) NOT NULL, path_file VARCHAR(255) NOT NULL, feature VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, subject VARCHAR(255) NOT NULL, content VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, task_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_9474526C8DB60186 (task_id), INDEX IDX_9474526CA76ED395 (user_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE config_project_framework (id INT AUTO_INCREMENT NOT NULL, configuration JSON DEFAULT NULL, architecture JSON DEFAULT NULL, script JSON DEFAULT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE context (id INT AUTO_INCREMENT NOT NULL, context_label VARCHAR(50) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE context_status (id INT AUTO_INCREMENT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, context_id INT NOT NULL, status_id INT NOT NULL, INDEX IDX_CCEC2E4B6B00C1CF (context_id), INDEX IDX_CCEC2E4B6BF700BD (status_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE feature (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE file (id INT AUTO_INCREMENT NOT NULL, path VARCHAR(255) NOT NULL, key_word VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE framework (id INT AUTO_INCREMENT NOT NULL, configuration JSON DEFAULT NULL, path VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, techno_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_9D766E1951F3C1BC (techno_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE framework (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) NOT NULL, version VARCHAR(10) NOT NULL, configuration JSON DEFAULT NULL, icon VARCHAR(250) DEFAULT NULL, color VARCHAR(10) DEFAULT NULL, technology_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_9D766E194235D463 (technology_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE notification (id INT AUTO_INCREMENT NOT NULL, message LONGTEXT NOT NULL, date DATETIME NOT NULL, type VARCHAR(50) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, user_id INT NOT NULL, INDEX IDX_BF5476CAA76ED395 (user_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE priority (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(50) NOT NULL, color VARCHAR(10) DEFAULT NULL, priority_number INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE project_instance (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, path_file_database VARCHAR(255) DEFAULT NULL, description LONGTEXT DEFAULT NULL, icon VARCHAR(100) DEFAULT NULL, color VARCHAR(7) DEFAULT NULL, is_favory TINYINT DEFAULT 0 NOT NULL, position INT NOT NULL, path_project VARCHAR(255) DEFAULT NULL, start_date DATETIME NOT NULL, end_date DATETIME NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, status_id INT NOT NULL, priority_id INT NOT NULL, project_template_id INT NOT NULL, comment_id INT DEFAULT NULL, parent_id INT DEFAULT NULL, discr VARCHAR(255) NOT NULL, INDEX IDX_7F7E3A056BF700BD (status_id), INDEX IDX_7F7E3A05497B19F9 (priority_id), INDEX IDX_7F7E3A05CD15F843 (project_template_id), INDEX IDX_7F7E3A05F8697D13 (comment_id), INDEX IDX_7F7E3A05727ACA70 (parent_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE project_instance (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, path_file_database VARCHAR(255) DEFAULT NULL, description LONGTEXT DEFAULT NULL, icon VARCHAR(100) DEFAULT NULL, color VARCHAR(7) DEFAULT NULL, is_favory TINYINT DEFAULT 0 NOT NULL, position INT NOT NULL, path_project VARCHAR(255) DEFAULT NULL, start_date DATETIME NOT NULL, end_date DATETIME NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, status_id INT NOT NULL, priority_id INT NOT NULL, project_template_id INT NOT NULL, comment_id INT DEFAULT NULL, parent_id INT DEFAULT NULL, config_framework_id INT DEFAULT NULL, INDEX IDX_7F7E3A056BF700BD (status_id), INDEX IDX_7F7E3A05497B19F9 (priority_id), INDEX IDX_7F7E3A05CD15F843 (project_template_id), INDEX IDX_7F7E3A05F8697D13 (comment_id), INDEX IDX_7F7E3A05727ACA70 (parent_id), UNIQUE INDEX UNIQ_7F7E3A05E4AA6E05 (config_framework_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE project_template (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, duration INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE project_template_sprint_template (id INT AUTO_INCREMENT NOT NULL, sprint_order INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, project_template_id INT NOT NULL, sprint_template_id INT NOT NULL, INDEX IDX_8EDBD67CCD15F843 (project_template_id), INDEX IDX_8EDBD67C51723B70 (sprint_template_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE sprint_instance (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) NOT NULL, description LONGTEXT NOT NULL, icon VARCHAR(100) NOT NULL, color VARCHAR(7) NOT NULL, start_date DATETIME NOT NULL, end_date DATETIME NOT NULL, position INT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, priority_id INT NOT NULL, sprint_template_id INT NOT NULL, status_id INT NOT NULL, comment_id INT DEFAULT NULL, sprint_dependency_id INT DEFAULT NULL, project_instance_id INT NOT NULL, INDEX IDX_3237E7ED497B19F9 (priority_id), INDEX IDX_3237E7ED51723B70 (sprint_template_id), INDEX IDX_3237E7ED6BF700BD (status_id), INDEX IDX_3237E7EDF8697D13 (comment_id), INDEX IDX_3237E7EDE0618A78 (sprint_dependency_id), INDEX IDX_3237E7EDF29E85E6 (project_instance_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
@@ -45,13 +46,14 @@ final class Version20251209090531 extends AbstractMigration
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE context_status ADD CONSTRAINT FK_CCEC2E4B6B00C1CF FOREIGN KEY (context_id) REFERENCES context (id)');
         $this->addSql('ALTER TABLE context_status ADD CONSTRAINT FK_CCEC2E4B6BF700BD FOREIGN KEY (status_id) REFERENCES status (id)');
-        $this->addSql('ALTER TABLE framework ADD CONSTRAINT FK_9D766E1951F3C1BC FOREIGN KEY (techno_id) REFERENCES technology (id)');
+        $this->addSql('ALTER TABLE framework ADD CONSTRAINT FK_9D766E194235D463 FOREIGN KEY (technology_id) REFERENCES technology (id)');
         $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CAA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE project_instance ADD CONSTRAINT FK_7F7E3A056BF700BD FOREIGN KEY (status_id) REFERENCES status (id)');
         $this->addSql('ALTER TABLE project_instance ADD CONSTRAINT FK_7F7E3A05497B19F9 FOREIGN KEY (priority_id) REFERENCES priority (id)');
         $this->addSql('ALTER TABLE project_instance ADD CONSTRAINT FK_7F7E3A05CD15F843 FOREIGN KEY (project_template_id) REFERENCES project_template (id)');
         $this->addSql('ALTER TABLE project_instance ADD CONSTRAINT FK_7F7E3A05F8697D13 FOREIGN KEY (comment_id) REFERENCES comment (id)');
         $this->addSql('ALTER TABLE project_instance ADD CONSTRAINT FK_7F7E3A05727ACA70 FOREIGN KEY (parent_id) REFERENCES project_instance (id)');
+        $this->addSql('ALTER TABLE project_instance ADD CONSTRAINT FK_7F7E3A05E4AA6E05 FOREIGN KEY (config_framework_id) REFERENCES config_project_framework (id)');
         $this->addSql('ALTER TABLE project_template_sprint_template ADD CONSTRAINT FK_8EDBD67CCD15F843 FOREIGN KEY (project_template_id) REFERENCES project_template (id)');
         $this->addSql('ALTER TABLE project_template_sprint_template ADD CONSTRAINT FK_8EDBD67C51723B70 FOREIGN KEY (sprint_template_id) REFERENCES sprint_template (id)');
         $this->addSql('ALTER TABLE sprint_instance ADD CONSTRAINT FK_3237E7ED497B19F9 FOREIGN KEY (priority_id) REFERENCES priority (id)');
@@ -84,13 +86,14 @@ final class Version20251209090531 extends AbstractMigration
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CA76ED395');
         $this->addSql('ALTER TABLE context_status DROP FOREIGN KEY FK_CCEC2E4B6B00C1CF');
         $this->addSql('ALTER TABLE context_status DROP FOREIGN KEY FK_CCEC2E4B6BF700BD');
-        $this->addSql('ALTER TABLE framework DROP FOREIGN KEY FK_9D766E1951F3C1BC');
+        $this->addSql('ALTER TABLE framework DROP FOREIGN KEY FK_9D766E194235D463');
         $this->addSql('ALTER TABLE notification DROP FOREIGN KEY FK_BF5476CAA76ED395');
         $this->addSql('ALTER TABLE project_instance DROP FOREIGN KEY FK_7F7E3A056BF700BD');
         $this->addSql('ALTER TABLE project_instance DROP FOREIGN KEY FK_7F7E3A05497B19F9');
         $this->addSql('ALTER TABLE project_instance DROP FOREIGN KEY FK_7F7E3A05CD15F843');
         $this->addSql('ALTER TABLE project_instance DROP FOREIGN KEY FK_7F7E3A05F8697D13');
         $this->addSql('ALTER TABLE project_instance DROP FOREIGN KEY FK_7F7E3A05727ACA70');
+        $this->addSql('ALTER TABLE project_instance DROP FOREIGN KEY FK_7F7E3A05E4AA6E05');
         $this->addSql('ALTER TABLE project_template_sprint_template DROP FOREIGN KEY FK_8EDBD67CCD15F843');
         $this->addSql('ALTER TABLE project_template_sprint_template DROP FOREIGN KEY FK_8EDBD67C51723B70');
         $this->addSql('ALTER TABLE sprint_instance DROP FOREIGN KEY FK_3237E7ED497B19F9');
@@ -116,6 +119,7 @@ final class Version20251209090531 extends AbstractMigration
         $this->addSql('ALTER TABLE type_task DROP FOREIGN KEY FK_85711E2D27DAFE17');
         $this->addSql('DROP TABLE code_base');
         $this->addSql('DROP TABLE comment');
+        $this->addSql('DROP TABLE config_project_framework');
         $this->addSql('DROP TABLE context');
         $this->addSql('DROP TABLE context_status');
         $this->addSql('DROP TABLE feature');
