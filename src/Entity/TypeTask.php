@@ -9,40 +9,6 @@ use App\Repository\TypeTaskRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\TypeTask\TypeTaskCreateDto;
-use App\ApiResource\Dto\TypeTask\TypeTaskUpdateDto;
-use App\ApiResource\Dto\TypeTask\TypeTaskResponseDto;
-
-use App\ApiResource\State\TypeTask\TypeTaskProvider;
-use App\ApiResource\State\TypeTask\TypeTaskProcessor;
-
-#[GetCollection(
-    provider: TypeTaskProvider::class,
-    output: TypeTaskResponseDto::class
-)]
-#[Get(
-    provider: TypeTaskProvider::class,
-    output: TypeTaskResponseDto::class
-)]
-#[Post(
-    processor: TypeTaskProcessor::class,
-    input: TypeTaskCreateDto::class
-)]
-#[Patch(
-    processor: TypeTaskProcessor::class,
-    input: TypeTaskUpdateDto::class
-)]
-#[Delete(
-    processor: TypeTaskProcessor::class,
-    output: TypeTaskResponseDto::class,
-    status: 204
-)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TypeTaskRepository::class)]
