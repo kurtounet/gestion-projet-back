@@ -9,40 +9,7 @@ use App\Repository\SprintTemplateRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
 
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateCreateDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateUpdateDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateResponseDto;
-
-use App\ApiResource\State\SprintTemplate\SprintTemplateProvider;
-use App\ApiResource\State\SprintTemplate\SprintTemplateProcessor;
-
-#[GetCollection(
-    provider: SprintTemplateProvider::class,
-    output: SprintTemplateResponseDto::class
-)]
-#[Get(
-    provider: SprintTemplateProvider::class,
-    output: SprintTemplateResponseDto::class
-)]
-#[Post(
-    processor: SprintTemplateProcessor::class,
-    input: SprintTemplateCreateDto::class
-)]
-#[Patch(
-    processor: SprintTemplateProcessor::class,
-    input: SprintTemplateUpdateDto::class
-)]
-#[Delete(
-    processor: SprintTemplateProcessor::class,
-    output: false,
-    status: 204
-)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: SprintTemplateRepository::class)]

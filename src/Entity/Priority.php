@@ -9,41 +9,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 use App\Repository\PriorityRepository;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\Priority\PriorityCreateDto;
-use App\ApiResource\Dto\Priority\PriorityUpdateDto;
-use App\ApiResource\Dto\Priority\PriorityResponseDto;
-
-use App\ApiResource\State\Priority\PriorityProvider;
-use App\ApiResource\State\Priority\PriorityProcessor;
-
-#[GetCollection(
-    provider: PriorityProvider::class,
-    output: PriorityResponseDto::class
-)]
-#[Get(
-    provider: PriorityProvider::class,
-    output: PriorityResponseDto::class
-)]
-#[Post(
-    processor: PriorityProcessor::class,
-    input: PriorityCreateDto::class
-)]
-#[Patch(
-    processor: PriorityProcessor::class,
-    input: PriorityUpdateDto::class
-)]
-#[Delete(
-    processor: PriorityProcessor::class,
-    output: false,
-    status: 204
-)]
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: PriorityRepository::class)]

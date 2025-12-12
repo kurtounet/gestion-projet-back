@@ -9,58 +9,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use App\Repository\ProjectInstanceRepository;
 
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 
 use App\Traits\UserStampTrait;
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCreateDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceUpdateDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceResponseDto;
-
-use App\ApiResource\State\ProjectInstance\ProjectInstanceProvider;
-use App\ApiResource\State\ProjectInstance\ProjectInstanceProcessor;
-
-use Symfony\Component\Serializer\Attribute\Groups;
-
-#[GetCollection(
-    provider: ProjectInstanceProvider::class,
-    output: ProjectInstanceResponseDto::class
-)]
-
-#[Get(
-    provider: ProjectInstanceProvider::class,
-    output: ProjectInstanceResponseDto::class
-)]
-#[Post(
-    processor: ProjectInstanceProcessor::class,
-    input: ProjectInstanceCreateDto::class
-)]
-#[Patch(
-    processor: ProjectInstanceProcessor::class,
-    input: ProjectInstanceUpdateDto::class
-)]
-#[Delete(
-    processor: ProjectInstanceProcessor::class,
-    output: false,
-    status: 204
-)]
-
-
-#[ApiFilter(BooleanFilter::class, properties: [
-    'isFavory' => 'true',
-])]
-
-#[ApiResource]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectInstanceRepository::class)]
 class ProjectInstance
@@ -71,86 +23,69 @@ class ProjectInstance
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     protected ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: false)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $pathFileDatabase = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $pathProject = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $icon = null;
 
     #[ORM\Column(length: 7, nullable: true)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?string $color = null;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?bool $isFavory = null;
 
-    #[ORM\Column]
-    // #[Groups(['PI:list:read', 'PI:item:read'])]
+    #[ORM\Column]    //
     private ?int $position = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?\DateTimeImmutable $endDate = null;
 
     #[ORM\ManyToOne(targetEntity: Status::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?Status $status = null;
 
     #[ORM\ManyToOne(targetEntity: Priority::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?Priority $priority = null;
 
     #[ORM\ManyToOne(targetEntity: ProjectTemplate::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?ProjectTemplate $projectTemplate = null;
 
     #[ORM\ManyToOne(targetEntity: Comment::class)]
-    #[Groups(['PI:list:read', 'PI:item:read'])]
     private ?Comment $comment = null;
 
     /**
      * @var Collection<int, SprintInstance>
      */
     #[ORM\OneToMany(targetEntity: SprintInstance::class, mappedBy: 'projectInstance')] //, orphanRemoval: true
-    #[Groups(['PI:item:read'])]
     private Collection $sprintInstances;
+
     /**
      * @var Collection<int, self>
      */
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
-    #[Groups(['PI:item:read'])]
     private Collection $projectInstances;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'projectInstances')]
     private ?self $parent = null;
 
     #[ORM\OneToOne(inversedBy: 'projectInstance', cascade: ['persist', 'remove'])]
-    #[Groups(['PI:item:read'])]
     private ?ConfigProjectFramework $configFramework = null;
 
     public function __construct()

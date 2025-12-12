@@ -8,41 +8,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
 
-use App\ApiResource\Dto\Status\StatusCreateDto;
-use App\ApiResource\Dto\Status\StatusUpdateDto;
-use App\ApiResource\Dto\Status\StatusResponseDto;
-
-use App\ApiResource\State\Status\StatusProvider;
-use App\ApiResource\State\Status\StatusProcessor;
-
-
-#[GetCollection(
-    provider: StatusProvider::class,
-    output: StatusResponseDto::class
-)]
-#[Get(
-    provider: StatusProvider::class,
-    output: StatusResponseDto::class
-)]
-#[Post(
-    processor: StatusProcessor::class,
-    input: StatusCreateDto::class
-)]
-#[Patch(
-    processor: StatusProcessor::class,
-    input: StatusUpdateDto::class
-)]
-#[Delete(
-    processor: StatusProcessor::class,
-    output: false,
-    status: 204
-)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: StatusRepository::class)]

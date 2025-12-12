@@ -8,43 +8,6 @@ use App\Repository\FeatureRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\Feature\FeatureCreateDto;
-use App\ApiResource\Dto\Feature\FeatureUpdateDto;
-use App\ApiResource\Dto\Feature\FeatureResponseDto;
-
-use App\ApiResource\State\Feature\FeatureProcessor;
-use App\ApiResource\State\Feature\FeatureProvider;
-
-#[GetCollection(
-    provider: FeatureProvider::class,
-    output: FeatureResponseDto::class
-)]
-#[Get(
-    provider: FeatureProvider::class,
-    output: FeatureResponseDto::class
-)]
-#[Post(
-    processor: FeatureProcessor::class,
-    input: FeatureCreateDto::class
-)]
-#[Patch(
-    processor: FeatureProcessor::class,
-    input: FeatureUpdateDto::class
-)]
-#[Delete(
-    processor: FeatureProcessor::class,
-    output: false,
-    status: 204
-)]
-
-
-
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: FeatureRepository::class)]
 class Feature

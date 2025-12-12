@@ -8,42 +8,6 @@ use App\Repository\NotificationRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\Notification\NotificationCreateDto;
-use App\ApiResource\Dto\Notification\NotificationUpdateDto;
-use App\ApiResource\Dto\Notification\NotificationResponseDto;
-
-use App\ApiResource\State\Notification\NotificationProcessor;
-use App\ApiResource\State\Notification\NotificationProvider;
-
-#[GetCollection(
-    provider: NotificationProvider::class,
-    output: NotificationResponseDto::class
-)]
-#[Get(
-    provider: NotificationProvider::class,
-    output: NotificationResponseDto::class
-)]
-#[Post(
-    processor: NotificationProcessor::class,
-    input: NotificationCreateDto::class
-)]
-#[Patch(
-    processor: NotificationProcessor::class,
-    input: NotificationUpdateDto::class
-)]
-#[Delete(
-    processor: NotificationProcessor::class,
-    output: false,
-    status: 204
-)]
-
-
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
 class Notification

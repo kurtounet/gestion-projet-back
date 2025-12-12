@@ -8,42 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\TimestampTrait;
 use App\Repository\ProjectTemplateRepository;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCreateDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateUpdateDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateResponseDto;
-
-use App\ApiResource\State\ProjectTemplate\ProjectTemplateProvider;
-use App\ApiResource\State\ProjectTemplate\ProjectTemplateProcessor;
-
-#[GetCollection(
-    provider: ProjectTemplateProvider::class,
-    output: ProjectTemplateResponseDto::class
-)]
-#[Get(
-    provider: ProjectTemplateProvider::class,
-    output: ProjectTemplateResponseDto::class
-)]
-#[Post(
-    processor: ProjectTemplateProcessor::class,
-    input: ProjectTemplateCreateDto::class
-)]
-#[Patch(
-    processor: ProjectTemplateProcessor::class,
-    input: ProjectTemplateUpdateDto::class
-)]
-#[Delete(
-    processor: ProjectTemplateProcessor::class,
-    output: false,
-    status: 204
-)]
-
-
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectTemplateRepository::class)]
 class ProjectTemplate

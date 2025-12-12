@@ -8,40 +8,7 @@ use App\Repository\TaskTemplateRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
 
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateCreateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateResponseDto;
-
-use App\ApiResource\State\TaskTemplate\TaskTemplateProvider;
-use App\ApiResource\State\TaskTemplate\TaskTemplateProcessor;
-
-#[GetCollection(
-    provider: TaskTemplateProvider::class,
-    output: TaskTemplateResponseDto::class
-)]
-#[Get(
-    provider: TaskTemplateProvider::class,
-    output: TaskTemplateResponseDto::class
-)]
-#[Post(
-    processor: TaskTemplateProcessor::class,
-    input: TaskTemplateCreateDto::class
-)]
-#[Patch(
-    processor: TaskTemplateProcessor::class,
-    input: TaskTemplateUpdateDto::class
-)]
-#[Delete(
-    processor: TaskTemplateProcessor::class,
-    output: false,
-    status: 204
-)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TaskTemplateRepository::class)]

@@ -9,43 +9,6 @@ use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\Framework\FrameworkCreateDto;
-use App\ApiResource\Dto\Framework\FrameworkUpdateDto;
-use App\ApiResource\Dto\Framework\FrameworkResponseDto;
-
-
-use App\ApiResource\State\Framework\FrameworkProcessor;
-use App\ApiResource\State\Framework\FrameworkProvider;
-
-#[GetCollection(
-    provider: FrameworkProvider::class,
-    output: FrameworkResponseDto::class
-)]
-#[Get(
-    provider: FrameworkProvider::class,
-    output: FrameworkResponseDto::class
-)]
-#[Post(
-    processor: FrameworkProcessor::class,
-    input: FrameworkCreateDto::class
-)]
-#[Patch(
-    processor: FrameworkProcessor::class,
-    input: FrameworkUpdateDto::class
-)]
-#[Delete(
-    processor: FrameworkProcessor::class,
-    output: false,
-    status: 204
-)]
-
-#[ApiResource]
 #[ORM\Entity(repositoryClass: FrameworkRepository::class)]
 class Framework
 {
@@ -69,14 +32,16 @@ class Framework
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $color = null;
 
-    #[ORM\ManyToOne(inversedBy: 'framework', cascade: ['persist', 'remove'])]
-    private ?Technology $technology = null;
+
 
     /**
      * @var Collection<int, ConfigProjectFramework>
      */
     #[ORM\OneToMany(targetEntity: ConfigProjectFramework::class, mappedBy: 'framework')]
     private Collection $configProjectFrameworks;
+
+    #[ORM\ManyToOne(inversedBy: 'framework')]
+    private ?Technology $technology = null;
 
     public function __construct()
     {
@@ -148,17 +113,6 @@ class Framework
         return $this;
     }
 
-    public function getTechnology(): ?Technology
-    {
-        return $this->technology;
-    }
-
-    public function setTechnology(?Technology $technology): static
-    {
-        $this->technology = $technology;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, ConfigProjectFramework>
@@ -186,6 +140,18 @@ class Framework
                 $configProjectFramework->setFramework(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTechnology(): ?Technology
+    {
+        return $this->technology;
+    }
+
+    public function setTechnology(?Technology $technology): static
+    {
+        $this->technology = $technology;
 
         return $this;
     }

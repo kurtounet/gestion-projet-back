@@ -7,44 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use App\Repository\ConfigProjectFrameworkRepository;
 
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkCreateDto;
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkUpdateDto;
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkResponseDto;
-
-use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkProcessor;
-use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkProvider;
-
-#[GetCollection(
-    provider: ConfigProjectFrameworkProvider::class,
-    output: ConfigProjectFrameworkResponseDto::class
-)]
-
-#[Get(
-    provider: ConfigProjectFrameworkProvider::class,
-    output: ConfigProjectFrameworkResponseDto::class
-)]
-#[Post(
-    processor: ConfigProjectFrameworkProcessor::class,
-    input: ConfigProjectFrameworkCreateDto::class
-)]
-#[Patch(
-    processor: ConfigProjectFrameworkProcessor::class,
-    input: ConfigProjectFrameworkUpdateDto::class
-)]
-#[Delete(
-    processor: ConfigProjectFrameworkProcessor::class,
-    output: false,
-    status: 204
-)]
-
-#[ApiResource]
 #[ORM\Entity(repositoryClass: ConfigProjectFrameworkRepository::class)]
 class ConfigProjectFramework
 {
