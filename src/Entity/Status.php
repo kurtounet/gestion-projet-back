@@ -22,11 +22,11 @@ class Status
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['projectInstance:item', 'status:list:read', 'status:item:read'])]
+
     private ?string $label = null;
 
     #[ORM\Column(length: 10, nullable: true)]
-    #[Groups(['projectInstance:item', 'status:list:read', 'status:item:read'])]
+
     private ?string $color = '#84e712ff';
 
     #[ORM\ManyToOne(targetEntity: Context::class)]
