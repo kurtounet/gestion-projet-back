@@ -24,12 +24,12 @@ use App\ApiResource\State\Framework\FrameworkProcessor;
 use App\ApiResource\State\Framework\FrameworkProvider;
 
 #[GetCollection(
-    provider: FrameworkProvider::class,
-    output: FrameworkResponseDto::class
+    // provider: FrameworkProvider::class,
+    // output: FrameworkResponseDto::class
 )]
 #[Get(
-    provider: FrameworkProvider::class,
-    output: FrameworkResponseDto::class
+    // provider: FrameworkProvider::class,
+    // output: FrameworkResponseDto::class
 )]
 #[Post(
     processor: FrameworkProcessor::class,

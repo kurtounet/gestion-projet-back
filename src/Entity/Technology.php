@@ -22,14 +22,12 @@ use App\ApiResource\State\Technology\TechnologyProvider;
 use App\ApiResource\State\Technology\TechnologyProcessor;
 
 #[GetCollection(
-
-    provider: TechnologyProvider::class,
-    output: TechnologyResponseDto::class
+    // provider: TechnologyProvider::class,
+    // output: TechnologyResponseDto::class
 )]
 #[Get(
-
-    provider: TechnologyProvider::class,
-    output: TechnologyResponseDto::class
+    // provider: TechnologyProvider::class,
+    // output: TechnologyResponseDto::class
 )]
 #[Post(
     processor: TechnologyProcessor::class,
@@ -61,6 +59,7 @@ class Technology
     #[Groups(['projectInstance:item', 'list:read', 'item:read'])]
     private ?string $label = null;
 
+    #[Groups(['projectInstance:item', 'list:read', 'item:read'])]
     #[ORM\OneToMany(mappedBy: 'technology', targetEntity: Framework::class, cascade: ['persist', 'remove'])]
     private ?Framework $framework = null;
 

@@ -31,27 +31,27 @@ use App\ApiResource\State\TaskInstance\TaskInstanceProvider;
 use App\ApiResource\State\TaskInstance\TaskInstanceProcessor;
 
 #[GetCollection(
-    security: "is_granted('PROJECT_INSTANCE_LIST')",
+    // security: "is_granted('PROJECT_INSTANCE_LIST')",
     provider: TaskInstanceProvider::class,
     output: TaskInstanceResponseDto::class
 )]
 #[Get(
-    security: "is_granted('PROJECT_INSTANCE_VIEW', object)",
+    // security: "is_granted('PROJECT_INSTANCE_VIEW', object)",
     provider: TaskInstanceProvider::class,
     output: TaskInstanceResponseDto::class
 )]
 #[Post(
-    securityPostDenormalize: "is_granted('PROJECT_INSTANCE_CREATE', object)",
+    // securityPostDenormalize: "is_granted('PROJECT_INSTANCE_CREATE', object)",
     processor: TaskInstanceProcessor::class,
     input: TaskInstanceCreateDto::class
 )]
 #[Patch(
-    security: "is_granted('PROJECT_INSTANCE_EDIT', object)",
+    // security: "is_granted('PROJECT_INSTANCE_EDIT', object)",
     processor: TaskInstanceProcessor::class,
     input: TaskInstanceUpdateDto::class
 )]
 #[Delete(
-    security: "is_granted('PROJECT_INSTANCE_DELETE', object)",
+    // security: "is_granted('PROJECT_INSTANCE_DELETE', object)",
     processor: TaskInstanceProcessor::class,
     output: false,
     status: 204
