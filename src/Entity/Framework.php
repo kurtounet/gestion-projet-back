@@ -32,8 +32,6 @@ class Framework
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $color = null;
 
-
-
     /**
      * @var Collection<int, ConfigProjectFramework>
      */
