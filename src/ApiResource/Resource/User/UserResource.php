@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\User;
 
 use App\Entity\User;
 
-;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -70,28 +68,27 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: User::class)]
 final class UserResource
 {
-    #[Groups(['User:read'])]
+    #[Groups(['User:collection:read', 'User:item:read'])]
     public int $id;
 
-    #[Groups(['User:read'])]
+    #[Groups(['User:collection:read', 'User:item:read'])]
     public string $firstName;
 
-    #[Groups(['User:read'])]
+    #[Groups(['User:collection:read', 'User:item:read'])]
     public string $lastName;
 
-    #[Groups(['User:read'])]
+    #[Groups(['User:collection:read', 'User:item:read'])]
     public string $email;
 
-    #[Groups(['User:read'])]
+    #[Groups(['User:collection:read', 'User:item:read'])]
     public array $roles;
 
-    #[Groups(['User:read'])]
+    #[Groups(['User:collection:read', 'User:item:read'])]
     public string $password;
 
-    #[Groups(['User:read'])]
+    #[Groups(['User:collection:read', 'User:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['User:read'])]
+    #[Groups(['User:collection:read', 'User:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
 }

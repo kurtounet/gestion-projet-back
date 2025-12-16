@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\Feature;
 
 use App\Entity\Feature;
 
-;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -70,16 +68,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: Feature::class)]
 final class FeatureResource
 {
-    #[Groups(['Feature:read'])]
+    #[Groups(['Feature:collection:read', 'Feature:item:read'])]
     public int $id;
 
-    #[Groups(['Feature:read'])]
+    #[Groups(['Feature:collection:read', 'Feature:item:read'])]
     public string $label;
 
-    #[Groups(['Feature:read'])]
+    #[Groups(['Feature:collection:read', 'Feature:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Feature:read'])]
+    #[Groups(['Feature:collection:read', 'Feature:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
 }

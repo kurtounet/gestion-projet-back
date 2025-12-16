@@ -5,7 +5,6 @@ namespace App\ApiResource\Resource\Notification;
 use App\Entity\Notification;
 
 use App\Entity\User;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -71,23 +70,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: Notification::class)]
 final class NotificationResource
 {
-    #[Groups(['Notification:read'])]
+    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
     public int $id;
 
-    #[Groups(['Notification:read'])]
+    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
     public string $message;
 
-    #[Groups(['Notification:read'])]
+    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
     public \DateTimeInterface $date;
 
-    #[Groups(['Notification:read'])]
+    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
     public string $type;
 
-    #[Groups(['Notification:read'])]
+    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Notification:read'])]
+    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-    public ?User $user;
 
+    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
+    public ?User $user;
 }

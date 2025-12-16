@@ -6,7 +6,6 @@ use App\Entity\TaskTemplate;
 
 use App\Entity\SprintTemplate;
 use App\Entity\TypeTask;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -72,24 +71,27 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: TaskTemplate::class)]
 final class TaskTemplateResource
 {
-    #[Groups(['TaskTemplate:read'])]
+    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
     public int $id;
 
-    #[Groups(['TaskTemplate:read'])]
+    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
     public string $name;
 
-    #[Groups(['TaskTemplate:read'])]
+    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
     public string $description;
 
-    #[Groups(['TaskTemplate:read'])]
+    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
     public int $parentTask;
 
-    #[Groups(['TaskTemplate:read'])]
+    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['TaskTemplate:read'])]
+    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-    public ?SprintTemplate $sprintTemplate;
-    public ?TypeTask $typeTask;
 
+    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+    public ?SprintTemplate $sprintTemplate;
+
+    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+    public ?TypeTask $typeTask;
 }

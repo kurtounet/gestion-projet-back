@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\Priority;
 
 use App\Entity\Priority;
 
-;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -70,22 +68,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: Priority::class)]
 final class PriorityResource
 {
-    #[Groups(['Priority:read'])]
+    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
     public int $id;
 
-    #[Groups(['Priority:read'])]
+    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
     public string $label;
 
-    #[Groups(['Priority:read'])]
+    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
     public ?string $color;
 
-    #[Groups(['Priority:read'])]
+    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
     public int $priorityNumber;
 
-    #[Groups(['Priority:read'])]
+    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Priority:read'])]
+    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
 }

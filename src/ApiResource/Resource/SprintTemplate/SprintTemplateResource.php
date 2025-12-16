@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\SprintTemplate;
 
 use App\Entity\SprintTemplate;
 
-;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -70,22 +68,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: SprintTemplate::class)]
 final class SprintTemplateResource
 {
-    #[Groups(['SprintTemplate:read'])]
+    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
     public int $id;
 
-    #[Groups(['SprintTemplate:read'])]
+    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
     public string $name;
 
-    #[Groups(['SprintTemplate:read'])]
+    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
     public string $description;
 
-    #[Groups(['SprintTemplate:read'])]
+    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
     public int $duration;
 
-    #[Groups(['SprintTemplate:read'])]
+    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['SprintTemplate:read'])]
+    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
 }

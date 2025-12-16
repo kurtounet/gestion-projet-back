@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\CodeBase;
 
 use App\Entity\CodeBase;
 
-;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -70,25 +68,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: CodeBase::class)]
 final class CodeBaseResource
 {
-    #[Groups(['CodeBase:read'])]
+    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
     public int $id;
 
-    #[Groups(['CodeBase:read'])]
+    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
     public string $label;
 
-    #[Groups(['CodeBase:read'])]
+    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
     public string $code;
 
-    #[Groups(['CodeBase:read'])]
+    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
     public string $pathFile;
 
-    #[Groups(['CodeBase:read'])]
+    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
     public string $feature;
 
-    #[Groups(['CodeBase:read'])]
+    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['CodeBase:read'])]
+    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
     public ?\DateTimeInterface $updatedAt;
-
 }

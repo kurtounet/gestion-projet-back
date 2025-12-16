@@ -11,7 +11,7 @@ use App\Entity\Priority;
 use App\Entity\Status;
 use App\Entity\TypeTask;
 use App\Entity\TaskInstance;
-use App\Entity\Comment;;
+use App\Entity\Comment;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -77,48 +77,66 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: TaskInstance::class)]
 final class TaskInstanceResource
 {
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public int $id;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public string $name;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public string $description;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public \DateTimeInterface $startDate;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public \DateTimeInterface $dueDate;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?int $position;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public string $icon;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public string $color;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?string $createdByUser;
 
-    #[Groups(['TaskInstance:read'])]
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?string $updatedByUser;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?User $user;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?TaskTemplate $taskTemplate;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?SprintInstance $sprintInstance;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?Priority $priority;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?Status $status;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?TypeTask $typeTask;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?TaskInstance $parentTask;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?TaskInstance $dependency;
+
+    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public ?Comment $comment;
 }

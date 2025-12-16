@@ -6,7 +6,6 @@ use App\Entity\Framework;
 
 use App\Entity\ConfigProjectFramework;
 use App\Entity\Technology;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -72,24 +71,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: Framework::class)]
 final class FrameworkResource
 {
-    #[Groups(['Framework:read'])]
+    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public int $id;
 
-    #[Groups(['Framework:read'])]
+    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public string $name;
 
-    #[Groups(['Framework:read'])]
+    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public string $version;
 
-    #[Groups(['Framework:read'])]
+    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public ?array $configuration;
 
-    #[Groups(['Framework:read'])]
+    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public ?string $icon;
 
-    #[Groups(['Framework:read'])]
+    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public ?string $color;
-    public array $configProjectFrameworks = [];
-    public ?Technology $technology;
+
+    // public array $configProjectFrameworks = [];
+    // public ?Technology $technology;
 
 }

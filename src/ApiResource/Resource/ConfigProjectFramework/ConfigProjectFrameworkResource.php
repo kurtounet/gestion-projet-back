@@ -6,7 +6,6 @@ use App\Entity\ConfigProjectFramework;
 
 use App\Entity\ProjectInstance;
 use App\Entity\Framework;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -72,27 +71,29 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: ConfigProjectFramework::class)]
 final class ConfigProjectFrameworkResource
 {
-    #[Groups(['ConfigProjectFramework:read'])]
+    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
     public int $id;
 
-    #[Groups(['ConfigProjectFramework:read'])]
+    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
     public string $name;
 
-    #[Groups(['ConfigProjectFramework:read'])]
+    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
     public ?array $configuration;
 
-    #[Groups(['ConfigProjectFramework:read'])]
+    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
     public ?array $architecture;
 
-    #[Groups(['ConfigProjectFramework:read'])]
+    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
     public ?array $script;
 
-    #[Groups(['ConfigProjectFramework:read'])]
+    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ConfigProjectFramework:read'])]
+    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
     public ?\DateTimeInterface $updatedAt;
+
+    /*
     public ?ProjectInstance $projectInstance;
     public ?Framework $framework;
-
+    */
 }

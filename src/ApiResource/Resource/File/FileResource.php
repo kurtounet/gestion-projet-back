@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\File;
 
 use App\Entity\File;
 
-;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -70,19 +68,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: File::class)]
 final class FileResource
 {
-    #[Groups(['File:read'])]
+    #[Groups(['File:collection:read', 'File:item:read'])]
     public int $id;
 
-    #[Groups(['File:read'])]
+    #[Groups(['File:collection:read', 'File:item:read'])]
     public string $path;
 
-    #[Groups(['File:read'])]
+    #[Groups(['File:collection:read', 'File:item:read'])]
     public string $keyWord;
 
-    #[Groups(['File:read'])]
+    #[Groups(['File:collection:read', 'File:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['File:read'])]
+    #[Groups(['File:collection:read', 'File:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
 }

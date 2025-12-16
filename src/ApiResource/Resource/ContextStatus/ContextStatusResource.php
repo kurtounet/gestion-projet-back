@@ -6,7 +6,6 @@ use App\Entity\ContextStatus;
 
 use App\Entity\Context;
 use App\Entity\Status;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -72,15 +71,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: ContextStatus::class)]
 final class ContextStatusResource
 {
-    #[Groups(['ContextStatus:read'])]
+    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
     public int $id;
 
-    #[Groups(['ContextStatus:read'])]
+    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ContextStatus:read'])]
+    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
     public ?\DateTimeInterface $updatedAt;
+    /*
+    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
     public ?Context $context;
-    public ?Status $status;
 
+    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
+    public ?Status $status;
+    */
 }

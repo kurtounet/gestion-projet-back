@@ -6,11 +6,11 @@ namespace App\ApiResource\Resource\ProjectInstance;
 
 use App\Entity\Status;
 use App\Entity\Priority;
-use App\Entity\ProjectTemplate;
 use App\Entity\Comment;
 use App\Entity\SprintInstance;
-use App\Entity\ProjectInstance;
-use App\Entity\ConfigProjectFramework;;
+use App\Entity\ProjectTemplate;
+use App\Entity\ConfigProjectFramework;
+use App\Entity\ProjectInstance as ProjectInstanceEntity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -20,11 +20,15 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
 use ApiPlatform\Metadata\ApiProperty;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionItemDto;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCreateDto;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceUpdateDto;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceResponseDto;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionResponse;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceItemDto;
 use App\ApiResource\Resource\Status\StatusResource;
+use App\ApiResource\State\ProjectInstance\ProjectInstanceCollectionProvider;
+use App\ApiResource\State\ProjectInstance\ProjectInstanceItemProvider;
 use App\ApiResource\State\ProjectInstance\ProjectInstanceProvider;
 use App\ApiResource\State\ProjectInstance\ProjectInstanceProcessor;
 
@@ -34,35 +38,38 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'ProjectInstance',
-    stateOptions: new Options(entityClass: ProjectInstance::class),
+
+    stateOptions: new Options(entityClass: ProjectInstanceEntity::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('PROJECT_INSTANCE_LIST', object)",
             normalizationContext: ['groups' => ['PI:collection:read']],
-            // provider: ProjectInstanceProvider::class,
-            // output: ProjectInstanceCollectionResponse::class
+            output: ProjectInstanceCollectionItemDto::class,
+            provider: ProjectInstanceCollectionProvider::class,
         ),
         new Get(
-            normalizationContext: ['groups' => ['PI:item:read']],
-            // security: "is_granted('PROJECT_INSTANCE_VIEW', object)",
-            // provider: ProjectInstanceProvider::class,
-            // output: ProjectInstanceResponseDto::class
+            normalizationContext: [
+                'groups' => ['PI:item:read'],
+                'jsonld_has_context' => true,
+            ],
+            // paginationEnabled: true,
+            // output: ProjectInstanceItemDto::class,
+            // provider: ProjectInstanceItemProvider::class,
         ),
         new Post(
             // security: "is_granted('PROJECT_INSTANCE_CREATE', object)",
             // denormalizationContext: ['groups' => ['ProjectInstance:create']],
-            // processor: ProjectInstanceProcessor::class,
+            // processor: ProjectInstanceCreateProcessor::class,
             // input: ProjectInstanceCreateDto::class
         ),
         new Patch(
             // security: "is_granted('PROJECT_INSTANCE_EDIT', object)",
             // denormalizationContext: ['groups' => ['ProjectInstance:update']],
-            // processor: ProjectInstanceProcessor::class,
+            // processor: ProjectInstancePatchProcessor::class,
             // input:ProjectInstanceeUpdateDto::class
         ),
         new Delete(
             // security: "is_granted('PROJECT_INSTANCE_DELETE', object)",
-            // processor: ProjectInstanceProcessor::class,
+            // processor: ProjectInstanceDeleteProcessor::class,
             // output: false,
             // status: 204
         ),
@@ -73,11 +80,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * DTO resource pour ProjectInstance.
  * Utilisé pour exposer ProjectInstance.
  */
-#[Map(source: ProjectInstance::class)]
+// #[Map(source: ProjectInstanceEntity::class)]
 final class ProjectInstanceResource
 {
 
-    // #[ApiProperty(identifier: true)]
+    #[ApiProperty(identifier: true)]
     #[Groups(['PI:item:read', 'PI:collection:read'])]
     public ?int $id = null;
 
@@ -124,16 +131,16 @@ final class ProjectInstanceResource
     public ?\DateTimeInterface $updatedAt;
 
     #[Groups(['PI:item:read', 'PI:collection:read'])]
-    public ?Status $status;
+    public ?string $status = null;
 
     #[Groups(['PI:item:read', 'PI:collection:read'])]
-    public ?Priority $priority;
+    public ?string $priority = null;
 
     #[Groups(['PI:item:read', 'PI:collection:read'])]
-    public ?ProjectTemplate $projectTemplate;
+    public ?string $projectTemplate = null;
 
     #[Groups(['PI:item:read', 'PI:collection:read'])]
-    public ?Comment $comment;
+    public ?string $comment = null;
     /*
     // public iterable $sprintInstances = [];
     // public iterable $projectInstances = [];

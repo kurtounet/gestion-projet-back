@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\Context;
 
 use App\Entity\Context;
 
-;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -70,16 +68,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: Context::class)]
 final class ContextResource
 {
-    #[Groups(['Context:read'])]
+    #[Groups(['Context:item:read', 'Context:collection:read'])]
     public int $id;
 
-    #[Groups(['Context:read'])]
+    #[Groups(['Context:item:read', 'Context:collection:read'])]
     public string $contextLabel;
 
-    #[Groups(['Context:read'])]
+    #[Groups(['Context:item:read', 'Context:collection:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Context:read'])]
+    #[Groups(['Context:item:read', 'Context:collection:read'])]
     public ?\DateTimeInterface $updatedAt;
-
 }

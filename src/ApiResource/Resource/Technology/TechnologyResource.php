@@ -5,7 +5,6 @@ namespace App\ApiResource\Resource\Technology;
 use App\Entity\Technology;
 
 use App\Entity\Framework;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -71,17 +70,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: Technology::class)]
 final class TechnologyResource
 {
-    #[Groups(['Technology:read'])]
+    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
     public int $id;
 
-    #[Groups(['Technology:read'])]
+    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
     public string $label;
 
-    #[Groups(['Technology:read'])]
+    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Technology:read'])]
+    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
     public ?\DateTimeInterface $updatedAt;
-    public array $framework = [];
 
+    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
+    public iterable $framework = [];
 }

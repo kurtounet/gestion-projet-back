@@ -6,7 +6,6 @@ use App\Entity\Comment;
 
 use App\Entity\TaskInstance;
 use App\Entity\User;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -72,21 +71,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: Comment::class)]
 final class CommentResource
 {
-    #[Groups(['Comment:read'])]
+    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
     public int $id;
 
-    #[Groups(['Comment:read'])]
+    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
     public string $subject;
 
-    #[Groups(['Comment:read'])]
+    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
     public string $content;
 
-    #[Groups(['Comment:read'])]
+    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Comment:read'])]
+    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
     public ?\DateTimeInterface $updatedAt;
-    public ?TaskInstance $task;
-    public ?User $user;
 
+    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
+    public ?string $task;
+
+    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
+    public ?User $user;
 }

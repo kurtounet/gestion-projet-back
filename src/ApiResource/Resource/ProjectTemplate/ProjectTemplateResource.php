@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\ProjectTemplate;
 
 use App\Entity\ProjectTemplate;
 
-;
-
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -70,22 +68,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: ProjectTemplate::class)]
 final class ProjectTemplateResource
 {
-    #[Groups(['ProjectTemplate:read'])]
+    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
     public int $id;
 
-    #[Groups(['ProjectTemplate:read'])]
+    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
     public string $name;
 
-    #[Groups(['ProjectTemplate:read'])]
+    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
     public string $description;
 
-    #[Groups(['ProjectTemplate:read'])]
+    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
     public int $duration;
 
-    #[Groups(['ProjectTemplate:read'])]
+    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ProjectTemplate:read'])]
+    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
     public ?\DateTimeInterface $updatedAt;
-
 }

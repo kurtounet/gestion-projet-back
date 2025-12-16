@@ -5,7 +5,6 @@ namespace App\ApiResource\Resource\TypeTask;
 use App\Entity\TypeTask;
 
 use App\Entity\CodeBase;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -71,29 +70,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: TypeTask::class)]
 final class TypeTaskResource
 {
-    #[Groups(['TypeTask:read'])]
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public int $id;
 
-    #[Groups(['TypeTask:read'])]
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public string $name;
 
-    #[Groups(['TypeTask:read'])]
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public ?string $color;
 
-    #[Groups(['TypeTask:read'])]
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public string $pathFileScript;
 
-    #[Groups(['TypeTask:read'])]
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public string $description;
 
-    #[Groups(['TypeTask:read'])]
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public bool $automatique;
 
-    #[Groups(['TypeTask:read'])]
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['TypeTask:read'])]
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-    public ?CodeBase $code;
 
+    #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
+    public ?CodeBase $code;
 }

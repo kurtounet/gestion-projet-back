@@ -6,7 +6,6 @@ use App\Entity\SprintTask;
 
 use App\Entity\SprintTemplate;
 use App\Entity\TaskTemplate;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -72,18 +71,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(source: SprintTask::class)]
 final class SprintTaskResource
 {
-    #[Groups(['SprintTask:read'])]
+    #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
     public int $id;
 
-    #[Groups(['SprintTask:read'])]
+    #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
     public int $taskOrder;
 
-    #[Groups(['SprintTask:read'])]
+    #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['SprintTask:read'])]
+    #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-    public ?SprintTemplate $sprintTemplate;
-    public ?TaskTemplate $taskTemplate;
 
+    #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
+    public ?SprintTemplate $sprintTemplate;
+
+    #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
+    public ?TaskTemplate $taskTemplate;
 }
