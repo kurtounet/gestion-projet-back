@@ -142,64 +142,51 @@ class AppFixtures extends Fixture
 
         $priorityData = [
             [
-                'label' => 'Critique',
-                'color' => '#D32F2F',
+                'label' => 'Normale',
+                'color' => '#2196F3',
                 'priority_number' => 0,
             ],
             [
-
                 'label' => 'Très haute',
                 'color' => '#F44336',
-                'priority_number' => 1,
-            ],
-            [
-
-                'label' => 'Haute',
-                'color' => '#FF5722',
-                'priority_number' => 2,
-            ],
-            [
-
-                'label' => 'Moyenne',
-                'color' => '#FF9800',
-                'priority_number' => 3,
-            ],
-            [
-
-                'label' => 'Basse',
-                'color' => '#FFC107',
-                'priority_number' => 4,
-            ],
-            [
-
-                'label' => 'Très basse',
-                'color' => '#CDDC39',
-                'priority_number' => 5,
-            ],
-            [
-
-                'label' => 'Mineure',
-                'color' => '#8BC34A',
-                'priority_number' => 6,
-            ],
-            [
-
-                'label' => 'Majeure',
-                'color' => '#4CAF50',
-                'priority_number' => 7,
-            ],
-            [
-
-                'label' => 'Bloquante',
-                'color' => '#9C27B0',
                 'priority_number' => 8,
             ],
             [
-
-                'label' => 'Normale',
-                'color' => '#2196F3',
+                'label' => 'Haute',
+                'color' => '#FF5722',
+                'priority_number' => 7,
+            ],
+            [
+                'label' => 'Moyenne',
+                'color' => '#FF9800',
+                'priority_number' => 6,
+            ],
+            [
+                'label' => 'Basse',
+                'color' => '#FFC107',
+                'priority_number' => 5,
+            ],
+            [
+                'label' => 'Très basse',
+                'color' => '#CDDC39',
+                'priority_number' => 4,
+            ],
+            [
+                'label' => 'Mineure',
+                'color' => '#8BC34A',
+                'priority_number' => 3,
+            ],
+            [
+                'label' => 'Majeure',
+                'color' => '#4CAF50',
+                'priority_number' => 1,
+            ],
+            [
+                'label' => 'Critique',
+                'color' => '#D32F2F',
                 'priority_number' => 9,
             ],
+
         ];
         foreach ($priorityData as $index => $priority) {
             $p = new Priority();
