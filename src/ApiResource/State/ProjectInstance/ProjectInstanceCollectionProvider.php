@@ -3,125 +3,139 @@
 namespace App\ApiResource\State\ProjectInstance;
 
 use App\Entity\ProjectInstance;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionItemDto;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
+use App\ApiResource\Service\IriFromResource;
 use ApiPlatform\Metadata\CollectionOperationInterface;
-use ApiPlatform\State\Pagination\PaginatorInterface;
-use ApiPlatform\State\Pagination\TraversablePaginator;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceResponseDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionItemDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionResponse;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceItemDto;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\ObjectMapper\ObjectMapperInterface;
+use App\ApiResource\Resource\Status\StatusResource;
+use App\ApiResource\Resource\Priority\PriorityResource;
+use App\ApiResource\Resource\ProjectTemplate\ProjectTemplateResource;
+use App\ApiResource\Resource\Comment\CommentResource;
+use App\ApiResource\Resource\SprintInstance\SprintInstanceResource;
+use App\ApiResource\Resource\ProjectInstance\ProjectInstanceResource;
+use App\ApiResource\Resource\ConfigProjectFramework\ConfigProjectFrameworkResource;
 
-/**
- * Provider custom pour ProjectInstance.
- * Transforme les entités en DTOs pour la sortie API.
- *
- * @implements ProviderInterface<ProjectInstanceCollectionResponse|ProjectInstanceResponseDto>
- */
 final readonly class ProjectInstanceCollectionProvider implements ProviderInterface
 {
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private ObjectMapperInterface $objectMapper,
+        private IriFromResource $iriFromResource,
     ) {}
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        $items = $this->collectionProvider->provide($operation, $uriVariables, $context);
-
-        $items = (function () use ($items, $context) {
-
-            foreach ($items as $entity) {
-                \assert($entity instanceof ProjectInstance);
-                yield $this->objectMapper->map($entity, ProjectInstanceCollectionItemDto::class, $context);
-            }
-        })();
-
-        // Conserver la pagination Hydra si paginator
-
-        if ($items instanceof PaginatorInterface) {
-            return new TraversablePaginator(
-                $items,
-                $items->getCurrentPage(),
-                $items->getItemsPerPage(),
-                $items->getTotalItems()
-            );
+        if (!($operation instanceof CollectionOperationInterface)) {
+            throw new \LogicException(sprintf('%s ne gère que les opérations de collection.', self::class));
         }
 
-        return  $items;
+        $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
+
+        if (!is_iterable($result)) {
+            return $result;
+        }
+
+        $items = [];
+
+        foreach ($result as $entity) {
+            if (!$entity instanceof ProjectInstance) {
+                continue;
+            }
+
+            $dto = new ProjectInstanceCollectionItemDto();
+
+        // 1) Scalars
+            $dto->id = $entity->getId();
+
+            $dto->name = $entity->getName();
+
+            $dto->pathFileDatabase = $entity->getPathFileDatabase();
+
+            $dto->pathProject = $entity->getPathProject();
+
+            $dto->description = $entity->getDescription();
+
+            $dto->icon = $entity->getIcon();
+
+            $dto->color = $entity->getColor();
+
+            $dto->isFavory = $entity->getIsFavory();
+
+            $dto->position = $entity->getPosition();
+
+            $dto->startDate = $entity->getStartDate();
+
+            $dto->endDate = $entity->getEndDate();
+
+            $dto->createdByUser = $entity->getCreatedByUser();
+
+            $dto->updatedByUser = $entity->getUpdatedByUser();
+
+            $dto->createdAt = $entity->getCreatedAt();
+
+            $dto->updatedAt = $entity->getUpdatedAt();
+
+         // 2) Relations ToOne => IRI (si présentes dans le DTO)
+        // status (ToOne => IRI)
+        $dto->status = $entity->getStatus()
+            ? ($this->iriFromResource)(StatusResource::class,$entity->getStatus()->getId())
+            : null;
+
+        // priority (ToOne => IRI)
+        $dto->priority = $entity->getPriority()
+            ? ($this->iriFromResource)(PriorityResource::class,$entity->getPriority()->getId())
+            : null;
+
+        // projectTemplate (ToOne => IRI)
+        $dto->projectTemplate = $entity->getProjectTemplate()
+            ? ($this->iriFromResource)(ProjectTemplateResource::class,$entity->getProjectTemplate()->getId())
+            : null;
+
+        // comment (ToOne => IRI)
+        $dto->comment = $entity->getComment()
+            ? ($this->iriFromResource)(CommentResource::class,$entity->getComment()->getId())
+            : null;
+
+        // parent (ToOne => IRI)
+        $dto->parent = $entity->getParent()
+            ? ($this->iriFromResource)(ProjectInstanceResource::class,$entity->getParent()->getId())
+            : null;
+
+        // configFramework (ToOne => IRI)
+        $dto->configFramework = $entity->getConfigFramework()
+            ? ($this->iriFromResource)(ConfigProjectFrameworkResource::class,$entity->getConfigFramework()->getId())
+            : null;
+
+        // 3) Relations ToMany => array of IRIs (si présentes dans le DTO)
+        // sprintInstances (ToMany => array of IRIs)
+        $dto->sprintInstances = $this->toIriList($entity->getSprintInstances(), SprintInstanceResource::class);
+
+        // projectInstances (ToMany => array of IRIs)
+        $dto->projectInstances = $this->toIriList($entity->getProjectInstances(), ProjectInstanceResource::class);
+
+
+            $items[] = $dto;
+        }
+        return $items;
     }
 
-    // private function provideCollection(Operation $operation, array $uriVariables, array $context): array
-    // {
-    //     $entities = $this->collectionProvider->provide($operation, $uriVariables, $context);
+    private function toIriList(iterable $items, string $resourceClass): array
+    {
+        $iris = [];
 
-    //     $data = [];
-    //     foreach ($entities as $entity) {
-    //         \assert($entity instanceof ProjectInstance);
-    //         $data[] = $this->createCollectionDto($entity);
-    //     }
+        foreach ($items as $item) {
+            if (!is_object($item)) {
+                continue;
+            }
 
-    //     return $data;
-    // }
+            $iri = ($this->iriFromResource)($resourceClass, $item->getId());
+            if (null !== $iri) {
+                $iris[] = $iri;
+            }
+        }
 
-    // private function provideItem(Operation $operation, array $uriVariables, array $context): ?ProjectInstanceResponseDto
-    // {
-    //     $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
-
-    //     if (!$entity instanceof ProjectInstance) {
-    //         return null;
-    //     }
-
-    //     return $this->objectMapper->map(
-    //         $entity,
-    //         ProjectInstanceResponseDto::class
-    //     );
-    //     // return $this->createItemDto($entity);
-    // }
-
-    // private function createCollectionDto(ProjectInstance $entity): ProjectInstanceCollectionResponse
-    // {
-    //     return new ProjectInstanceCollectionResponse(
-    //         id: $entity->getId(),
-    //         // name: $entity->getName(),
-    //         pathFileDatabase: $entity->getPathFileDatabase(),
-    //         pathProject: $entity->getPathProject(),
-    //         description: $entity->getDescription(),
-    //         icon: $entity->getIcon(),
-    //         color: $entity->getColor(),
-    //         isFavory: $entity->isFavory(),
-    //         position: $entity->getPosition(),
-    //         startDate: $entity->getStartDate(),
-    //         endDate: $entity->getEndDate(),
-    //         createdByUser: $entity->getCreatedByUser(),
-    //         updatedByUser: $entity->getUpdatedByUser(),
-    //         createdAt: $entity->getCreatedAt(),
-    //         updatedAt: $entity->getUpdatedAt()
-    //     );
-    // }
-
-    // private function createItemDto(ProjectInstance $entity): ProjectInstanceResponseDto
-    // {
-    //     return new ProjectInstanceResponseDto(
-    //         id: $entity->getId(),
-    //         name: $entity->getName(),
-    //         pathFileDatabase: $entity->getPathFileDatabase(),
-    //         pathProject: $entity->getPathProject(),
-    //         description: $entity->getDescription(),
-    //         icon: $entity->getIcon(),
-    //         color: $entity->getColor(),
-    //         isFavory: $entity->isFavory(),
-    //         position: $entity->getPosition(),
-    //         startDate: $entity->getStartDate(),
-    //         endDate: $entity->getEndDate(),
-    //         createdByUser: $entity->getCreatedByUser(),
-    //         updatedByUser: $entity->getUpdatedByUser(),
-    //         createdAt: $entity->getCreatedAt(),
-    //         updatedAt: $entity->getUpdatedAt()
-    //     );
-    // }
+        return $iris;
+    }
 }
