@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\Framework;
 
 use App\Entity\Framework;
 
-use App\Entity\ConfigProjectFramework;
-use App\Entity\Technology;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -17,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\Framework\FrameworkCreateDto;
 use App\ApiResource\Dto\Framework\FrameworkUpdateDto;
-use App\ApiResource\Dto\Framework\FrameworkResponseDto;
-use App\ApiResource\Dto\Framework\FrameworkCollectionResponse;
+use App\ApiResource\Dto\Framework\FrameworkItemDto;
+use App\ApiResource\Dto\Framework\FrameworkCollectionItemDto;
 
-use App\ApiResource\State\Framework\FrameworkProvider;
-use App\ApiResource\State\Framework\FrameworkProcessor;
+use App\ApiResource\State\Framework\FrameworkCollectionProvider;
+use App\ApiResource\State\Framework\FrameworkItemProvider;
+use App\ApiResource\State\Framework\FrameworkCreateProcessor;
+use App\ApiResource\State\Framework\FrameworkUpdateProcessor;
+use App\ApiResource\State\Framework\FrameworkDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -32,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: Framework::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('FRAMEWORK_LIST', object)",
-            // normalizationContext: ['groups' => ['Framework:collection:read']],
-            // provider: FrameworkProvider::class,
-            // output: FrameworkCollectionResponse::class
+            uriTemplate: 'framework',
+            normalizationContext: ['groups' => ['Framework:collection:read']],
+            provider: FrameworkCollectionProvider::class,
+            output: FrameworkCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('FRAMEWORK_VIEW', object)",
-            // normalizationContext: ['groups' => ['Framework:item:read']],
-            // provider: FrameworkProvider::class,
-            // output: FrameworkResponseDto::class
+            uriTemplate: 'framework/{id}',
+            normalizationContext: ['groups' => ['Framework:item:read']],
+            provider: FrameworkItemProvider::class,
+            output: FrameworkItemDto::class
         ),
         new Post(
-            // security: "is_granted('FRAMEWORK_CREATE', object)",
-            // denormalizationContext: ['groups' => ['Framework:create']],
-            // processor: FrameworkProcessor::class,
-            // input: FrameworkCreateDto::class
+            uriTemplate: 'framework/{id}',
+            denormalizationContext: ['groups' => ['Framework:create']],
+            processor: FrameworkCreateProcessor::class,
+            input: FrameworkCreateDto::class,
+            output: FrameworkItemDto::class
         ),
         new Patch(
-            // security: "is_granted('FRAMEWORK_EDIT', object)",
-            // denormalizationContext: ['groups' => ['Framework:update']],
-            // processor: FrameworkProcessor::class,
-            // input:FrameworkeUpdateDto::class
+            uriTemplate: 'framework/{id}',
+            denormalizationContext: ['groups' => ['Framework:update']],
+            processor: FrameworkUpdateProcessor::class,
+            input: FrameworkUpdateDto::class,
+            output: FrameworkItemDto::class
         ),
         new Delete(
-            // security: "is_granted('FRAMEWORK_DELETE', object)",
-            // processor: FrameworkProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'framework/{id}',
+            processor: FrameworkDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour Framework.
- * Utilisé pour exposer Framework.
- */
-#[Map(source: Framework::class)]
+//#[Map(source: Framework::class)]
 final class FrameworkResource
 {
+    public int $id;
+/*
     #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public int $id;
 
@@ -89,7 +89,11 @@ final class FrameworkResource
     #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public ?string $color;
 
-    // public array $configProjectFrameworks = [];
-    // public ?Technology $technology;
+    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+    public iterable $configProjectFrameworks = [];
 
+    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+    public ?string $technology = null;
+
+*/
 }

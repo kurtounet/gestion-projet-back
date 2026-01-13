@@ -4,7 +4,6 @@ namespace App\ApiResource\Resource\Notification;
 
 use App\Entity\Notification;
 
-use App\Entity\User;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -16,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\Notification\NotificationCreateDto;
 use App\ApiResource\Dto\Notification\NotificationUpdateDto;
-use App\ApiResource\Dto\Notification\NotificationResponseDto;
-use App\ApiResource\Dto\Notification\NotificationCollectionResponse;
+use App\ApiResource\Dto\Notification\NotificationItemDto;
+use App\ApiResource\Dto\Notification\NotificationCollectionItemDto;
 
-use App\ApiResource\State\Notification\NotificationProvider;
-use App\ApiResource\State\Notification\NotificationProcessor;
+use App\ApiResource\State\Notification\NotificationCollectionProvider;
+use App\ApiResource\State\Notification\NotificationItemProvider;
+use App\ApiResource\State\Notification\NotificationCreateProcessor;
+use App\ApiResource\State\Notification\NotificationUpdateProcessor;
+use App\ApiResource\State\Notification\NotificationDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -31,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: Notification::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('NOTIFICATION_LIST', object)",
-            // normalizationContext: ['groups' => ['Notification:collection:read']],
-            // provider: NotificationProvider::class,
-            // output: NotificationCollectionResponse::class
+            uriTemplate: 'notification',
+            normalizationContext: ['groups' => ['Notification:collection:read']],
+            provider: NotificationCollectionProvider::class,
+            output: NotificationCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('NOTIFICATION_VIEW', object)",
-            // normalizationContext: ['groups' => ['Notification:item:read']],
-            // provider: NotificationProvider::class,
-            // output: NotificationResponseDto::class
+            uriTemplate: 'notification/{id}',
+            normalizationContext: ['groups' => ['Notification:item:read']],
+            provider: NotificationItemProvider::class,
+            output: NotificationItemDto::class
         ),
         new Post(
-            // security: "is_granted('NOTIFICATION_CREATE', object)",
-            // denormalizationContext: ['groups' => ['Notification:create']],
-            // processor: NotificationProcessor::class,
-            // input: NotificationCreateDto::class
+            uriTemplate: 'notification/{id}',
+            denormalizationContext: ['groups' => ['Notification:create']],
+            processor: NotificationCreateProcessor::class,
+            input: NotificationCreateDto::class,
+            output: NotificationItemDto::class
         ),
         new Patch(
-            // security: "is_granted('NOTIFICATION_EDIT', object)",
-            // denormalizationContext: ['groups' => ['Notification:update']],
-            // processor: NotificationProcessor::class,
-            // input:NotificationeUpdateDto::class
+            uriTemplate: 'notification/{id}',
+            denormalizationContext: ['groups' => ['Notification:update']],
+            processor: NotificationUpdateProcessor::class,
+            input: NotificationUpdateDto::class,
+            output: NotificationItemDto::class
         ),
         new Delete(
-            // security: "is_granted('NOTIFICATION_DELETE', object)",
-            // processor: NotificationProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'notification/{id}',
+            processor: NotificationDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour Notification.
- * Utilisé pour exposer Notification.
- */
-#[Map(source: Notification::class)]
+//#[Map(source: Notification::class)]
 final class NotificationResource
 {
+    public int $id;
+/*
     #[Groups(['Notification:collection:read', 'Notification:item:read'])]
     public int $id;
 
@@ -89,5 +90,7 @@ final class NotificationResource
     public ?\DateTimeInterface $updatedAt;
 
     #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-    public ?User $user;
+    public ?string $user = null;
+
+*/
 }

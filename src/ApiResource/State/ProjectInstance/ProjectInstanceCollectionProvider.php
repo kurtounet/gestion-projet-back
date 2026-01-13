@@ -46,38 +46,25 @@ final readonly class ProjectInstanceCollectionProvider implements ProviderInterf
 
             $dto = new ProjectInstanceCollectionItemDto();
 
-        // 1) Scalars
+            // 1) Scalars
             $dto->id = $entity->getId();
-
             $dto->name = $entity->getName();
-
             $dto->pathFileDatabase = $entity->getPathFileDatabase();
-
             $dto->pathProject = $entity->getPathProject();
-
             $dto->description = $entity->getDescription();
-
             $dto->icon = $entity->getIcon();
-
             $dto->color = $entity->getColor();
-
             $dto->isFavory = $entity->getIsFavory();
-
             $dto->position = $entity->getPosition();
-
             $dto->startDate = $entity->getStartDate();
-
             $dto->endDate = $entity->getEndDate();
-
             $dto->createdByUser = $entity->getCreatedByUser();
-
             $dto->updatedByUser = $entity->getUpdatedByUser();
-
             $dto->createdAt = $entity->getCreatedAt();
-
             $dto->updatedAt = $entity->getUpdatedAt();
 
-         // 2) Relations ToOne => IRI (si présentes dans le DTO)
+            // 2) Relations ToOne => IRI (si présentes dans le DTO)
+            /*
         // status (ToOne => IRI)
         $dto->status = $entity->getStatus()
             ? ($this->iriFromResource)(StatusResource::class,$entity->getStatus()->getId())
@@ -114,7 +101,7 @@ final readonly class ProjectInstanceCollectionProvider implements ProviderInterf
 
         // projectInstances (ToMany => array of IRIs)
         $dto->projectInstances = $this->toIriList($entity->getProjectInstances(), ProjectInstanceResource::class);
-
+*/
 
             $items[] = $dto;
         }

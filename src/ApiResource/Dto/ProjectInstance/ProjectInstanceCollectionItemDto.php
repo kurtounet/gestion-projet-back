@@ -2,55 +2,55 @@
 
 namespace App\ApiResource\Dto\ProjectInstance;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Doctrine\Orm\State\Options;
-use ApiPlatform\Metadata\ApiProperty;
-use App\Entity\ProjectInstance as ProjectInstanceEntity;
+use App\Entity\ProjectInstance;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-/**
- * DTO de sortie (Resource) pour ProjectInstance.
- * C'est le contrat public exposé par l'API.
- */
-// #[ApiResource(
-//     shortName: 'ProjectInstance',
-//     stateOptions: new Options(entityClass: ProjectInstance::class),
-// )]
-#[Map(source: ProjectInstanceEntity::class)]
+//#[Map(source: ProjectInstance::class)]
 final class ProjectInstanceCollectionItemDto
 {
-    public function __construct(
-        #[ApiProperty(identifier: true)]
-        #[Groups(['PI:collection:read'])]
-        public ?int $id = null,
-        #[Groups(['PI:collection:read'])]
-        public ?string $name = null,
-        #[Groups(['PI:collection:read'])]
-        public ?string $pathFileDatabase = null,
-        #[Groups(['PI:collection:read'])]
-        public ?string $pathProject = null,
-        #[Groups(['PI:collection:read'])]
-        public ?string $description = null,
-        #[Groups(['PI:collection:read'])]
-        public ?string $icon = null,
-        #[Groups(['PI:collection:read'])]
-        public ?string $color = null,
-        #[Groups(['PI:collection:read'])]
-        public bool $isFavory = false,
-        #[Groups(['PI:collection:read'])]
-        public int $position = 0,
-        #[Groups(['PI:collection:read'])]
-        public ?\DateTimeInterface $startDate = null,
-        #[Groups(['PI:collection:read'])]
-        public ?\DateTimeInterface $endDate = null,
-        #[Groups(['PI:collection:read'])]
-        public ?string $createdByUser = null,
-        #[Groups(['PI:collection:read'])]
-        public ?string $updatedByUser = null,
-        #[Groups(['PI:collection:read'])]
-        public ?\DateTimeInterface $createdAt = null,
-        #[Groups(['PI:collection:read'])]
-        public ?\DateTimeInterface $updatedAt = null,
-    ) {}
+    #[Groups(['ProjectInstance:collection:read'])]
+    public int $id;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public string $name;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public ?string $pathFileDatabase;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public ?string $pathProject;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public ?string $description;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public ?string $icon;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public ?string $color;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public bool $isFavory;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public int $position;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public \DateTimeInterface $startDate;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public \DateTimeInterface $endDate;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public ?string $createdByUser;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public ?string $updatedByUser;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public \DateTimeInterface $createdAt;
+
+    #[Groups(['ProjectInstance:collection:read'])]
+    public ?\DateTimeInterface $updatedAt;
 }

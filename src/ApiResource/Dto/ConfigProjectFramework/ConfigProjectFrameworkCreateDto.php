@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour ConfigProjectFramework.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: ConfigProjectFramework::class)]
 final class ConfigProjectFrameworkCreateDto
@@ -33,4 +35,11 @@ final class ConfigProjectFrameworkCreateDto
 
     #[Groups(['ConfigProjectFramework:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+
+    #[Groups(['ConfigProjectFramework:create'])]
+    public ?string $projectInstance;
+    #[Groups(['ConfigProjectFramework:create'])]
+    public ?string $framework;
 }

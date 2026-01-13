@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour TaskInstance.
- * Utilisé typiquement pour PATCH/PUT.
+ * Input PATCH.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: TaskInstance::class)]
 final class TaskInstanceUpdateDto
@@ -46,4 +48,23 @@ final class TaskInstanceUpdateDto
 
     #[Groups(['TaskInstance:update'])]
     public ?string $updatedByUser;
+
+    #[Groups(['TaskInstance:update'])]
+    public ?string $user;
+    #[Groups(['TaskInstance:update'])]
+    public ?string $taskTemplate;
+    #[Groups(['TaskInstance:update'])]
+    public ?string $sprintInstance;
+    #[Groups(['TaskInstance:update'])]
+    public ?string $priority;
+    #[Groups(['TaskInstance:update'])]
+    public ?string $status;
+    #[Groups(['TaskInstance:update'])]
+    public ?string $typeTask;
+    #[Groups(['TaskInstance:update'])]
+    public ?string $parentTask;
+    #[Groups(['TaskInstance:update'])]
+    public ?string $dependency;
+    #[Groups(['TaskInstance:update'])]
+    public ?string $comment;
 }

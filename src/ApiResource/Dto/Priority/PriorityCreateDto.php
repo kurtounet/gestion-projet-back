@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour Priority.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Priority::class)]
 final class PriorityCreateDto
@@ -31,4 +33,6 @@ final class PriorityCreateDto
 
     #[Groups(['Priority:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
 }

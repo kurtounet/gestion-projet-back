@@ -4,7 +4,6 @@ namespace App\ApiResource\Resource\TypeTask;
 
 use App\Entity\TypeTask;
 
-use App\Entity\CodeBase;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -16,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\TypeTask\TypeTaskCreateDto;
 use App\ApiResource\Dto\TypeTask\TypeTaskUpdateDto;
-use App\ApiResource\Dto\TypeTask\TypeTaskResponseDto;
-use App\ApiResource\Dto\TypeTask\TypeTaskCollectionResponse;
+use App\ApiResource\Dto\TypeTask\TypeTaskItemDto;
+use App\ApiResource\Dto\TypeTask\TypeTaskCollectionItemDto;
 
-use App\ApiResource\State\TypeTask\TypeTaskProvider;
-use App\ApiResource\State\TypeTask\TypeTaskProcessor;
+use App\ApiResource\State\TypeTask\TypeTaskCollectionProvider;
+use App\ApiResource\State\TypeTask\TypeTaskItemProvider;
+use App\ApiResource\State\TypeTask\TypeTaskCreateProcessor;
+use App\ApiResource\State\TypeTask\TypeTaskUpdateProcessor;
+use App\ApiResource\State\TypeTask\TypeTaskDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -31,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: TypeTask::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('TYPE_TASK_LIST', object)",
-            // normalizationContext: ['groups' => ['TypeTask:collection:read']],
-            // provider: TypeTaskProvider::class,
-            // output: TypeTaskCollectionResponse::class
+            uriTemplate: 'type_tasks',
+            normalizationContext: ['groups' => ['TypeTask:collection:read']],
+            provider: TypeTaskCollectionProvider::class,
+            output: TypeTaskCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('TYPE_TASK_VIEW', object)",
-            // normalizationContext: ['groups' => ['TypeTask:item:read']],
-            // provider: TypeTaskProvider::class,
-            // output: TypeTaskResponseDto::class
+            uriTemplate: 'type_tasks/{id}',
+            normalizationContext: ['groups' => ['TypeTask:item:read']],
+            provider: TypeTaskItemProvider::class,
+            output: TypeTaskItemDto::class
         ),
         new Post(
-            // security: "is_granted('TYPE_TASK_CREATE', object)",
-            // denormalizationContext: ['groups' => ['TypeTask:create']],
-            // processor: TypeTaskProcessor::class,
-            // input: TypeTaskCreateDto::class
+            uriTemplate: 'type_tasks/{id}',
+            denormalizationContext: ['groups' => ['TypeTask:create']],
+            processor: TypeTaskCreateProcessor::class,
+            input: TypeTaskCreateDto::class,
+            output: TypeTaskItemDto::class
         ),
         new Patch(
-            // security: "is_granted('TYPE_TASK_EDIT', object)",
-            // denormalizationContext: ['groups' => ['TypeTask:update']],
-            // processor: TypeTaskProcessor::class,
-            // input:TypeTaskeUpdateDto::class
+            uriTemplate: 'type_tasks/{id}',
+            denormalizationContext: ['groups' => ['TypeTask:update']],
+            processor: TypeTaskUpdateProcessor::class,
+            input: TypeTaskUpdateDto::class,
+            output: TypeTaskItemDto::class
         ),
         new Delete(
-            // security: "is_granted('TYPE_TASK_DELETE', object)",
-            // processor: TypeTaskProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'type_tasks/{id}',
+            processor: TypeTaskDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour TypeTask.
- * Utilisé pour exposer TypeTask.
- */
-#[Map(source: TypeTask::class)]
+//#[Map(source: TypeTask::class)]
 final class TypeTaskResource
 {
+    public int $id;
+    /*
     #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
     public int $id;
 
@@ -95,5 +96,7 @@ final class TypeTaskResource
     public ?\DateTimeInterface $updatedAt;
 
     #[Groups(['TypeTask:collection:read', 'TypeTask:item:read'])]
-    public ?CodeBase $code;
+    public ?string $code = null;
+
+*/
 }

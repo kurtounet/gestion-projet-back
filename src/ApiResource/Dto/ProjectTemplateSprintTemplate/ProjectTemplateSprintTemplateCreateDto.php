@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour ProjectTemplateSprintTemplate.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: ProjectTemplateSprintTemplate::class)]
 final class ProjectTemplateSprintTemplateCreateDto
@@ -24,4 +26,11 @@ final class ProjectTemplateSprintTemplateCreateDto
 
     #[Groups(['ProjectTemplateSprintTemplate:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+
+    #[Groups(['ProjectTemplateSprintTemplate:create'])]
+    public ?string $projectTemplate;
+    #[Groups(['ProjectTemplateSprintTemplate:create'])]
+    public ?string $sprintTemplate;
 }

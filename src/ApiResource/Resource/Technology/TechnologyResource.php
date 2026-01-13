@@ -4,7 +4,6 @@ namespace App\ApiResource\Resource\Technology;
 
 use App\Entity\Technology;
 
-use App\Entity\Framework;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -16,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\Technology\TechnologyCreateDto;
 use App\ApiResource\Dto\Technology\TechnologyUpdateDto;
-use App\ApiResource\Dto\Technology\TechnologyResponseDto;
-use App\ApiResource\Dto\Technology\TechnologyCollectionResponse;
+use App\ApiResource\Dto\Technology\TechnologyItemDto;
+use App\ApiResource\Dto\Technology\TechnologyCollectionItemDto;
 
-use App\ApiResource\State\Technology\TechnologyProvider;
-use App\ApiResource\State\Technology\TechnologyProcessor;
+use App\ApiResource\State\Technology\TechnologyCollectionProvider;
+use App\ApiResource\State\Technology\TechnologyItemProvider;
+use App\ApiResource\State\Technology\TechnologyCreateProcessor;
+use App\ApiResource\State\Technology\TechnologyUpdateProcessor;
+use App\ApiResource\State\Technology\TechnologyDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -31,57 +33,58 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: Technology::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('TECHNOLOGY_LIST', object)",
-            // normalizationContext: ['groups' => ['Technology:collection:read']],
-            // provider: TechnologyProvider::class,
-            // output: TechnologyCollectionResponse::class
+            uriTemplate: 'technology',
+            normalizationContext: ['groups' => ['Technology:collection:read']],
+            provider: TechnologyCollectionProvider::class,
+            output: TechnologyCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('TECHNOLOGY_VIEW', object)",
-            // normalizationContext: ['groups' => ['Technology:item:read']],
-            // provider: TechnologyProvider::class,
-            // output: TechnologyResponseDto::class
+            uriTemplate: 'technology/{id}',
+            normalizationContext: ['groups' => ['Technology:item:read']],
+            provider: TechnologyItemProvider::class,
+            output: TechnologyItemDto::class
         ),
         new Post(
-            // security: "is_granted('TECHNOLOGY_CREATE', object)",
-            // denormalizationContext: ['groups' => ['Technology:create']],
-            // processor: TechnologyProcessor::class,
-            // input: TechnologyCreateDto::class
+            uriTemplate: 'technology/{id}',
+            denormalizationContext: ['groups' => ['Technology:create']],
+            processor: TechnologyCreateProcessor::class,
+            input: TechnologyCreateDto::class,
+            output: TechnologyItemDto::class
         ),
         new Patch(
-            // security: "is_granted('TECHNOLOGY_EDIT', object)",
-            // denormalizationContext: ['groups' => ['Technology:update']],
-            // processor: TechnologyProcessor::class,
-            // input:TechnologyeUpdateDto::class
+            uriTemplate: 'technology/{id}',
+            denormalizationContext: ['groups' => ['Technology:update']],
+            processor: TechnologyUpdateProcessor::class,
+            input: TechnologyUpdateDto::class,
+            output: TechnologyItemDto::class
         ),
         new Delete(
-            // security: "is_granted('TECHNOLOGY_DELETE', object)",
-            // processor: TechnologyProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'technology/{id}',
+            processor: TechnologyDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour Technology.
- * Utilisé pour exposer Technology.
- */
-#[Map(source: Technology::class)]
+//#[Map(source: Technology::class)]
 final class TechnologyResource
 {
-    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
+    public int $id;
+/*
+    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
     public int $id;
 
-    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
+    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
     public string $label;
 
-    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
+    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
+    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
     public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['Technology:item:read', 'Technology:collection:read'])]
+    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
     public iterable $framework = [];
+
+*/
 }

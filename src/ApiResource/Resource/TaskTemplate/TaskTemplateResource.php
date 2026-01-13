@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\TaskTemplate;
 
 use App\Entity\TaskTemplate;
 
-use App\Entity\SprintTemplate;
-use App\Entity\TypeTask;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -17,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\TaskTemplate\TaskTemplateCreateDto;
 use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateResponseDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateCollectionResponse;
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateItemDto;
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateCollectionItemDto;
 
-use App\ApiResource\State\TaskTemplate\TaskTemplateProvider;
-use App\ApiResource\State\TaskTemplate\TaskTemplateProcessor;
+use App\ApiResource\State\TaskTemplate\TaskTemplateCollectionProvider;
+use App\ApiResource\State\TaskTemplate\TaskTemplateItemProvider;
+use App\ApiResource\State\TaskTemplate\TaskTemplateCreateProcessor;
+use App\ApiResource\State\TaskTemplate\TaskTemplateUpdateProcessor;
+use App\ApiResource\State\TaskTemplate\TaskTemplateDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -32,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: TaskTemplate::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('TASK_TEMPLATE_LIST', object)",
-            // normalizationContext: ['groups' => ['TaskTemplate:collection:read']],
-            // provider: TaskTemplateProvider::class,
-            // output: TaskTemplateCollectionResponse::class
+            uriTemplate: 'task_template',
+            normalizationContext: ['groups' => ['TaskTemplate:collection:read']],
+            provider: TaskTemplateCollectionProvider::class,
+            output: TaskTemplateCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('TASK_TEMPLATE_VIEW', object)",
-            // normalizationContext: ['groups' => ['TaskTemplate:item:read']],
-            // provider: TaskTemplateProvider::class,
-            // output: TaskTemplateResponseDto::class
+            uriTemplate: 'task_template/{id}',
+            normalizationContext: ['groups' => ['TaskTemplate:item:read']],
+            provider: TaskTemplateItemProvider::class,
+            output: TaskTemplateItemDto::class
         ),
         new Post(
-            // security: "is_granted('TASK_TEMPLATE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['TaskTemplate:create']],
-            // processor: TaskTemplateProcessor::class,
-            // input: TaskTemplateCreateDto::class
+            uriTemplate: 'task_template/{id}',
+            denormalizationContext: ['groups' => ['TaskTemplate:create']],
+            processor: TaskTemplateCreateProcessor::class,
+            input: TaskTemplateCreateDto::class,
+            output: TaskTemplateItemDto::class
         ),
         new Patch(
-            // security: "is_granted('TASK_TEMPLATE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['TaskTemplate:update']],
-            // processor: TaskTemplateProcessor::class,
-            // input:TaskTemplateeUpdateDto::class
+            uriTemplate: 'task_template/{id}',
+            denormalizationContext: ['groups' => ['TaskTemplate:update']],
+            processor: TaskTemplateUpdateProcessor::class,
+            input: TaskTemplateUpdateDto::class,
+            output: TaskTemplateItemDto::class
         ),
         new Delete(
-            // security: "is_granted('TASK_TEMPLATE_DELETE', object)",
-            // processor: TaskTemplateProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'task_template/{id}',
+            processor: TaskTemplateDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour TaskTemplate.
- * Utilisé pour exposer TaskTemplate.
- */
-#[Map(source: TaskTemplate::class)]
+//#[Map(source: TaskTemplate::class)]
 final class TaskTemplateResource
 {
+    public int $id;
+/*
     #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
     public int $id;
 
@@ -90,8 +90,10 @@ final class TaskTemplateResource
     public ?\DateTimeInterface $updatedAt;
 
     #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public ?SprintTemplate $sprintTemplate;
+    public ?string $sprintTemplate = null;
 
     #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public ?TypeTask $typeTask;
+    public ?string $typeTask = null;
+
+*/
 }

@@ -4,6 +4,7 @@ namespace App\ApiResource\Resource\ProjectTemplate;
 
 use App\Entity\ProjectTemplate;
 
+
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -14,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCreateDto;
 use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateUpdateDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateResponseDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCollectionResponse;
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateItemDto;
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCollectionItemDto;
 
-use App\ApiResource\State\ProjectTemplate\ProjectTemplateProvider;
-use App\ApiResource\State\ProjectTemplate\ProjectTemplateProcessor;
+use App\ApiResource\State\ProjectTemplate\ProjectTemplateCollectionProvider;
+use App\ApiResource\State\ProjectTemplate\ProjectTemplateItemProvider;
+use App\ApiResource\State\ProjectTemplate\ProjectTemplateCreateProcessor;
+use App\ApiResource\State\ProjectTemplate\ProjectTemplateUpdateProcessor;
+use App\ApiResource\State\ProjectTemplate\ProjectTemplateDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -29,60 +33,62 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: ProjectTemplate::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('PROJECT_TEMPLATE_LIST', object)",
-            // normalizationContext: ['groups' => ['ProjectTemplate:collection:read']],
-            // provider: ProjectTemplateProvider::class,
-            // output: ProjectTemplateCollectionResponse::class
+            uriTemplate: 'project_template',
+            normalizationContext: ['groups' => ['ProjectTemplate:collection:read']],
+            provider: ProjectTemplateCollectionProvider::class,
+            output: ProjectTemplateCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('PROJECT_TEMPLATE_VIEW', object)",
-            // normalizationContext: ['groups' => ['ProjectTemplate:item:read']],
-            // provider: ProjectTemplateProvider::class,
-            // output: ProjectTemplateResponseDto::class
+            uriTemplate: 'project_template/{id}',
+            normalizationContext: ['groups' => ['ProjectTemplate:item:read']],
+            provider: ProjectTemplateItemProvider::class,
+            output: ProjectTemplateItemDto::class
         ),
         new Post(
-            // security: "is_granted('PROJECT_TEMPLATE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['ProjectTemplate:create']],
-            // processor: ProjectTemplateProcessor::class,
-            // input: ProjectTemplateCreateDto::class
+            uriTemplate: 'project_template/{id}',
+            denormalizationContext: ['groups' => ['ProjectTemplate:create']],
+            processor: ProjectTemplateCreateProcessor::class,
+            input: ProjectTemplateCreateDto::class,
+            output: ProjectTemplateItemDto::class
         ),
         new Patch(
-            // security: "is_granted('PROJECT_TEMPLATE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['ProjectTemplate:update']],
-            // processor: ProjectTemplateProcessor::class,
-            // input:ProjectTemplateeUpdateDto::class
+            uriTemplate: 'project_template/{id}',
+            denormalizationContext: ['groups' => ['ProjectTemplate:update']],
+            processor: ProjectTemplateUpdateProcessor::class,
+            input: ProjectTemplateUpdateDto::class,
+            output: ProjectTemplateItemDto::class
         ),
         new Delete(
-            // security: "is_granted('PROJECT_TEMPLATE_DELETE', object)",
-            // processor: ProjectTemplateProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'project_template/{id}',
+            processor: ProjectTemplateDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour ProjectTemplate.
- * Utilisé pour exposer ProjectTemplate.
- */
-#[Map(source: ProjectTemplate::class)]
+//#[Map(source: ProjectTemplate::class)]
 final class ProjectTemplateResource
 {
-    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
+    public int $id;
+/*
+    #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
     public int $id;
 
-    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
+    #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
     public string $name;
 
-    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
+    #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
     public string $description;
 
-    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
+    #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
     public int $duration;
 
-    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
+    #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ProjectTemplate:item:read', 'ProjectTemplate:collection:read'])]
+    #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+*/
 }

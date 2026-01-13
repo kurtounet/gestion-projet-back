@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\ContextStatus;
 
 use App\Entity\ContextStatus;
 
-use App\Entity\Context;
-use App\Entity\Status;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -17,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\ContextStatus\ContextStatusCreateDto;
 use App\ApiResource\Dto\ContextStatus\ContextStatusUpdateDto;
-use App\ApiResource\Dto\ContextStatus\ContextStatusResponseDto;
-use App\ApiResource\Dto\ContextStatus\ContextStatusCollectionResponse;
+use App\ApiResource\Dto\ContextStatus\ContextStatusItemDto;
+use App\ApiResource\Dto\ContextStatus\ContextStatusCollectionItemDto;
 
-use App\ApiResource\State\ContextStatus\ContextStatusProvider;
-use App\ApiResource\State\ContextStatus\ContextStatusProcessor;
+use App\ApiResource\State\ContextStatus\ContextStatusCollectionProvider;
+use App\ApiResource\State\ContextStatus\ContextStatusItemProvider;
+use App\ApiResource\State\ContextStatus\ContextStatusCreateProcessor;
+use App\ApiResource\State\ContextStatus\ContextStatusUpdateProcessor;
+use App\ApiResource\State\ContextStatus\ContextStatusDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -32,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: ContextStatus::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('CONTEXT_STATUS_LIST', object)",
-            // normalizationContext: ['groups' => ['ContextStatus:collection:read']],
-            // provider: ContextStatusProvider::class,
-            // output: ContextStatusCollectionResponse::class
+            uriTemplate: 'context_status',
+            normalizationContext: ['groups' => ['ContextStatus:collection:read']],
+            provider: ContextStatusCollectionProvider::class,
+            output: ContextStatusCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('CONTEXT_STATUS_VIEW', object)",
-            // normalizationContext: ['groups' => ['ContextStatus:item:read']],
-            // provider: ContextStatusProvider::class,
-            // output: ContextStatusResponseDto::class
+            uriTemplate: 'context_status/{id}',
+            normalizationContext: ['groups' => ['ContextStatus:item:read']],
+            provider: ContextStatusItemProvider::class,
+            output: ContextStatusItemDto::class
         ),
         new Post(
-            // security: "is_granted('CONTEXT_STATUS_CREATE', object)",
-            // denormalizationContext: ['groups' => ['ContextStatus:create']],
-            // processor: ContextStatusProcessor::class,
-            // input: ContextStatusCreateDto::class
+            uriTemplate: 'context_status/{id}',
+            denormalizationContext: ['groups' => ['ContextStatus:create']],
+            processor: ContextStatusCreateProcessor::class,
+            input: ContextStatusCreateDto::class,
+            output: ContextStatusItemDto::class
         ),
         new Patch(
-            // security: "is_granted('CONTEXT_STATUS_EDIT', object)",
-            // denormalizationContext: ['groups' => ['ContextStatus:update']],
-            // processor: ContextStatusProcessor::class,
-            // input:ContextStatuseUpdateDto::class
+            uriTemplate: 'context_status/{id}',
+            denormalizationContext: ['groups' => ['ContextStatus:update']],
+            processor: ContextStatusUpdateProcessor::class,
+            input: ContextStatusUpdateDto::class,
+            output: ContextStatusItemDto::class
         ),
         new Delete(
-            // security: "is_granted('CONTEXT_STATUS_DELETE', object)",
-            // processor: ContextStatusProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'context_status/{id}',
+            processor: ContextStatusDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour ContextStatus.
- * Utilisé pour exposer ContextStatus.
- */
-#[Map(source: ContextStatus::class)]
+//#[Map(source: ContextStatus::class)]
 final class ContextStatusResource
 {
+    public int $id;
+/*
     #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
     public int $id;
 
@@ -79,11 +79,12 @@ final class ContextStatusResource
 
     #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-    /*
-    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
-    public ?Context $context;
 
     #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
-    public ?Status $status;
-    */
+    public ?string $context = null;
+
+    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
+    public ?string $status = null;
+
+*/
 }

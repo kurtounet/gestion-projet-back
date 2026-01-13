@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour Notification.
- * Utilisé typiquement pour PATCH/PUT.
+ * Input PATCH.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Notification::class)]
 final class NotificationUpdateDto
@@ -28,4 +30,7 @@ final class NotificationUpdateDto
 
     #[Groups(['Notification:update'])]
     public ?\DateTimeInterface $updatedAt;
+
+    #[Groups(['Notification:update'])]
+    public ?string $user;
 }

@@ -31,17 +31,10 @@ class SprintTask
     #[ORM\JoinColumn(nullable: false)]
     private ?TaskTemplate $taskTemplate = null;
 
-
-
-
-
-
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
 
     public function getSprintTemplate(): ?SprintTemplate
     {
@@ -65,13 +58,10 @@ class SprintTask
         return $this;
     }
 
-
     public function getTaskOrder(): ?int
     {
         return $this->taskOrder;
     }
-
-
 
     public function setTaskOrder(int $taskOrder): static
     {

@@ -4,9 +4,6 @@ namespace App\ApiResource\Resource\ProjectTemplateSprintTemplate;
 
 use App\Entity\ProjectTemplateSprintTemplate;
 
-use App\Entity\ProjectTemplate;
-use App\Entity\SprintTemplate;
-;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -18,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCreateDto;
 use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateUpdateDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateResponseDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCollectionResponse;
+use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateItemDto;
+use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCollectionItemDto;
 
-use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateProvider;
-use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateProcessor;
+use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCollectionProvider;
+use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateItemProvider;
+use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCreateProcessor;
+use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateUpdateProcessor;
+use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -33,57 +33,61 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: ProjectTemplateSprintTemplate::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('PROJECT_TEMPLATE_SPRINT_TEMPLATE_LIST', object)",
-            // normalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:collection:read']],
-            // provider: ProjectTemplateSprintTemplateProvider::class,
-            // output: ProjectTemplateSprintTemplateCollectionResponse::class
+            uriTemplate: 'project_template_sprint_template',
+            normalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:collection:read']],
+            provider: ProjectTemplateSprintTemplateCollectionProvider::class,
+            output: ProjectTemplateSprintTemplateCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('PROJECT_TEMPLATE_SPRINT_TEMPLATE_VIEW', object)",
-            // normalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:item:read']],
-            // provider: ProjectTemplateSprintTemplateProvider::class,
-            // output: ProjectTemplateSprintTemplateResponseDto::class
+            uriTemplate: 'project_template_sprint_template/{id}',
+            normalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:item:read']],
+            provider: ProjectTemplateSprintTemplateItemProvider::class,
+            output: ProjectTemplateSprintTemplateItemDto::class
         ),
         new Post(
-            // security: "is_granted('PROJECT_TEMPLATE_SPRINT_TEMPLATE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:create']],
-            // processor: ProjectTemplateSprintTemplateProcessor::class,
-            // input: ProjectTemplateSprintTemplateCreateDto::class
+            uriTemplate: 'project_template_sprint_template/{id}',
+            denormalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:create']],
+            processor: ProjectTemplateSprintTemplateCreateProcessor::class,
+            input: ProjectTemplateSprintTemplateCreateDto::class,
+            output: ProjectTemplateSprintTemplateItemDto::class
         ),
         new Patch(
-            // security: "is_granted('PROJECT_TEMPLATE_SPRINT_TEMPLATE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:update']],
-            // processor: ProjectTemplateSprintTemplateProcessor::class,
-            // input:ProjectTemplateSprintTemplateeUpdateDto::class
+            uriTemplate: 'project_template_sprint_template/{id}',
+            denormalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:update']],
+            processor: ProjectTemplateSprintTemplateUpdateProcessor::class,
+            input: ProjectTemplateSprintTemplateUpdateDto::class,
+            output: ProjectTemplateSprintTemplateItemDto::class
         ),
         new Delete(
-            // security: "is_granted('PROJECT_TEMPLATE_SPRINT_TEMPLATE_DELETE', object)",
-            // processor: ProjectTemplateSprintTemplateProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'project_template_sprint_template/{id}',
+            processor: ProjectTemplateSprintTemplateDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour ProjectTemplateSprintTemplate.
- * Utilisé pour exposer ProjectTemplateSprintTemplate.
- */
-#[Map(source: ProjectTemplateSprintTemplate::class)]
+//#[Map(source: ProjectTemplateSprintTemplate::class)]
 final class ProjectTemplateSprintTemplateResource
 {
-    #[Groups(['ProjectTemplateSprintTemplate:read'])]
+    public int $id;
+/*
+    #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
     public int $id;
 
-    #[Groups(['ProjectTemplateSprintTemplate:read'])]
+    #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
     public int $sprintOrder;
 
-    #[Groups(['ProjectTemplateSprintTemplate:read'])]
+    #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ProjectTemplateSprintTemplate:read'])]
+    #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-    public ?ProjectTemplate $projectTemplate;
-    public ?SprintTemplate $sprintTemplate;
 
+    #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
+    public ?string $projectTemplate = null;
+
+    #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
+    public ?string $sprintTemplate = null;
+
+*/
 }

@@ -4,6 +4,7 @@ namespace App\ApiResource\Resource\User;
 
 use App\Entity\User;
 
+
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -14,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\User\UserCreateDto;
 use App\ApiResource\Dto\User\UserUpdateDto;
-use App\ApiResource\Dto\User\UserResponseDto;
-use App\ApiResource\Dto\User\UserCollectionResponse;
+use App\ApiResource\Dto\User\UserItemDto;
+use App\ApiResource\Dto\User\UserCollectionItemDto;
 
-use App\ApiResource\State\User\UserProvider;
-use App\ApiResource\State\User\UserProcessor;
+use App\ApiResource\State\User\UserCollectionProvider;
+use App\ApiResource\State\User\UserItemProvider;
+use App\ApiResource\State\User\UserCreateProcessor;
+use App\ApiResource\State\User\UserUpdateProcessor;
+use App\ApiResource\State\User\UserDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -29,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: User::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('USER_LIST', object)",
-            // normalizationContext: ['groups' => ['User:collection:read']],
-            // provider: UserProvider::class,
-            // output: UserCollectionResponse::class
+            uriTemplate: 'user',
+            normalizationContext: ['groups' => ['User:collection:read']],
+            provider: UserCollectionProvider::class,
+            output: UserCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('USER_VIEW', object)",
-            // normalizationContext: ['groups' => ['User:item:read']],
-            // provider: UserProvider::class,
-            // output: UserResponseDto::class
+            uriTemplate: 'user/{id}',
+            normalizationContext: ['groups' => ['User:item:read']],
+            provider: UserItemProvider::class,
+            output: UserItemDto::class
         ),
         new Post(
-            // security: "is_granted('USER_CREATE', object)",
-            // denormalizationContext: ['groups' => ['User:create']],
-            // processor: UserProcessor::class,
-            // input: UserCreateDto::class
+            uriTemplate: 'user/{id}',
+            denormalizationContext: ['groups' => ['User:create']],
+            processor: UserCreateProcessor::class,
+            input: UserCreateDto::class,
+            output: UserItemDto::class
         ),
         new Patch(
-            // security: "is_granted('USER_EDIT', object)",
-            // denormalizationContext: ['groups' => ['User:update']],
-            // processor: UserProcessor::class,
-            // input:UsereUpdateDto::class
+            uriTemplate: 'user/{id}',
+            denormalizationContext: ['groups' => ['User:update']],
+            processor: UserUpdateProcessor::class,
+            input: UserUpdateDto::class,
+            output: UserItemDto::class
         ),
         new Delete(
-            // security: "is_granted('USER_DELETE', object)",
-            // processor: UserProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'user/{id}',
+            processor: UserDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour User.
- * Utilisé pour exposer User.
- */
-#[Map(source: User::class)]
+//#[Map(source: User::class)]
 final class UserResource
 {
+    public int $id;
+/*
     #[Groups(['User:collection:read', 'User:item:read'])]
     public int $id;
 
@@ -91,4 +94,7 @@ final class UserResource
 
     #[Groups(['User:collection:read', 'User:item:read'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+*/
 }

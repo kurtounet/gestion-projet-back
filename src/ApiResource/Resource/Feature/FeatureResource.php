@@ -4,6 +4,7 @@ namespace App\ApiResource\Resource\Feature;
 
 use App\Entity\Feature;
 
+
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -14,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\Feature\FeatureCreateDto;
 use App\ApiResource\Dto\Feature\FeatureUpdateDto;
-use App\ApiResource\Dto\Feature\FeatureResponseDto;
-use App\ApiResource\Dto\Feature\FeatureCollectionResponse;
+use App\ApiResource\Dto\Feature\FeatureItemDto;
+use App\ApiResource\Dto\Feature\FeatureCollectionItemDto;
 
-use App\ApiResource\State\Feature\FeatureProvider;
-use App\ApiResource\State\Feature\FeatureProcessor;
+use App\ApiResource\State\Feature\FeatureCollectionProvider;
+use App\ApiResource\State\Feature\FeatureItemProvider;
+use App\ApiResource\State\Feature\FeatureCreateProcessor;
+use App\ApiResource\State\Feature\FeatureUpdateProcessor;
+use App\ApiResource\State\Feature\FeatureDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -29,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: Feature::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('FEATURE_LIST', object)",
-            // normalizationContext: ['groups' => ['Feature:collection:read']],
-            // provider: FeatureProvider::class,
-            // output: FeatureCollectionResponse::class
+            uriTemplate: 'feature',
+            normalizationContext: ['groups' => ['Feature:collection:read']],
+            provider: FeatureCollectionProvider::class,
+            output: FeatureCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('FEATURE_VIEW', object)",
-            // normalizationContext: ['groups' => ['Feature:item:read']],
-            // provider: FeatureProvider::class,
-            // output: FeatureResponseDto::class
+            uriTemplate: 'feature/{id}',
+            normalizationContext: ['groups' => ['Feature:item:read']],
+            provider: FeatureItemProvider::class,
+            output: FeatureItemDto::class
         ),
         new Post(
-            // security: "is_granted('FEATURE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['Feature:create']],
-            // processor: FeatureProcessor::class,
-            // input: FeatureCreateDto::class
+            uriTemplate: 'feature/{id}',
+            denormalizationContext: ['groups' => ['Feature:create']],
+            processor: FeatureCreateProcessor::class,
+            input: FeatureCreateDto::class,
+            output: FeatureItemDto::class
         ),
         new Patch(
-            // security: "is_granted('FEATURE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['Feature:update']],
-            // processor: FeatureProcessor::class,
-            // input:FeatureeUpdateDto::class
+            uriTemplate: 'feature/{id}',
+            denormalizationContext: ['groups' => ['Feature:update']],
+            processor: FeatureUpdateProcessor::class,
+            input: FeatureUpdateDto::class,
+            output: FeatureItemDto::class
         ),
         new Delete(
-            // security: "is_granted('FEATURE_DELETE', object)",
-            // processor: FeatureProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'feature/{id}',
+            processor: FeatureDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour Feature.
- * Utilisé pour exposer Feature.
- */
-#[Map(source: Feature::class)]
+//#[Map(source: Feature::class)]
 final class FeatureResource
 {
+    public int $id;
+/*
     #[Groups(['Feature:collection:read', 'Feature:item:read'])]
     public int $id;
 
@@ -79,4 +82,7 @@ final class FeatureResource
 
     #[Groups(['Feature:collection:read', 'Feature:item:read'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+*/
 }

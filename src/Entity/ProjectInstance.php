@@ -64,7 +64,7 @@ class ProjectInstance
     private ?Priority $priority = null;
 
     #[ORM\ManyToOne(targetEntity: ProjectTemplate::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?ProjectTemplate $projectTemplate = null;
 
     #[ORM\ManyToOne(targetEntity: Comment::class)]
@@ -229,7 +229,7 @@ class ProjectInstance
         return $this;
     }
 
-    public function isFavory(): ?bool
+    public function getIsFavory(): ?bool
     {
         return $this->isFavory;
     }

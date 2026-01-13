@@ -4,6 +4,7 @@ namespace App\ApiResource\Resource\CodeBase;
 
 use App\Entity\CodeBase;
 
+
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -14,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\CodeBase\CodeBaseCreateDto;
 use App\ApiResource\Dto\CodeBase\CodeBaseUpdateDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseResponseDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseCollectionResponse;
+use App\ApiResource\Dto\CodeBase\CodeBaseItemDto;
+use App\ApiResource\Dto\CodeBase\CodeBaseCollectionItemDto;
 
-use App\ApiResource\State\CodeBase\CodeBaseProvider;
-use App\ApiResource\State\CodeBase\CodeBaseProcessor;
+use App\ApiResource\State\CodeBase\CodeBaseCollectionProvider;
+use App\ApiResource\State\CodeBase\CodeBaseItemProvider;
+use App\ApiResource\State\CodeBase\CodeBaseCreateProcessor;
+use App\ApiResource\State\CodeBase\CodeBaseUpdateProcessor;
+use App\ApiResource\State\CodeBase\CodeBaseDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -29,63 +33,65 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: CodeBase::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('CODE_BASE_LIST', object)",
-            // normalizationContext: ['groups' => ['CodeBase:collection:read']],
-            // provider: CodeBaseProvider::class,
-            // output: CodeBaseCollectionResponse::class
+            uriTemplate: 'code_base',
+            normalizationContext: ['groups' => ['CodeBase:collection:read']],
+            provider: CodeBaseCollectionProvider::class,
+            output: CodeBaseCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('CODE_BASE_VIEW', object)",
-            // normalizationContext: ['groups' => ['CodeBase:item:read']],
-            // provider: CodeBaseProvider::class,
-            // output: CodeBaseResponseDto::class
+            uriTemplate: 'code_base/{id}',
+            normalizationContext: ['groups' => ['CodeBase:item:read']],
+            provider: CodeBaseItemProvider::class,
+            output: CodeBaseItemDto::class
         ),
         new Post(
-            // security: "is_granted('CODE_BASE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['CodeBase:create']],
-            // processor: CodeBaseProcessor::class,
-            // input: CodeBaseCreateDto::class
+            uriTemplate: 'code_base/{id}',
+            denormalizationContext: ['groups' => ['CodeBase:create']],
+            processor: CodeBaseCreateProcessor::class,
+            input: CodeBaseCreateDto::class,
+            output: CodeBaseItemDto::class
         ),
         new Patch(
-            // security: "is_granted('CODE_BASE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['CodeBase:update']],
-            // processor: CodeBaseProcessor::class,
-            // input:CodeBaseeUpdateDto::class
+            uriTemplate: 'code_base/{id}',
+            denormalizationContext: ['groups' => ['CodeBase:update']],
+            processor: CodeBaseUpdateProcessor::class,
+            input: CodeBaseUpdateDto::class,
+            output: CodeBaseItemDto::class
         ),
         new Delete(
-            // security: "is_granted('CODE_BASE_DELETE', object)",
-            // processor: CodeBaseProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'code_base/{id}',
+            processor: CodeBaseDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour CodeBase.
- * Utilisé pour exposer CodeBase.
- */
-#[Map(source: CodeBase::class)]
+//#[Map(source: CodeBase::class)]
 final class CodeBaseResource
 {
-    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
+    public int $id;
+/*
+    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
     public int $id;
 
-    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
+    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
     public string $label;
 
-    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
+    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
     public string $code;
 
-    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
+    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
     public string $pathFile;
 
-    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
+    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
     public string $feature;
 
-    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
+    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['CodeBase:item:read', 'CodeBase:collection:read'])]
+    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+*/
 }

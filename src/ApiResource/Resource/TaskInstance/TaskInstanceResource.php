@@ -2,16 +2,8 @@
 
 namespace App\ApiResource\Resource\TaskInstance;
 
-
-
-use App\Entity\User;
-use App\Entity\TaskTemplate;
-use App\Entity\SprintInstance;
-use App\Entity\Priority;
-use App\Entity\Status;
-use App\Entity\TypeTask;
 use App\Entity\TaskInstance;
-use App\Entity\Comment;
+
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -23,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\TaskInstance\TaskInstanceCreateDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceUpdateDto;
-use App\ApiResource\Dto\TaskInstance\TaskInstanceResponseDto;
-use App\ApiResource\Dto\TaskInstance\TaskInstanceCollectionResponse;
+use App\ApiResource\Dto\TaskInstance\TaskInstanceItemDto;
+use App\ApiResource\Dto\TaskInstance\TaskInstanceCollectionItemDto;
 
-use App\ApiResource\State\TaskInstance\TaskInstanceProvider;
-use App\ApiResource\State\TaskInstance\TaskInstanceProcessor;
+use App\ApiResource\State\TaskInstance\TaskInstanceCollectionProvider;
+use App\ApiResource\State\TaskInstance\TaskInstanceItemProvider;
+use App\ApiResource\State\TaskInstance\TaskInstanceCreateProcessor;
+use App\ApiResource\State\TaskInstance\TaskInstanceUpdateProcessor;
+use App\ApiResource\State\TaskInstance\TaskInstanceDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -38,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: TaskInstance::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('TASK_INSTANCE_LIST', object)",
-            // normalizationContext: ['groups' => ['TaskInstance:collection:read']],
-            // provider: TaskInstanceProvider::class,
-            // output: TaskInstanceCollectionResponse::class
+            uriTemplate: 'task_instance',
+            normalizationContext: ['groups' => ['TaskInstance:collection:read']],
+            provider: TaskInstanceCollectionProvider::class,
+            output: TaskInstanceCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('TASK_INSTANCE_VIEW', object)",
-            // normalizationContext: ['groups' => ['TaskInstance:item:read']],
-            // provider: TaskInstanceProvider::class,
-            // output: TaskInstanceResponseDto::class
+            uriTemplate: 'task_instance/{id}',
+            normalizationContext: ['groups' => ['TaskInstance:item:read']],
+            provider: TaskInstanceItemProvider::class,
+            output: TaskInstanceItemDto::class
         ),
         new Post(
-            // security: "is_granted('TASK_INSTANCE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['TaskInstance:create']],
-            // processor: TaskInstanceProcessor::class,
-            // input: TaskInstanceCreateDto::class
+            uriTemplate: 'task_instance/{id}',
+            denormalizationContext: ['groups' => ['TaskInstance:create']],
+            processor: TaskInstanceCreateProcessor::class,
+            input: TaskInstanceCreateDto::class,
+            output: TaskInstanceItemDto::class
         ),
         new Patch(
-            // security: "is_granted('TASK_INSTANCE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['TaskInstance:update']],
-            // processor: TaskInstanceProcessor::class,
-            // input:TaskInstanceeUpdateDto::class
+            uriTemplate: 'task_instance/{id}',
+            denormalizationContext: ['groups' => ['TaskInstance:update']],
+            processor: TaskInstanceUpdateProcessor::class,
+            input: TaskInstanceUpdateDto::class,
+            output: TaskInstanceItemDto::class
         ),
         new Delete(
-            // security: "is_granted('TASK_INSTANCE_DELETE', object)",
-            // processor: TaskInstanceProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'task_instance/{id}',
+            processor: TaskInstanceDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour TaskInstance.
- * Utilisé pour exposer TaskInstance.
- */
-#[Map(source: TaskInstance::class)]
+//#[Map(source: TaskInstance::class)]
 final class TaskInstanceResource
 {
+    public int $id;
+/*
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public int $id;
 
@@ -114,29 +108,31 @@ final class TaskInstanceResource
     public ?string $updatedByUser;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?User $user;
+    public ?string $user = null;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?TaskTemplate $taskTemplate;
+    public ?string $taskTemplate = null;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?SprintInstance $sprintInstance;
+    public ?string $sprintInstance = null;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?Priority $priority;
+    public ?string $priority = null;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?Status $status;
+    public ?string $status = null;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?TypeTask $typeTask;
+    public ?string $typeTask = null;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?TaskInstance $parentTask;
+    public ?string $parentTask = null;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?TaskInstance $dependency;
+    public ?string $dependency = null;
 
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?Comment $comment;
+    public ?string $comment = null;
+
+*/
 }

@@ -2,15 +2,8 @@
 
 namespace App\ApiResource\Resource\ProjectInstance;
 
+use App\Entity\ProjectInstance;
 
-
-use App\Entity\Status;
-use App\Entity\Priority;
-use App\Entity\Comment;
-use App\Entity\SprintInstance;
-use App\Entity\ProjectTemplate;
-use App\Entity\ConfigProjectFramework;
-use App\Entity\ProjectInstance as ProjectInstanceEntity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -19,18 +12,17 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-use ApiPlatform\Metadata\ApiProperty;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionItemDto;
+
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCreateDto;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceUpdateDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceResponseDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionResponse;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceItemDto;
-use App\ApiResource\Resource\Status\StatusResource;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionItemDto;
+
 use App\ApiResource\State\ProjectInstance\ProjectInstanceCollectionProvider;
 use App\ApiResource\State\ProjectInstance\ProjectInstanceItemProvider;
-use App\ApiResource\State\ProjectInstance\ProjectInstanceProvider;
-use App\ApiResource\State\ProjectInstance\ProjectInstanceProcessor;
+use App\ApiResource\State\ProjectInstance\ProjectInstanceCreateProcessor;
+use App\ApiResource\State\ProjectInstance\ProjectInstanceUpdateProcessor;
+use App\ApiResource\State\ProjectInstance\ProjectInstanceDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -38,115 +30,115 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'ProjectInstance',
-
-    stateOptions: new Options(entityClass: ProjectInstanceEntity::class),
+    stateOptions: new Options(entityClass: ProjectInstance::class),
     operations: [
         new GetCollection(
-            normalizationContext: ['groups' => ['PI:collection:read']],
-            output: ProjectInstanceCollectionItemDto::class,
+            uriTemplate: 'project_instances',
+            normalizationContext: ['groups' => ['ProjectInstance:collection:read']],
             provider: ProjectInstanceCollectionProvider::class,
+            output: ProjectInstanceCollectionItemDto::class
         ),
         new Get(
-            normalizationContext: [
-                'groups' => ['PI:item:read'],
-                'jsonld_has_context' => true,
-            ],
-            // paginationEnabled: true,
-            // output: ProjectInstanceItemDto::class,
-            // provider: ProjectInstanceItemProvider::class,
+            uriTemplate: 'project_instances/{id}',
+            normalizationContext: ['groups' => ['ProjectInstance:item:read']],
+            provider: ProjectInstanceItemProvider::class,
+            output: ProjectInstanceItemDto::class
         ),
         new Post(
-            // security: "is_granted('PROJECT_INSTANCE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['ProjectInstance:create']],
-            // processor: ProjectInstanceCreateProcessor::class,
-            // input: ProjectInstanceCreateDto::class
+            uriTemplate: 'project_instances/{id}',
+            denormalizationContext: ['groups' => ['ProjectInstance:create']],
+            processor: ProjectInstanceCreateProcessor::class,
+            input: ProjectInstanceCreateDto::class,
+            output: ProjectInstanceItemDto::class
         ),
         new Patch(
-            // security: "is_granted('PROJECT_INSTANCE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['ProjectInstance:update']],
-            // processor: ProjectInstancePatchProcessor::class,
-            // input:ProjectInstanceeUpdateDto::class
+            uriTemplate: 'project_instances/{id}',
+            denormalizationContext: ['groups' => ['ProjectInstance:update']],
+            processor: ProjectInstanceUpdateProcessor::class,
+            input: ProjectInstanceUpdateDto::class,
+            output: ProjectInstanceItemDto::class
         ),
         new Delete(
-            // security: "is_granted('PROJECT_INSTANCE_DELETE', object)",
-            // processor: ProjectInstanceDeleteProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'project_instances/{id}',
+            processor: ProjectInstanceDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour ProjectInstance.
- * Utilisé pour exposer ProjectInstance.
- */
-// #[Map(source: ProjectInstanceEntity::class)]
+//#[Map(source: ProjectInstance::class)]
 final class ProjectInstanceResource
 {
+    public int $id;
+    /*
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+    public int $id;
 
-    #[ApiProperty(identifier: true)]
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
-    public ?int $id = null;
-
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public string $name;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $pathFileDatabase;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $pathProject;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $description;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $icon;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $color;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public bool $isFavory;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public int $position;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public \DateTimeInterface $startDate;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public \DateTimeInterface $endDate;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $createdByUser;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $updatedByUser;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $status = null;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $priority = null;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $projectTemplate = null;
 
-    #[Groups(['PI:item:read', 'PI:collection:read'])]
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
     public ?string $comment = null;
-    /*
-    // public iterable $sprintInstances = [];
-    // public iterable $projectInstances = [];
 
-    public ?string $parent;
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+    public iterable $sprintInstances = [];
 
-    public ?string $configFramework;
-    */
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+    public iterable $projectInstances = [];
+
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+    public ?string $parent = null;
+
+    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+    public ?string $configFramework = null;
+
+*/
 }

@@ -22,43 +22,32 @@ class SprintInstance
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
-
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['sprint:list:read', 'item:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 100)]
-
     private ?string $icon = null;
 
     #[ORM\Column(length: 7)]
-
     private ?string $color = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-
     private ?\DateTimeImmutable $endDate = null;
-
 
     #[ORM\Column(nullable: true)]
     private ?int $position = null;
 
-
     #[ORM\ManyToOne(targetEntity: Priority::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Priority $priority = null;
-
 
     #[ORM\ManyToOne(targetEntity: SprintTemplate::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -66,20 +55,16 @@ class SprintInstance
 
     #[ORM\ManyToOne(targetEntity: Status::class)]
     #[ORM\JoinColumn(nullable: false)]
-
     private ?Status $status = null;
 
     #[ORM\ManyToOne(targetEntity: Comment::class)]
-
     private ?Comment $comment = null;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
-
     private ?self $sprintDependency = null;
 
     #[ORM\ManyToOne(inversedBy: 'sprintInstances')]
     #[ORM\JoinColumn(nullable: false)]
-
     private ?ProjectInstance $projectInstance = null;
 
     public function getId(): ?int

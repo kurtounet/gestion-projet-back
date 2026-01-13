@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\Comment;
 
 use App\Entity\Comment;
 
-use App\Entity\TaskInstance;
-use App\Entity\User;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -17,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\Comment\CommentCreateDto;
 use App\ApiResource\Dto\Comment\CommentUpdateDto;
-use App\ApiResource\Dto\Comment\CommentResponseDto;
-use App\ApiResource\Dto\Comment\CommentCollectionResponse;
+use App\ApiResource\Dto\Comment\CommentItemDto;
+use App\ApiResource\Dto\Comment\CommentCollectionItemDto;
 
-use App\ApiResource\State\Comment\CommentProvider;
-use App\ApiResource\State\Comment\CommentProcessor;
+use App\ApiResource\State\Comment\CommentCollectionProvider;
+use App\ApiResource\State\Comment\CommentItemProvider;
+use App\ApiResource\State\Comment\CommentCreateProcessor;
+use App\ApiResource\State\Comment\CommentUpdateProcessor;
+use App\ApiResource\State\Comment\CommentDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -32,63 +33,64 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: Comment::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('COMMENT_LIST', object)",
-            // normalizationContext: ['groups' => ['Comment:collection:read']],
-            // provider: CommentProvider::class,
-            // output: CommentCollectionResponse::class
+            uriTemplate: 'comment',
+            normalizationContext: ['groups' => ['Comment:collection:read']],
+            provider: CommentCollectionProvider::class,
+            output: CommentCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('COMMENT_VIEW', object)",
-            // normalizationContext: ['groups' => ['Comment:item:read']],
-            // provider: CommentProvider::class,
-            // output: CommentResponseDto::class
+            uriTemplate: 'comment/{id}',
+            normalizationContext: ['groups' => ['Comment:item:read']],
+            provider: CommentItemProvider::class,
+            output: CommentItemDto::class
         ),
         new Post(
-            // security: "is_granted('COMMENT_CREATE', object)",
-            // denormalizationContext: ['groups' => ['Comment:create']],
-            // processor: CommentProcessor::class,
-            // input: CommentCreateDto::class
+            uriTemplate: 'comment/{id}',
+            denormalizationContext: ['groups' => ['Comment:create']],
+            processor: CommentCreateProcessor::class,
+            input: CommentCreateDto::class,
+            output: CommentItemDto::class
         ),
         new Patch(
-            // security: "is_granted('COMMENT_EDIT', object)",
-            // denormalizationContext: ['groups' => ['Comment:update']],
-            // processor: CommentProcessor::class,
-            // input:CommenteUpdateDto::class
+            uriTemplate: 'comment/{id}',
+            denormalizationContext: ['groups' => ['Comment:update']],
+            processor: CommentUpdateProcessor::class,
+            input: CommentUpdateDto::class,
+            output: CommentItemDto::class
         ),
         new Delete(
-            // security: "is_granted('COMMENT_DELETE', object)",
-            // processor: CommentProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'comment/{id}',
+            processor: CommentDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour Comment.
- * Utilisé pour exposer Comment.
- */
-#[Map(source: Comment::class)]
+//#[Map(source: Comment::class)]
 final class CommentResource
 {
-    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
+    public int $id;
+/*
+    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
     public int $id;
 
-    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
+    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
     public string $subject;
 
-    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
+    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
     public string $content;
 
-    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
+    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
+    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
     public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
-    public ?string $task;
+    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+    public ?string $task = null;
 
-    #[Groups(['Comment:item:read', 'Comment:collection:read'])]
-    public ?User $user;
+    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+    public ?string $user = null;
+
+*/
 }

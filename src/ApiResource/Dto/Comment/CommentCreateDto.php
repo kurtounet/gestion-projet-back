@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour Comment.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Comment::class)]
 final class CommentCreateDto
@@ -28,4 +30,11 @@ final class CommentCreateDto
 
     #[Groups(['Comment:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+
+    #[Groups(['Comment:create'])]
+    public ?string $task;
+    #[Groups(['Comment:create'])]
+    public ?string $user;
 }

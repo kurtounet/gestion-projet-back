@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour Comment.
- * Utilisé typiquement pour PATCH/PUT.
+ * Input PATCH.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Comment::class)]
 final class CommentUpdateDto
@@ -25,4 +27,9 @@ final class CommentUpdateDto
 
     #[Groups(['Comment:update'])]
     public ?\DateTimeInterface $updatedAt;
+
+    #[Groups(['Comment:update'])]
+    public ?string $task;
+    #[Groups(['Comment:update'])]
+    public ?string $user;
 }

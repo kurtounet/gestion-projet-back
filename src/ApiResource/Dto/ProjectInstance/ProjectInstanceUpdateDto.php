@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour ProjectInstance.
- * Utilisé typiquement pour PATCH/PUT.
+ * Input PATCH.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: ProjectInstance::class)]
 final class ProjectInstanceUpdateDto
@@ -55,4 +57,17 @@ final class ProjectInstanceUpdateDto
 
     #[Groups(['ProjectInstance:update'])]
     public ?\DateTimeInterface $updatedAt;
+
+    #[Groups(['ProjectInstance:update'])]
+    public ?string $status;
+    #[Groups(['ProjectInstance:update'])]
+    public ?string $priority;
+    #[Groups(['ProjectInstance:update'])]
+    public ?string $projectTemplate;
+    #[Groups(['ProjectInstance:update'])]
+    public ?string $comment;
+    #[Groups(['ProjectInstance:update'])]
+    public ?string $parent;
+    #[Groups(['ProjectInstance:update'])]
+    public ?string $configFramework;
 }

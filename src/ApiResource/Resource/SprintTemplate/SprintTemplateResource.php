@@ -4,6 +4,7 @@ namespace App\ApiResource\Resource\SprintTemplate;
 
 use App\Entity\SprintTemplate;
 
+
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -14,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\SprintTemplate\SprintTemplateCreateDto;
 use App\ApiResource\Dto\SprintTemplate\SprintTemplateUpdateDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateResponseDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateCollectionResponse;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateItemDto;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateCollectionItemDto;
 
-use App\ApiResource\State\SprintTemplate\SprintTemplateProvider;
-use App\ApiResource\State\SprintTemplate\SprintTemplateProcessor;
+use App\ApiResource\State\SprintTemplate\SprintTemplateCollectionProvider;
+use App\ApiResource\State\SprintTemplate\SprintTemplateItemProvider;
+use App\ApiResource\State\SprintTemplate\SprintTemplateCreateProcessor;
+use App\ApiResource\State\SprintTemplate\SprintTemplateUpdateProcessor;
+use App\ApiResource\State\SprintTemplate\SprintTemplateDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -29,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: SprintTemplate::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('SPRINT_TEMPLATE_LIST', object)",
-            // normalizationContext: ['groups' => ['SprintTemplate:collection:read']],
-            // provider: SprintTemplateProvider::class,
-            // output: SprintTemplateCollectionResponse::class
+            uriTemplate: 'sprint_template',
+            normalizationContext: ['groups' => ['SprintTemplate:collection:read']],
+            provider: SprintTemplateCollectionProvider::class,
+            output: SprintTemplateCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('SPRINT_TEMPLATE_VIEW', object)",
-            // normalizationContext: ['groups' => ['SprintTemplate:item:read']],
-            // provider: SprintTemplateProvider::class,
-            // output: SprintTemplateResponseDto::class
+            uriTemplate: 'sprint_template/{id}',
+            normalizationContext: ['groups' => ['SprintTemplate:item:read']],
+            provider: SprintTemplateItemProvider::class,
+            output: SprintTemplateItemDto::class
         ),
         new Post(
-            // security: "is_granted('SPRINT_TEMPLATE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['SprintTemplate:create']],
-            // processor: SprintTemplateProcessor::class,
-            // input: SprintTemplateCreateDto::class
+            uriTemplate: 'sprint_template/{id}',
+            denormalizationContext: ['groups' => ['SprintTemplate:create']],
+            processor: SprintTemplateCreateProcessor::class,
+            input: SprintTemplateCreateDto::class,
+            output: SprintTemplateItemDto::class
         ),
         new Patch(
-            // security: "is_granted('SPRINT_TEMPLATE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['SprintTemplate:update']],
-            // processor: SprintTemplateProcessor::class,
-            // input:SprintTemplateeUpdateDto::class
+            uriTemplate: 'sprint_template/{id}',
+            denormalizationContext: ['groups' => ['SprintTemplate:update']],
+            processor: SprintTemplateUpdateProcessor::class,
+            input: SprintTemplateUpdateDto::class,
+            output: SprintTemplateItemDto::class
         ),
         new Delete(
-            // security: "is_granted('SPRINT_TEMPLATE_DELETE', object)",
-            // processor: SprintTemplateProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'sprint_template/{id}',
+            processor: SprintTemplateDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour SprintTemplate.
- * Utilisé pour exposer SprintTemplate.
- */
-#[Map(source: SprintTemplate::class)]
+//#[Map(source: SprintTemplate::class)]
 final class SprintTemplateResource
 {
+    public int $id;
+/*
     #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
     public int $id;
 
@@ -85,4 +88,7 @@ final class SprintTemplateResource
 
     #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+*/
 }

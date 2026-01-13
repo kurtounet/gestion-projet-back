@@ -2,14 +2,8 @@
 
 namespace App\ApiResource\Resource\SprintInstance;
 
-
-
-use App\Entity\Priority;
-use App\Entity\SprintTemplate;
-use App\Entity\Status;
-use App\Entity\Comment;
 use App\Entity\SprintInstance;
-use App\Entity\ProjectInstance;
+
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -21,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceResponseDto;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceCollectionResponse;
+use App\ApiResource\Dto\SprintInstance\SprintInstanceItemDto;
+use App\ApiResource\Dto\SprintInstance\SprintInstanceCollectionItemDto;
 
-use App\ApiResource\State\SprintInstance\SprintInstanceProvider;
-use App\ApiResource\State\SprintInstance\SprintInstanceProcessor;
+use App\ApiResource\State\SprintInstance\SprintInstanceCollectionProvider;
+use App\ApiResource\State\SprintInstance\SprintInstanceItemProvider;
+use App\ApiResource\State\SprintInstance\SprintInstanceCreateProcessor;
+use App\ApiResource\State\SprintInstance\SprintInstanceUpdateProcessor;
+use App\ApiResource\State\SprintInstance\SprintInstanceDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -36,45 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: SprintInstance::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('SPRINT_INSTANCE_LIST', object)",
-            // normalizationContext: ['groups' => ['SprintInstance:collection:read']],
-            // provider: SprintInstanceProvider::class,
-            // output: SprintInstanceCollectionResponse::class
+            uriTemplate: 'sprint_instances',
+            normalizationContext: ['groups' => ['SprintInstance:collection:read']],
+            provider: SprintInstanceCollectionProvider::class,
+            output: SprintInstanceCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('SPRINT_INSTANCE_VIEW', object)",
-            // normalizationContext: ['groups' => ['SprintInstance:item:read']],
-            // provider: SprintInstanceProvider::class,
-            // output: SprintInstanceResponseDto::class
+            uriTemplate: 'sprint_instances/{id}',
+            normalizationContext: ['groups' => ['SprintInstance:item:read']],
+            provider: SprintInstanceItemProvider::class,
+            output: SprintInstanceItemDto::class
         ),
         new Post(
-            // security: "is_granted('SPRINT_INSTANCE_CREATE', object)",
-            // denormalizationContext: ['groups' => ['SprintInstance:create']],
-            // processor: SprintInstanceProcessor::class,
-            // input: SprintInstanceCreateDto::class
+            uriTemplate: 'sprint_instances/{id}',
+            denormalizationContext: ['groups' => ['SprintInstance:create']],
+            processor: SprintInstanceCreateProcessor::class,
+            input: SprintInstanceCreateDto::class,
+            output: SprintInstanceItemDto::class
         ),
         new Patch(
-            // security: "is_granted('SPRINT_INSTANCE_EDIT', object)",
-            // denormalizationContext: ['groups' => ['SprintInstance:update']],
-            // processor: SprintInstanceProcessor::class,
-            // input:SprintInstanceeUpdateDto::class
+            uriTemplate: 'sprint_instances/{id}',
+            denormalizationContext: ['groups' => ['SprintInstance:update']],
+            processor: SprintInstanceUpdateProcessor::class,
+            input: SprintInstanceUpdateDto::class,
+            output: SprintInstanceItemDto::class
         ),
         new Delete(
-            // security: "is_granted('SPRINT_INSTANCE_DELETE', object)",
-            // processor: SprintInstanceProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'sprint_instances/{id}',
+            processor: SprintInstanceDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour SprintInstance.
- * Utilisé pour exposer SprintInstance.
- */
-#[Map(source: SprintInstance::class)]
+//#[Map(source: SprintInstance::class)]
 final class SprintInstanceResource
 {
+    public int $id;
+    /*
     #[Groups(['SprintInstance:collection:read', 'SprintInstance:item:read'])]
     public int $id;
 
@@ -112,20 +108,22 @@ final class SprintInstanceResource
     public ?string $updatedByUser;
 
     #[Groups(['SprintInstance:collection:read', 'SprintInstance:item:read'])]
-    public ?Priority $priority;
+    public ?string $priority = null;
 
     #[Groups(['SprintInstance:collection:read', 'SprintInstance:item:read'])]
-    public ?SprintTemplate $sprintTemplate;
+    public ?string $sprintTemplate = null;
 
     #[Groups(['SprintInstance:collection:read', 'SprintInstance:item:read'])]
-    public ?Status $status;
+    public ?string $status = null;
 
     #[Groups(['SprintInstance:collection:read', 'SprintInstance:item:read'])]
-    public ?Comment $comment;
+    public ?string $comment = null;
 
     #[Groups(['SprintInstance:collection:read', 'SprintInstance:item:read'])]
-    public ?SprintInstance $sprintDependency;
+    public ?string $sprintDependency = null;
 
-    // #[Groups(['SprintInstance:collection:read', 'SprintInstance:item:read'])]
-    // public ?ProjectInstance $projectInstance;
+    #[Groups(['SprintInstance:collection:read', 'SprintInstance:item:read'])]
+    public ?string $projectInstance = null;
+
+*/
 }

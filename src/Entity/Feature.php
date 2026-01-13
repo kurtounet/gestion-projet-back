@@ -22,24 +22,15 @@ class Feature
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-
-
-
-
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-
     public function getLabel(): ?string
     {
         return $this->label;
     }
-
-
 
     public function setLabel(string $label): static
     {

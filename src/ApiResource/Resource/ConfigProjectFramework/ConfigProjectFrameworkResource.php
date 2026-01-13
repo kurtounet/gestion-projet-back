@@ -4,8 +4,6 @@ namespace App\ApiResource\Resource\ConfigProjectFramework;
 
 use App\Entity\ConfigProjectFramework;
 
-use App\Entity\ProjectInstance;
-use App\Entity\Framework;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -17,11 +15,14 @@ use ApiPlatform\Doctrine\Orm\State\Options;
 
 use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkCreateDto;
 use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkUpdateDto;
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkResponseDto;
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkCollectionResponse;
+use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkItemDto;
+use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkCollectionItemDto;
 
-use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkProvider;
-use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkProcessor;
+use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkCollectionProvider;
+use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkItemProvider;
+use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkCreateProcessor;
+use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkUpdateProcessor;
+use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkDeleteProcessor;
 
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -32,68 +33,70 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: ConfigProjectFramework::class),
     operations: [
         new GetCollection(
-            // security: "is_granted('CONFIG_PROJECT_FRAMEWORK_LIST', object)",
-            // normalizationContext: ['groups' => ['ConfigProjectFramework:collection:read']],
-            // provider: ConfigProjectFrameworkProvider::class,
-            // output: ConfigProjectFrameworkCollectionResponse::class
+            uriTemplate: 'config_project_framework',
+            normalizationContext: ['groups' => ['ConfigProjectFramework:collection:read']],
+            provider: ConfigProjectFrameworkCollectionProvider::class,
+            output: ConfigProjectFrameworkCollectionItemDto::class
         ),
         new Get(
-            // security: "is_granted('CONFIG_PROJECT_FRAMEWORK_VIEW', object)",
-            // normalizationContext: ['groups' => ['ConfigProjectFramework:item:read']],
-            // provider: ConfigProjectFrameworkProvider::class,
-            // output: ConfigProjectFrameworkResponseDto::class
+            uriTemplate: 'config_project_framework/{id}',
+            normalizationContext: ['groups' => ['ConfigProjectFramework:item:read']],
+            provider: ConfigProjectFrameworkItemProvider::class,
+            output: ConfigProjectFrameworkItemDto::class
         ),
         new Post(
-            // security: "is_granted('CONFIG_PROJECT_FRAMEWORK_CREATE', object)",
-            // denormalizationContext: ['groups' => ['ConfigProjectFramework:create']],
-            // processor: ConfigProjectFrameworkProcessor::class,
-            // input: ConfigProjectFrameworkCreateDto::class
+            uriTemplate: 'config_project_framework/{id}',
+            denormalizationContext: ['groups' => ['ConfigProjectFramework:create']],
+            processor: ConfigProjectFrameworkCreateProcessor::class,
+            input: ConfigProjectFrameworkCreateDto::class,
+            output: ConfigProjectFrameworkItemDto::class
         ),
         new Patch(
-            // security: "is_granted('CONFIG_PROJECT_FRAMEWORK_EDIT', object)",
-            // denormalizationContext: ['groups' => ['ConfigProjectFramework:update']],
-            // processor: ConfigProjectFrameworkProcessor::class,
-            // input:ConfigProjectFrameworkeUpdateDto::class
+            uriTemplate: 'config_project_framework/{id}',
+            denormalizationContext: ['groups' => ['ConfigProjectFramework:update']],
+            processor: ConfigProjectFrameworkUpdateProcessor::class,
+            input: ConfigProjectFrameworkUpdateDto::class,
+            output: ConfigProjectFrameworkItemDto::class
         ),
         new Delete(
-            // security: "is_granted('CONFIG_PROJECT_FRAMEWORK_DELETE', object)",
-            // processor: ConfigProjectFrameworkProcessor::class,
-            // output: false,
-            // status: 204
+            uriTemplate: 'config_project_framework/{id}',
+            processor: ConfigProjectFrameworkDeleteProcessor::class,
+            output: false,
+            status: 204
         ),
     ]
 )]
-
-/**
- * DTO resource pour ConfigProjectFramework.
- * Utilisé pour exposer ConfigProjectFramework.
- */
-#[Map(source: ConfigProjectFramework::class)]
+//#[Map(source: ConfigProjectFramework::class)]
 final class ConfigProjectFrameworkResource
 {
-    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
+    public int $id;
+/*
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
     public int $id;
 
-    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
     public string $name;
 
-    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
     public ?array $configuration;
 
-    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
     public ?array $architecture;
 
-    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
     public ?array $script;
 
-    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ConfigProjectFramework:item:read', 'ConfigProjectFramework:collection:read'])]
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
     public ?\DateTimeInterface $updatedAt;
 
-    /*
-    public ?ProjectInstance $projectInstance;
-    public ?Framework $framework;
-    */
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
+    public ?string $projectInstance = null;
+
+    #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
+    public ?string $framework = null;
+
+*/
 }
