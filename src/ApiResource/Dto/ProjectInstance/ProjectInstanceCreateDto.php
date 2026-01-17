@@ -63,19 +63,21 @@ final class ProjectInstanceCreateDto
 
     #[Groups(['ProjectInstance:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
-
     #[Groups(['ProjectInstance:create'])]
     public ?string $status;
+
     #[Groups(['ProjectInstance:create'])]
     public ?string $priority;
+
     #[Groups(['ProjectInstance:create'])]
     public ?string $projectTemplate;
+
     #[Groups(['ProjectInstance:create'])]
     public ?string $comment;
+
     #[Groups(['ProjectInstance:create'])]
     public ?string $parent;
+
     #[Groups(['ProjectInstance:create'])]
     public ?string $configFramework;
 }

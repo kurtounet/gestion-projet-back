@@ -47,53 +47,52 @@ final readonly class ProjectInstanceCreateProcessor implements ProcessorInterfac
 
         // Retourner le DTO pour l'output
         return $this->entityToDto($entity);
-
     }
 
     private function mapDtoToEntity(ProjectInstanceCreateDto $dto): ProjectInstance
     {
         $entity = new ProjectInstance();
 
-            $entity->setName($dto->name);
+        $entity->setName($dto->name);
 
-            $entity->setPathFileDatabase($dto->pathFileDatabase);
+        $entity->setPathFileDatabase($dto->pathFileDatabase);
 
-            $entity->setPathProject($dto->pathProject);
+        $entity->setPathProject($dto->pathProject);
 
-            $entity->setDescription($dto->description);
+        $entity->setDescription($dto->description);
 
-            $entity->setIcon($dto->icon);
+        $entity->setIcon($dto->icon);
 
-            $entity->setColor($dto->color);
+        $entity->setColor($dto->color);
 
-            $entity->setIsFavory($dto->isFavory);
+        $entity->setIsFavory($dto->isFavory);
 
-            $entity->setPosition($dto->position);
+        $entity->setPosition($dto->position);
 
-            $entity->setStartDate($dto->startDate);
+        $entity->setStartDate($dto->startDate);
 
-            $entity->setEndDate($dto->endDate);
+        $entity->setEndDate($dto->endDate);
 
-            $entity->setCreatedByUser($dto->createdByUser);
+        $entity->setCreatedByUser($dto->createdByUser);
 
-            $entity->setUpdatedByUser($dto->updatedByUser);
+        $entity->setUpdatedByUser($dto->updatedByUser);
 
-            $entity->setCreatedAt($dto->createdAt);
+        $entity->setCreatedAt($dto->createdAt);
 
-            $entity->setUpdatedAt($dto->updatedAt);
-// TODO: Relations ToOne
-            $entity->setStatus($dto->status);
+        $entity->setUpdatedAt($dto->updatedAt);
+        // TODO: Relations ToOne
+        $entity->setStatus($dto->status);
 
-            $entity->setPriority($dto->priority);
+        $entity->setPriority($dto->priority);
 
-            $entity->setProjectTemplate($dto->projectTemplate);
+        $entity->setProjectTemplate($dto->projectTemplate);
 
-            $entity->setComment($dto->comment);
+        $entity->setComment($dto->comment);
 
-            $entity->setParent($dto->parent);
+        $entity->setParent($dto->parent);
 
-            $entity->setConfigFramework($dto->configFramework);
-// TODO: Relations ToMany
+        $entity->setConfigFramework($dto->configFramework);
+        // TODO: Relations ToMany
         // status (ToMany => array of IRIs)
         $entity->setStatus($this->resolveIri($dto->status ?? null, Status::class, 'status', required: true));
         // priority (ToMany => array of IRIs)
@@ -103,9 +102,9 @@ final readonly class ProjectInstanceCreateProcessor implements ProcessorInterfac
         // comment (ToMany => array of IRIs)
         $entity->setComment($this->resolveIri($dto->comment ?? null, Comment::class, 'comment', required: false));
         // projectinstance (ToMany => array of IRIs)
-        $entity->setProjectInstance($this->resolveIri($dto->projectinstance ?? null, ProjectInstance::class, 'projectinstance', required: false));
+        //$entity->setProjectInstances($this->resolveIri($dto->projectinstance ?? null, ProjectInstance::class, 'projectinstance', required: false));
         // configprojectframework (ToMany => array of IRIs)
-        $entity->setConfigProjectFramework($this->resolveIri($dto->configprojectframework ?? null, ConfigProjectFramework::class, 'configprojectframework', required: false));
+        //$entity->setConfigProjectFramework($this->resolveIri($dto->configprojectframework ?? null, ConfigProjectFramework::class, 'configprojectframework', required: false));
 
         return $entity;
     }
@@ -113,58 +112,51 @@ final readonly class ProjectInstanceCreateProcessor implements ProcessorInterfac
     private function entityToDto(ProjectInstance $entity): ProjectInstanceItemDto
     {
         $dto = new ProjectInstanceItemDto();
-
-
-             $dto->id = $entity->getId();
-             $dto->name = $entity->getName();
-             $dto->pathFileDatabase = $entity->getPathFileDatabase();
-             $dto->pathProject = $entity->getPathProject();
-             $dto->description = $entity->getDescription();
-             $dto->icon = $entity->getIcon();
-             $dto->color = $entity->getColor();
-             $dto->isFavory = $entity->getIsFavory();
-             $dto->position = $entity->getPosition();
-             $dto->startDate = $entity->getStartDate();
-             $dto->endDate = $entity->getEndDate();
-             $dto->createdByUser = $entity->getCreatedByUser();
-             $dto->updatedByUser = $entity->getUpdatedByUser();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-// TODO: Relations ToOne
+        $dto->id = $entity->getId();
+        $dto->name = $entity->getName();
+        $dto->pathFileDatabase = $entity->getPathFileDatabase();
+        $dto->pathProject = $entity->getPathProject();
+        $dto->description = $entity->getDescription();
+        $dto->icon = $entity->getIcon();
+        $dto->color = $entity->getColor();
+        $dto->isFavory = $entity->getIsFavory();
+        $dto->position = $entity->getPosition();
+        $dto->startDate = $entity->getStartDate();
+        $dto->endDate = $entity->getEndDate();
+        $dto->createdByUser = $entity->getCreatedByUser();
+        $dto->updatedByUser = $entity->getUpdatedByUser();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
+        // TODO: Relations ToOne
         // status (ToOne => IRI)
         $dto->status = $entity->getStatus()
-            ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
+            ? ($this->iriFromResource)(Status::class, $entity->getStatus()->getId())
             : null;
         // priority (ToOne => IRI)
         $dto->priority = $entity->getPriority()
-            ? ($this->iriFromResource)(Priority::class,$entity->getPriority()->getId())
+            ? ($this->iriFromResource)(Priority::class, $entity->getPriority()->getId())
             : null;
         // projecttemplate (ToOne => IRI)
-        $dto->projecttemplate = $entity->getProjecttemplate()
-            ? ($this->iriFromResource)(ProjectTemplate::class,$entity->getProjecttemplate()->getId())
+        $dto->projectTemplate = $entity->getProjecttemplate()
+            ? ($this->iriFromResource)(ProjectTemplate::class, $entity->getProjecttemplate()->getId())
             : null;
         // comment (ToOne => IRI)
         $dto->comment = $entity->getComment()
-            ? ($this->iriFromResource)(Comment::class,$entity->getComment()->getId())
-            : null;
-        // projectinstance (ToOne => IRI)
-        $dto->projectinstance = $entity->getProjectinstance()
-            ? ($this->iriFromResource)(ProjectInstance::class,$entity->getProjectinstance()->getId())
+            ? ($this->iriFromResource)(Comment::class, $entity->getComment()->getId())
             : null;
         // configprojectframework (ToOne => IRI)
-        $dto->configprojectframework = $entity->getConfigprojectframework()
-            ? ($this->iriFromResource)(ConfigProjectFramework::class,$entity->getConfigprojectframework()->getId())
+        $dto->configFramework = $entity->getConfigFramework()
+            ? ($this->iriFromResource)(ConfigProjectFramework::class, $entity->getConfigFramework()->getId())
             : null;
-// TODO: Relations ToMany
+        // TODO: Relations ToMany
         // SprintInstance (ToMany => array of IRIs)
-        $dto->sprintinstance = $this->toIriList($entity->getSprintInstance(), SprintInstance::class);
+        //$dto->sprintInstance = $this->toIriList($entity->getSprintInstance(), SprintInstance::class);
         // ProjectInstance (ToMany => array of IRIs)
-        $dto->projectinstance = $this->toIriList($entity->getProjectInstance(), ProjectInstance::class);
+        //$dto->projectInstance = $this->toIriList($entity->getProjectInstance(), ProjectInstance::class);
 
         return $dto;
-
     }
-        private function toIriList(iterable $items, string $resourceClass): array
+    private function toIriList(iterable $items, string $resourceClass): array
     {
         $iris = [];
 
@@ -181,7 +173,7 @@ final readonly class ProjectInstanceCreateProcessor implements ProcessorInterfac
 
         return $iris;
     }
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
+    private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
     {
         if ($iri === null || $iri === '') {
             if ($required) {
@@ -237,5 +229,4 @@ final readonly class ProjectInstanceCreateProcessor implements ProcessorInterfac
 
         return $entity;
     }
-
 }

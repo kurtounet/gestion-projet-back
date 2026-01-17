@@ -35,65 +35,65 @@ final readonly class ProjectInstanceItemProvider implements ProviderInterface
         $dto = new ProjectInstanceItemDto();
 
         // 1) Scalars
-            $dto->id = $entity->getId();
+        $dto->id = $entity->getId();
 
-            $dto->name = $entity->getName();
+        $dto->name = $entity->getName();
 
-            $dto->pathFileDatabase = $entity->getPathFileDatabase();
+        $dto->pathFileDatabase = $entity->getPathFileDatabase();
 
-            $dto->pathProject = $entity->getPathProject();
+        $dto->pathProject = $entity->getPathProject();
 
-            $dto->description = $entity->getDescription();
+        $dto->description = $entity->getDescription();
 
-            $dto->icon = $entity->getIcon();
+        $dto->icon = $entity->getIcon();
 
-            $dto->color = $entity->getColor();
+        $dto->color = $entity->getColor();
 
-            $dto->isFavory = $entity->getIsFavory();
+        $dto->isFavory = $entity->getIsFavory();
 
-            $dto->position = $entity->getPosition();
+        $dto->position = $entity->getPosition();
 
-            $dto->startDate = $entity->getStartDate();
+        $dto->startDate = $entity->getStartDate();
 
-            $dto->endDate = $entity->getEndDate();
+        $dto->endDate = $entity->getEndDate();
 
-            $dto->createdByUser = $entity->getCreatedByUser();
+        $dto->createdByUser = $entity->getCreatedByUser();
 
-            $dto->updatedByUser = $entity->getUpdatedByUser();
+        $dto->updatedByUser = $entity->getUpdatedByUser();
 
-            $dto->createdAt = $entity->getCreatedAt();
+        $dto->createdAt = $entity->getCreatedAt();
 
-            $dto->updatedAt = $entity->getUpdatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
         // 2) Relations ToOne => IRI
         // status (ToOne => IRI)
         $dto->status = $entity->getStatus()
-            ? ($this->iriFromResource)(StatusResource::class,$entity->getStatus()->getId())
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
             : null;
 
         // priority (ToOne => IRI)
         $dto->priority = $entity->getPriority()
-            ? ($this->iriFromResource)(PriorityResource::class,$entity->getPriority()->getId())
+            ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
             : null;
 
         // projectTemplate (ToOne => IRI)
         $dto->projectTemplate = $entity->getProjectTemplate()
-            ? ($this->iriFromResource)(ProjectTemplateResource::class,$entity->getProjectTemplate()->getId())
+            ? ($this->iriFromResource)(ProjectTemplateResource::class, $entity->getProjectTemplate()->getId())
             : null;
 
         // comment (ToOne => IRI)
         $dto->comment = $entity->getComment()
-            ? ($this->iriFromResource)(CommentResource::class,$entity->getComment()->getId())
+            ? ($this->iriFromResource)(CommentResource::class, $entity->getComment()->getId())
             : null;
 
         // parent (ToOne => IRI)
         $dto->parent = $entity->getParent()
-            ? ($this->iriFromResource)(ProjectInstanceResource::class,$entity->getParent()->getId())
+            ? ($this->iriFromResource)(ProjectInstanceResource::class, $entity->getParent()->getId())
             : null;
 
         // configFramework (ToOne => IRI)
         $dto->configFramework = $entity->getConfigFramework()
-            ? ($this->iriFromResource)(ConfigProjectFrameworkResource::class,$entity->getConfigFramework()->getId())
+            ? ($this->iriFromResource)(ConfigProjectFrameworkResource::class, $entity->getConfigFramework()->getId())
             : null;
 
         // 3) Relations ToMany => array of IRIs
