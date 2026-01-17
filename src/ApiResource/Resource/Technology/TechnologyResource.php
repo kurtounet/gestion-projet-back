@@ -70,7 +70,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class TechnologyResource
 {
     public int $id;
-/*
+    /*
     #[Groups(['Technology:collection:read', 'Technology:item:read'])]
     public int $id;
 
