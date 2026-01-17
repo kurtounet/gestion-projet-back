@@ -2,6 +2,8 @@
 
 namespace App\ApiResource\Resource\SprintInstance;
 
+use ApiPlatform\Doctrine\Orm\Filter\ExactFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\SprintInstance;
 
 
@@ -12,32 +14,58 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\QueryParameter;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceItemDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceCollectionItemDto;
 
 use App\ApiResource\State\SprintInstance\SprintInstanceCollectionProvider;
+use App\ApiResource\State\SprintInstance\SprintInstanceCollectionCurrentProjectProvider;
 use App\ApiResource\State\SprintInstance\SprintInstanceItemProvider;
 use App\ApiResource\State\SprintInstance\SprintInstanceCreateProcessor;
 use App\ApiResource\State\SprintInstance\SprintInstanceUpdateProcessor;
 use App\ApiResource\State\SprintInstance\SprintInstanceDeleteProcessor;
-
+use App\Entity\ProjectInstance;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+// #[ApiFilter(SearchFilter::class, properties: [
+//     'projectInstance.id' => 'exact',
+// ])]
 #[ApiResource(
     shortName: 'SprintInstance',
     stateOptions: new Options(entityClass: SprintInstance::class),
     operations: [
+
         new GetCollection(
-            uriTemplate: 'sprint_instances',
+            uriTemplate: '/sprint_instances/current_project/{projectId}',
+            uriVariables: [
+                'projectId' => new Link(
+                    fromClass: ProjectInstance::class,
+                    toProperty: 'projectInstance',
+                ),
+            ],
             normalizationContext: ['groups' => ['SprintInstance:collection:read']],
-            provider: SprintInstanceCollectionProvider::class,
+            provider: SprintInstanceCollectionCurrentProjectProvider::class,
+            output: SprintInstanceCollectionItemDto::class,
+        ),
+        /*
+        new GetCollection(
+            uriTemplate: '/sprint_instances/current_project',
+            parameters: [
+                'projectInstance.id' => new QueryParameter(
+                    filter: new ExactFilter()
+                ),
+            ],
+            normalizationContext: ['groups' => ['SprintInstance:collection:read']],
+            provider: SprintInstanceCollectionCurrentProjectProvider::class,
             output: SprintInstanceCollectionItemDto::class
         ),
+        */
         new Get(
             uriTemplate: 'sprint_instances/{id}',
             normalizationContext: ['groups' => ['SprintInstance:item:read']],
