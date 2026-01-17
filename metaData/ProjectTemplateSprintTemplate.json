@@ -1,0 +1,255 @@
+{
+    "namespace": "App\\Entity",
+    "rootEntityName": "App\\Entity\\ProjectTemplateSprintTemplate",
+    "customGeneratorDefinition": null,
+    "customRepositoryClassName": "App\\Repository\\ProjectTemplateSprintTemplateRepository",
+    "isMappedSuperclass": false,
+    "isEmbeddedClass": false,
+    "parentClasses": [],
+    "subClasses": [],
+    "embeddedClasses": [],
+    "identifier": [
+        "id"
+    ],
+    "inheritanceType": 1,
+    "generatorType": 4,
+    "fieldMappings": {
+        "id": {
+            "length": null,
+            "id": true,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "integer",
+            "fieldName": "id",
+            "columnName": "id"
+        },
+        "sprintOrder": {
+            "length": null,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "integer",
+            "fieldName": "sprintOrder",
+            "columnName": "sprint_order"
+        },
+        "createdAt": {
+            "length": null,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "datetime_immutable",
+            "fieldName": "createdAt",
+            "columnName": "created_at"
+        },
+        "updatedAt": {
+            "length": null,
+            "id": null,
+            "nullable": true,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "datetime_immutable",
+            "fieldName": "updatedAt",
+            "columnName": "updated_at"
+        }
+    },
+    "fieldNames": {
+        "id": "id",
+        "sprint_order": "sprintOrder",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt"
+    },
+    "columnNames": {
+        "id": "id",
+        "sprintOrder": "sprint_order",
+        "createdAt": "created_at",
+        "updatedAt": "updated_at"
+    },
+    "discriminatorValue": null,
+    "discriminatorMap": [],
+    "discriminatorColumn": null,
+    "table": {
+        "name": "project_template_sprint_template"
+    },
+    "lifecycleCallbacks": {
+        "prePersist": [
+            "_initTimestamps"
+        ],
+        "preUpdate": [
+            "_touchUpdatedAt"
+        ]
+    },
+    "entityListeners": [],
+    "associationMappings": {
+        "projectTemplate": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "projectTemplate",
+            "sourceEntity": "App\\Entity\\ProjectTemplateSprintTemplate",
+            "targetEntity": "App\\Entity\\ProjectTemplate",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "project_template_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "project_template_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": false,
+                    "unique": false,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": false,
+                    "options": null,
+                    "name": "project_template_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "project_template_id": "project_template_id"
+            }
+        },
+        "sprintTemplate": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "sprintTemplate",
+            "sourceEntity": "App\\Entity\\ProjectTemplateSprintTemplate",
+            "targetEntity": "App\\Entity\\SprintTemplate",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "sprint_template_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "sprint_template_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": false,
+                    "unique": false,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": false,
+                    "options": null,
+                    "name": "sprint_template_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "sprint_template_id": "sprint_template_id"
+            }
+        }
+    },
+    "isIdentifierComposite": false,
+    "containsForeignIdentifier": false,
+    "containsEnumIdentifier": false,
+    "idGenerator": {},
+    "sequenceGeneratorDefinition": null,
+    "changeTrackingPolicy": 1,
+    "requiresFetchAfterChange": false,
+    "isVersioned": false,
+    "versionField": null,
+    "cache": null,
+    "reflClass": {
+        "name": "App\\Entity\\ProjectTemplateSprintTemplate"
+    },
+    "isReadOnly": false,
+    "reflFields": {},
+    "propertyAccessors": {
+        "id": {},
+        "sprintOrder": {},
+        "createdAt": {},
+        "updatedAt": {},
+        "projectTemplate": {},
+        "sprintTemplate": {}
+    },
+    "name": "App\\Entity\\ProjectTemplateSprintTemplate"
+}

@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour Feature.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Feature::class)]
 final class FeatureCreateDto
@@ -24,4 +26,6 @@ final class FeatureCreateDto
 
     #[Groups(['Feature:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
 }

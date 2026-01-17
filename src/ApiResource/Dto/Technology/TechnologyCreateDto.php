@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour Technology.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Technology::class)]
 final class TechnologyCreateDto
@@ -24,4 +26,6 @@ final class TechnologyCreateDto
 
     #[Groups(['Technology:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
 }

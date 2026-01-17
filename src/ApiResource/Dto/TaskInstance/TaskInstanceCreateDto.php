@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour TaskInstance.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: TaskInstance::class)]
 final class TaskInstanceCreateDto
@@ -53,4 +55,25 @@ final class TaskInstanceCreateDto
 
     #[Groups(['TaskInstance:create'])]
     public ?string $updatedByUser;
+
+
+
+    #[Groups(['TaskInstance:create'])]
+    public ?string $user;
+    #[Groups(['TaskInstance:create'])]
+    public ?string $taskTemplate;
+    #[Groups(['TaskInstance:create'])]
+    public ?string $sprintInstance;
+    #[Groups(['TaskInstance:create'])]
+    public ?string $priority;
+    #[Groups(['TaskInstance:create'])]
+    public ?string $status;
+    #[Groups(['TaskInstance:create'])]
+    public ?string $typeTask;
+    #[Groups(['TaskInstance:create'])]
+    public ?string $parentTask;
+    #[Groups(['TaskInstance:create'])]
+    public ?string $dependency;
+    #[Groups(['TaskInstance:create'])]
+    public ?string $comment;
 }

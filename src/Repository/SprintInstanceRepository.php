@@ -16,6 +16,20 @@ class SprintInstanceRepository extends ServiceEntityRepository
         parent::__construct($registry, SprintInstance::class);
     }
 
+    public function QBfindByProjectId($projectId): array
+    {
+        return $this->createQueryBuilder('si')
+            ->innerJoin('si.projectInstance', 'pi')
+            ->where('pi.id = :projectId')
+            ->setParameter('projectId', $projectId)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByProjectId($projectId): array
+    {
+        return $this->findBy(['projectInstance' => $projectId]);
+    }
+
     //    /**
     //     * @return SprintInstance[] Returns an array of SprintInstance objects
     //     */

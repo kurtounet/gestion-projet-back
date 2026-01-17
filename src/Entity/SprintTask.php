@@ -8,40 +8,6 @@ use App\Repository\SprintTaskRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\SprintTask\SprintTaskCreateDto;
-use App\ApiResource\Dto\SprintTask\SprintTaskUpdateDto;
-use App\ApiResource\Dto\SprintTask\SprintTaskResponseDto;
-
-use App\ApiResource\State\SprintTask\SprintTaskProvider;
-use App\ApiResource\State\SprintTask\SprintTaskProcessor;
-
-#[GetCollection(
-    provider: SprintTaskProvider::class,
-    output: SprintTaskResponseDto::class
-)]
-#[Get(
-    provider: SprintTaskProvider::class,
-    output: SprintTaskResponseDto::class
-)]
-#[Post(
-    processor: SprintTaskProcessor::class,
-    input: SprintTaskCreateDto::class
-)]
-#[Patch(
-    processor: SprintTaskProcessor::class,
-    input: SprintTaskUpdateDto::class
-)]
-#[Delete(
-    processor: SprintTaskProcessor::class,
-    output: false,
-    status: 204
-)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: SprintTaskRepository::class)]
@@ -65,17 +31,10 @@ class SprintTask
     #[ORM\JoinColumn(nullable: false)]
     private ?TaskTemplate $taskTemplate = null;
 
-
-
-
-
-
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
 
     public function getSprintTemplate(): ?SprintTemplate
     {
@@ -99,13 +58,10 @@ class SprintTask
         return $this;
     }
 
-
     public function getTaskOrder(): ?int
     {
         return $this->taskOrder;
     }
-
-
 
     public function setTaskOrder(int $taskOrder): static
     {

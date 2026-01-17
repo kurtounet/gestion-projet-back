@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour Framework.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Framework::class)]
 final class FrameworkCreateDto
@@ -30,4 +32,9 @@ final class FrameworkCreateDto
 
     #[Groups(['Framework:create'])]
     public ?string $color;
+
+
+
+    #[Groups(['Framework:create'])]
+    public ?string $technology;
 }

@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour Status.
- * Utilisé typiquement pour PATCH/PUT.
+ * Input PATCH.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Status::class)]
 final class StatusUpdateDto
@@ -25,4 +27,7 @@ final class StatusUpdateDto
 
     #[Groups(['Status:update'])]
     public ?\DateTimeInterface $updatedAt;
+
+    #[Groups(['Status:update'])]
+    public ?string $context;
 }

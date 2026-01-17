@@ -1,0 +1,774 @@
+{
+    "namespace": "App\\Entity",
+    "rootEntityName": "App\\Entity\\TaskInstance",
+    "customGeneratorDefinition": null,
+    "customRepositoryClassName": "App\\Repository\\TaskInstanceRepository",
+    "isMappedSuperclass": false,
+    "isEmbeddedClass": false,
+    "parentClasses": [],
+    "subClasses": [],
+    "embeddedClasses": [],
+    "identifier": [
+        "id"
+    ],
+    "inheritanceType": 1,
+    "generatorType": 4,
+    "fieldMappings": {
+        "id": {
+            "length": null,
+            "id": true,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "integer",
+            "fieldName": "id",
+            "columnName": "id"
+        },
+        "name": {
+            "length": 255,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "string",
+            "fieldName": "name",
+            "columnName": "name"
+        },
+        "description": {
+            "length": null,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "text",
+            "fieldName": "description",
+            "columnName": "description"
+        },
+        "startDate": {
+            "length": null,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "datetime_immutable",
+            "fieldName": "startDate",
+            "columnName": "start_date"
+        },
+        "dueDate": {
+            "length": null,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "datetime_immutable",
+            "fieldName": "dueDate",
+            "columnName": "due_date"
+        },
+        "position": {
+            "length": null,
+            "id": null,
+            "nullable": true,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "integer",
+            "fieldName": "position",
+            "columnName": "position"
+        },
+        "icon": {
+            "length": 100,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "string",
+            "fieldName": "icon",
+            "columnName": "icon"
+        },
+        "color": {
+            "length": 7,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "string",
+            "fieldName": "color",
+            "columnName": "color"
+        },
+        "createdAt": {
+            "length": null,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "datetime_immutable",
+            "fieldName": "createdAt",
+            "columnName": "created_at"
+        },
+        "updatedAt": {
+            "length": null,
+            "id": null,
+            "nullable": true,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "datetime_immutable",
+            "fieldName": "updatedAt",
+            "columnName": "updated_at"
+        },
+        "createdByUser": {
+            "length": 180,
+            "id": null,
+            "nullable": true,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "string",
+            "fieldName": "createdByUser",
+            "columnName": "created_by_user"
+        },
+        "updatedByUser": {
+            "length": 180,
+            "id": null,
+            "nullable": true,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "string",
+            "fieldName": "updatedByUser",
+            "columnName": "updated_by_user"
+        }
+    },
+    "fieldNames": {
+        "id": "id",
+        "name": "name",
+        "description": "description",
+        "start_date": "startDate",
+        "due_date": "dueDate",
+        "position": "position",
+        "icon": "icon",
+        "color": "color",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "created_by_user": "createdByUser",
+        "updated_by_user": "updatedByUser"
+    },
+    "columnNames": {
+        "id": "id",
+        "name": "name",
+        "description": "description",
+        "startDate": "start_date",
+        "dueDate": "due_date",
+        "position": "position",
+        "icon": "icon",
+        "color": "color",
+        "createdAt": "created_at",
+        "updatedAt": "updated_at",
+        "createdByUser": "created_by_user",
+        "updatedByUser": "updated_by_user"
+    },
+    "discriminatorValue": null,
+    "discriminatorMap": [],
+    "discriminatorColumn": null,
+    "table": {
+        "name": "task_instance"
+    },
+    "lifecycleCallbacks": {
+        "prePersist": [
+            "_initTimestamps"
+        ],
+        "preUpdate": [
+            "_touchUpdatedAt"
+        ]
+    },
+    "entityListeners": [],
+    "associationMappings": {
+        "user": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "user",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\User",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "user_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "user_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": false,
+                    "unique": false,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": false,
+                    "options": null,
+                    "name": "user_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "user_id": "user_id"
+            }
+        },
+        "taskTemplate": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "taskTemplate",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\TaskTemplate",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "task_template_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "task_template_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": false,
+                    "unique": false,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": false,
+                    "options": null,
+                    "name": "task_template_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "task_template_id": "task_template_id"
+            }
+        },
+        "sprintInstance": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "sprintInstance",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\SprintInstance",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "sprint_instance_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "sprint_instance_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": false,
+                    "unique": false,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": false,
+                    "options": null,
+                    "name": "sprint_instance_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "sprint_instance_id": "sprint_instance_id"
+            }
+        },
+        "priority": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "priority",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\Priority",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "priority_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "priority_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": false,
+                    "unique": false,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": false,
+                    "options": null,
+                    "name": "priority_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "priority_id": "priority_id"
+            }
+        },
+        "status": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "status",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\Status",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "status_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "status_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": false,
+                    "unique": false,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": false,
+                    "options": null,
+                    "name": "status_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "status_id": "status_id"
+            }
+        },
+        "typeTask": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "typeTask",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\TypeTask",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "type_task_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "type_task_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": false,
+                    "unique": false,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": false,
+                    "options": null,
+                    "name": "type_task_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "type_task_id": "type_task_id"
+            }
+        },
+        "parentTask": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "parentTask",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\TaskInstance",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "parent_task_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "parent_task_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": null,
+                    "unique": null,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": true,
+                    "options": null,
+                    "name": "parent_task_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "parent_task_id": "parent_task_id"
+            }
+        },
+        "dependency": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "dependency",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\TaskInstance",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "dependency_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "dependency_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": null,
+                    "unique": null,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": true,
+                    "options": null,
+                    "name": "dependency_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "dependency_id": "dependency_id"
+            }
+        },
+        "comment": {
+            "cascade": [],
+            "fetch": 2,
+            "inherited": null,
+            "declared": null,
+            "cache": null,
+            "id": null,
+            "isOnDeleteCascade": null,
+            "originalClass": null,
+            "originalField": null,
+            "orphanRemoval": false,
+            "unique": null,
+            "fieldName": "comment",
+            "sourceEntity": "App\\Entity\\TaskInstance",
+            "targetEntity": "App\\Entity\\Comment",
+            "inversedBy": null,
+            "sourceToTargetKeyColumns": {
+                "comment_id": "id"
+            },
+            "targetToSourceKeyColumns": {
+                "id": "comment_id"
+            },
+            "joinColumns": [
+                {
+                    "deferrable": null,
+                    "unique": null,
+                    "quoted": null,
+                    "fieldName": null,
+                    "onDelete": null,
+                    "columnDefinition": null,
+                    "nullable": true,
+                    "options": null,
+                    "name": "comment_id",
+                    "referencedColumnName": "id"
+                }
+            ],
+            "joinColumnFieldNames": {
+                "comment_id": "comment_id"
+            }
+        }
+    },
+    "isIdentifierComposite": false,
+    "containsForeignIdentifier": false,
+    "containsEnumIdentifier": false,
+    "idGenerator": {},
+    "sequenceGeneratorDefinition": null,
+    "changeTrackingPolicy": 1,
+    "requiresFetchAfterChange": false,
+    "isVersioned": false,
+    "versionField": null,
+    "cache": null,
+    "reflClass": {
+        "name": "App\\Entity\\TaskInstance"
+    },
+    "isReadOnly": false,
+    "reflFields": {},
+    "propertyAccessors": {
+        "id": {},
+        "name": {},
+        "description": {},
+        "startDate": {},
+        "dueDate": {},
+        "position": {},
+        "icon": {},
+        "color": {},
+        "createdAt": {},
+        "updatedAt": {},
+        "createdByUser": {},
+        "updatedByUser": {},
+        "user": {},
+        "taskTemplate": {},
+        "sprintInstance": {},
+        "priority": {},
+        "status": {},
+        "typeTask": {},
+        "parentTask": {},
+        "dependency": {},
+        "comment": {}
+    },
+    "name": "App\\Entity\\TaskInstance"
+}

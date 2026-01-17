@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour Status.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Status::class)]
 final class StatusCreateDto
@@ -27,4 +29,9 @@ final class StatusCreateDto
 
     #[Groups(['Status:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+
+    #[Groups(['Status:create'])]
+    public ?string $context;
 }

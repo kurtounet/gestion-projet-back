@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour ProjectTemplateSprintTemplate.
- * Utilisé typiquement pour PATCH/PUT.
+ * Input PATCH.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: ProjectTemplateSprintTemplate::class)]
 final class ProjectTemplateSprintTemplateUpdateDto
@@ -22,4 +24,9 @@ final class ProjectTemplateSprintTemplateUpdateDto
 
     #[Groups(['ProjectTemplateSprintTemplate:update'])]
     public ?\DateTimeInterface $updatedAt;
+
+    #[Groups(['ProjectTemplateSprintTemplate:update'])]
+    public ?string $projectTemplate;
+    #[Groups(['ProjectTemplateSprintTemplate:update'])]
+    public ?string $sprintTemplate;
 }

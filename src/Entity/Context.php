@@ -7,40 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\TimestampTrait;
 use App\Repository\ContextRepository;
 
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\Context\ContextCreateDto;
-use App\ApiResource\Dto\Context\ContextResponseDto;
-use App\ApiResource\Dto\Context\ContextUpdateDto;
-
-use App\ApiResource\State\Context\ContextProcessor;
-use App\ApiResource\State\Context\ContextProvider;
-
-#[GetCollection(
-    provider: ContextProvider::class,
-    output: ContextResponseDto::class
-)]
-#[Get(
-    provider: ContextProvider::class,
-    output: ContextResponseDto::class
-)]
-#[Post(
-    processor: ContextProcessor::class,
-    input: ContextCreateDto::class
-)]
-#[Patch(
-    processor: ContextProcessor::class,
-    input: ContextUpdateDto::class
-)]
-#[Delete(
-    processor: ContextProcessor::class,
-    output: false,
-    status: 204
-)]
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContextRepository::class)]

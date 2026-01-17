@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour File.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: File::class)]
 final class FileCreateDto
@@ -28,4 +30,6 @@ final class FileCreateDto
 
     #[Groups(['File:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
 }

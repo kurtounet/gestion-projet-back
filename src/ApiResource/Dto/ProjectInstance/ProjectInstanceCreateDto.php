@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour ProjectInstance.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: ProjectInstance::class)]
 final class ProjectInstanceCreateDto
@@ -49,6 +51,12 @@ final class ProjectInstanceCreateDto
     #[Groups(['ProjectInstance:create'])]
     public \DateTimeInterface $endDate;
 
+    #[Groups(['ProjectInstance:create'])]
+    public ?string $createdByUser;
+
+    #[Groups(['ProjectInstance:create'])]
+    public ?string $updatedByUser;
+
     #[Assert\NotBlank]
     #[Groups(['ProjectInstance:create'])]
     public \DateTimeInterface $createdAt;
@@ -56,9 +64,18 @@ final class ProjectInstanceCreateDto
     #[Groups(['ProjectInstance:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $createdByUser;
+
 
     #[Groups(['ProjectInstance:create'])]
-    public ?string $updatedByUser;
+    public ?string $status;
+    #[Groups(['ProjectInstance:create'])]
+    public ?string $priority;
+    #[Groups(['ProjectInstance:create'])]
+    public ?string $projectTemplate;
+    #[Groups(['ProjectInstance:create'])]
+    public ?string $comment;
+    #[Groups(['ProjectInstance:create'])]
+    public ?string $parent;
+    #[Groups(['ProjectInstance:create'])]
+    public ?string $configFramework;
 }

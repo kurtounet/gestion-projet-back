@@ -10,41 +10,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\User\UserCreateDto;
-use App\ApiResource\Dto\User\UserUpdateDto;
-use App\ApiResource\Dto\User\UserResponseDto;
-
-use App\ApiResource\State\User\UserProvider;
-use App\ApiResource\State\User\UserProcessor;
-
-#[GetCollection(
-    provider: UserProvider::class,
-    output: UserResponseDto::class
-)]
-#[Get(
-    provider: UserProvider::class,
-    output: UserResponseDto::class
-)]
-#[Post(
-    processor: UserProcessor::class,
-    input: UserCreateDto::class
-)]
-#[Patch(
-    processor: UserProcessor::class,
-    input: UserUpdateDto::class
-)]
-#[Delete(
-    processor: UserProcessor::class,
-    output: UserResponseDto::class,
-    status: 204
-)]
-
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\HasLifecycleCallbacks]

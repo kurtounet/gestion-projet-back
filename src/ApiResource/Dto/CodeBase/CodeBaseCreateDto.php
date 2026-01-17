@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour CodeBase.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: CodeBase::class)]
 final class CodeBaseCreateDto
@@ -36,4 +38,6 @@ final class CodeBaseCreateDto
 
     #[Groups(['CodeBase:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
 }

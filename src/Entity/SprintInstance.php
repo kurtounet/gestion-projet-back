@@ -12,69 +12,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use App\Traits\UserStampTrait;
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceResponseDto;
-
-use App\ApiResource\State\SprintInstance\SprintInstanceProvider;
-use App\ApiResource\State\SprintInstance\SprintInstanceProcessor;
-
-#[GetCollection(
-    provider: SprintInstanceProvider::class,
-    output: SprintInstanceResponseDto::class,
-)]
-#[Get(
-    provider: SprintInstanceProvider::class,
-    output: SprintInstanceResponseDto::class
-)]
-#[Post(
-    processor: SprintInstanceProcessor::class,
-    input: SprintInstanceCreateDto::class
-)]
-#[Patch(
-    processor: SprintInstanceProcessor::class,
-    input: SprintInstanceUpdateDto::class
-)]
-#[Delete(processor: SprintInstanceProcessor::class, output: false, status: 204)]
-/* A restester
-#[Patch(
-
-    uriTemplate: 'sprint_instances/order',
-    name: 'sprint_instances_update_order',
-    input: UpdateSprintInstanceOrderDto::class,
-    output: false,
-    provider: null,   // très important : on ne veut PAS de provider ici
-    denormalizationContext: ['groups' => ['sprint_order:write']],
-    processor: UpdateSprintInstanceOrderProcessor::class,
-    status: 204
-)]
-*/
-
-#[ApiResource()]
 #[ORM\HasLifecycleCallbacks]
-#[ApiFilter(SearchFilter::class, properties: [
-    'name' => 'partial',
-    'color' => 'partial',
-    'priority' => 'exact',
-    'status' => 'exact',
-
-    // Relation directe
-    'projectInstance' => 'exact',
-
-    // Champs internes à la relation
-    'projectInstance.id' => 'exact',
-    'projectInstance.color' => 'partial'
-])]
 #[ORM\Entity(repositoryClass: SprintInstanceRepository::class)]
 class SprintInstance
 {
@@ -84,64 +22,49 @@ class SprintInstance
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
-    #[Groups(['sprint:list:read', 'item:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['sprint:list:read', 'item:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     private ?string $icon = null;
 
     #[ORM\Column(length: 7)]
-    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     private ?string $color = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     private ?\DateTimeImmutable $endDate = null;
 
-    #[Groups(['projectInstance:item', 'sprint:list:read', 'item:read'])]
     #[ORM\Column(nullable: true)]
     private ?int $position = null;
 
-    #[Groups(['projectInstance:item', 'item:read'])]
     #[ORM\ManyToOne(targetEntity: Priority::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Priority $priority = null;
 
-    #[Groups(['projectInstance:item', 'item:read'])]
     #[ORM\ManyToOne(targetEntity: SprintTemplate::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?SprintTemplate $sprintTemplate = null;
 
     #[ORM\ManyToOne(targetEntity: Status::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['projectInstance:item', 'item:read'])]
     private ?Status $status = null;
 
     #[ORM\ManyToOne(targetEntity: Comment::class)]
-    #[Groups(['projectInstance:item', 'item:read'])]
     private ?Comment $comment = null;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
-    #[Groups(['projectInstance:item', 'item:read'])]
     private ?self $sprintDependency = null;
 
     #[ORM\ManyToOne(inversedBy: 'sprintInstances')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['projectInstance:item', 'item:read '])]
     private ?ProjectInstance $projectInstance = null;
 
     public function getId(): ?int

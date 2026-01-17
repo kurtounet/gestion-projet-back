@@ -9,42 +9,6 @@ use App\Repository\ContextStatusRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\ContextStatus\ContextStatusCreateDto;
-use App\ApiResource\Dto\ContextStatus\ContextStatusUpdateDto;
-use App\ApiResource\Dto\ContextStatus\ContextStatusResponseDto;
-
-use App\ApiResource\State\ContextStatus\ContextStatusProcessor;
-use App\ApiResource\State\ContextStatus\ContextStatusProvider;
-
-#[GetCollection(
-    provider: ContextStatusProvider::class,
-    output: ContextStatusResponseDto::class
-)]
-#[Get(
-    provider: ContextStatusProvider::class,
-    output: ContextStatusResponseDto::class
-)]
-#[Post(
-    processor: ContextStatusProcessor::class,
-    input: ContextStatusCreateDto::class
-)]
-#[Patch(
-    processor: ContextStatusProcessor::class,
-    input: ContextStatusUpdateDto::class
-)]
-#[Delete(
-    processor: ContextStatusProcessor::class,
-    output: false,
-    status: 204
-)]
-
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContextStatusRepository::class)]

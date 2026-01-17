@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour TypeTask.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: TypeTask::class)]
 final class TypeTaskCreateDto
@@ -39,4 +41,9 @@ final class TypeTaskCreateDto
 
     #[Groups(['TypeTask:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+
+    #[Groups(['TypeTask:create'])]
+    public ?string $code;
 }

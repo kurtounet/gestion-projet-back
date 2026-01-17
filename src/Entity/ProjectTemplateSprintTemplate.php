@@ -9,41 +9,6 @@ use App\Repository\ProjectTemplateSprintTemplateRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCreateDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateUpdateDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateResponseDto;
-
-use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateProvider;
-use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateProcessor;
-
-#[GetCollection(
-    provider: ProjectTemplateSprintTemplateProvider::class,
-    output: ProjectTemplateSprintTemplateResponseDto::class
-)]
-#[Get(
-    provider: ProjectTemplateSprintTemplateProvider::class,
-    output: ProjectTemplateSprintTemplateResponseDto::class
-)]
-#[Post(
-    processor: ProjectTemplateSprintTemplateProcessor::class,
-    input: ProjectTemplateSprintTemplateCreateDto::class
-)]
-#[Patch(
-    processor: ProjectTemplateSprintTemplateProcessor::class,
-    input: ProjectTemplateSprintTemplateUpdateDto::class
-)]
-#[Delete(
-    processor: ProjectTemplateSprintTemplateProcessor::class,
-    output: false,
-    status: 204
-)]
-
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectTemplateSprintTemplateRepository::class)]
 class ProjectTemplateSprintTemplate

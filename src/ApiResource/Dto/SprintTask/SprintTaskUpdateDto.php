@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour SprintTask.
- * Utilisé typiquement pour PATCH/PUT.
+ * Input PATCH.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: SprintTask::class)]
 final class SprintTaskUpdateDto
@@ -22,4 +24,9 @@ final class SprintTaskUpdateDto
 
     #[Groups(['SprintTask:update'])]
     public ?\DateTimeInterface $updatedAt;
+
+    #[Groups(['SprintTask:update'])]
+    public ?string $sprintTemplate;
+    #[Groups(['SprintTask:update'])]
+    public ?string $taskTemplate;
 }

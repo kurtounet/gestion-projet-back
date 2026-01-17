@@ -8,42 +8,6 @@ use App\Repository\CommentRepository;
 
 use App\Traits\TimestampTrait;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-
-use App\ApiResource\Dto\Comment\CommentCreateDto;
-use App\ApiResource\Dto\Comment\CommentUpdateDto;
-use App\ApiResource\Dto\Comment\CommentResponseDto;
-
-use App\ApiResource\State\Comment\CommentProcessor;
-use App\ApiResource\State\Comment\CommentProvider;
-
-#[GetCollection(
-    provider: CommentProvider::class,
-    output: CommentResponseDto::class
-)]
-#[Get(
-    provider: CommentProvider::class,
-    output: CommentResponseDto::class
-)]
-#[Post(
-    processor: CommentProcessor::class,
-    input: CommentCreateDto::class
-)]
-#[Patch(
-    processor: CommentProcessor::class,
-    input: CommentUpdateDto::class
-)]
-#[Delete(
-    processor: CommentProcessor::class,
-    output: false,
-    status: 204
-)]
-
-
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment

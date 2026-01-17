@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de création pour Notification.
- * Utilisé typiquement comme input pour les opérations POST.
+ * Input POST.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Notification::class)]
 final class NotificationCreateDto
@@ -32,4 +34,9 @@ final class NotificationCreateDto
 
     #[Groups(['Notification:create'])]
     public ?\DateTimeInterface $updatedAt;
+
+
+
+    #[Groups(['Notification:create'])]
+    public ?string $user;
 }

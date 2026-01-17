@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour Framework.
- * Utilisé typiquement pour PATCH/PUT.
+ * Input PATCH.
+ *
+ * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
 #[Map(target: Framework::class)]
 final class FrameworkUpdateDto
@@ -28,4 +30,7 @@ final class FrameworkUpdateDto
 
     #[Groups(['Framework:update'])]
     public ?string $color;
+
+    #[Groups(['Framework:update'])]
+    public ?string $technology;
 }
