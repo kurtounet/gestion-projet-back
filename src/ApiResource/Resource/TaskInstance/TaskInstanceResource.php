@@ -12,18 +12,18 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
+use ApiPlatform\Metadata\Link;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceCreateDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceUpdateDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceItemDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceCollectionItemDto;
-
+use App\ApiResource\State\TaskInstance\TaskInstanceCollectionCurrentSprintProvider;
 use App\ApiResource\State\TaskInstance\TaskInstanceCollectionProvider;
 use App\ApiResource\State\TaskInstance\TaskInstanceItemProvider;
 use App\ApiResource\State\TaskInstance\TaskInstanceCreateProcessor;
 use App\ApiResource\State\TaskInstance\TaskInstanceUpdateProcessor;
 use App\ApiResource\State\TaskInstance\TaskInstanceDeleteProcessor;
-
+use App\Entity\SprintInstance;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,34 +32,41 @@ use Symfony\Component\Validator\Constraints as Assert;
     shortName: 'TaskInstance',
     stateOptions: new Options(entityClass: TaskInstance::class),
     operations: [
+
         new GetCollection(
-            uriTemplate: 'task_instance',
+            uriTemplate: 'task_instances/current_sprint/{sprintId}',
+            uriVariables: [
+                'sprintId' => new Link(
+                    fromClass: SprintInstance::class,
+                    toProperty: 'sprintInstance',
+                ),
+            ],
             normalizationContext: ['groups' => ['TaskInstance:collection:read']],
-            provider: TaskInstanceCollectionProvider::class,
+            provider: TaskInstanceCollectionCurrentSprintProvider::class,
             output: TaskInstanceCollectionItemDto::class
         ),
         new Get(
-            uriTemplate: 'task_instance/{id}',
+            uriTemplate: 'task_instances/{id}',
             normalizationContext: ['groups' => ['TaskInstance:item:read']],
             provider: TaskInstanceItemProvider::class,
             output: TaskInstanceItemDto::class
         ),
         new Post(
-            uriTemplate: 'task_instance/{id}',
+            uriTemplate: 'task_instances/{id}',
             denormalizationContext: ['groups' => ['TaskInstance:create']],
             processor: TaskInstanceCreateProcessor::class,
             input: TaskInstanceCreateDto::class,
             output: TaskInstanceItemDto::class
         ),
         new Patch(
-            uriTemplate: 'task_instance/{id}',
+            uriTemplate: 'task_instances/{id}',
             denormalizationContext: ['groups' => ['TaskInstance:update']],
             processor: TaskInstanceUpdateProcessor::class,
             input: TaskInstanceUpdateDto::class,
             output: TaskInstanceItemDto::class
         ),
         new Delete(
-            uriTemplate: 'task_instance/{id}',
+            uriTemplate: 'task_instances/{id}',
             processor: TaskInstanceDeleteProcessor::class,
             output: false,
             status: 204
@@ -70,7 +77,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class TaskInstanceResource
 {
     public int $id;
-/*
+    /*
     #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
     public int $id;
 
