@@ -16,13 +16,14 @@ use App\ApiResource\Resource\Comment\CommentResource;
 use App\ApiResource\Resource\SprintInstance\SprintInstanceResource;
 use App\ApiResource\Resource\ProjectInstance\ProjectInstanceResource;
 use App\ApiResource\Resource\ConfigProjectFramework\ConfigProjectFrameworkResource;
+use App\Mapper\ProjectInstanceMapper;
 
 final readonly class ProjectInstanceCollectionProvider implements ProviderInterface
 {
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private IriFromResource $iriFromResource,
+        private ProjectInstanceMapper $projectInstanceMapper
     ) {}
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
@@ -38,91 +39,13 @@ final readonly class ProjectInstanceCollectionProvider implements ProviderInterf
         }
 
         $items = [];
-
         foreach ($result as $entity) {
+
             if (!$entity instanceof ProjectInstance) {
                 continue;
             }
-
-            $dto = new ProjectInstanceCollectionItemDto();
-
-            // 1) Scalars
-            $dto->id = $entity->getId();
-            $dto->name = $entity->getName();
-            $dto->pathFileDatabase = $entity->getPathFileDatabase();
-            $dto->pathProject = $entity->getPathProject();
-            $dto->description = $entity->getDescription();
-            $dto->icon = $entity->getIcon();
-            $dto->color = $entity->getColor();
-            $dto->isFavory = $entity->getIsFavory();
-            $dto->position = $entity->getPosition();
-            $dto->startDate = $entity->getStartDate();
-            $dto->endDate = $entity->getEndDate();
-            $dto->createdByUser = $entity->getCreatedByUser();
-            $dto->updatedByUser = $entity->getUpdatedByUser();
-            $dto->createdAt = $entity->getCreatedAt();
-            $dto->updatedAt = $entity->getUpdatedAt();
-
-            // 2) Relations ToOne => IRI (si présentes dans le DTO)
-            /*
-        // status (ToOne => IRI)
-        $dto->status = $entity->getStatus()
-            ? ($this->iriFromResource)(StatusResource::class,$entity->getStatus()->getId())
-            : null;
-
-        // priority (ToOne => IRI)
-        $dto->priority = $entity->getPriority()
-            ? ($this->iriFromResource)(PriorityResource::class,$entity->getPriority()->getId())
-            : null;
-
-        // projectTemplate (ToOne => IRI)
-        $dto->projectTemplate = $entity->getProjectTemplate()
-            ? ($this->iriFromResource)(ProjectTemplateResource::class,$entity->getProjectTemplate()->getId())
-            : null;
-
-        // comment (ToOne => IRI)
-        $dto->comment = $entity->getComment()
-            ? ($this->iriFromResource)(CommentResource::class,$entity->getComment()->getId())
-            : null;
-
-        // parent (ToOne => IRI)
-        $dto->parent = $entity->getParent()
-            ? ($this->iriFromResource)(ProjectInstanceResource::class,$entity->getParent()->getId())
-            : null;
-
-        // configFramework (ToOne => IRI)
-        $dto->configFramework = $entity->getConfigFramework()
-            ? ($this->iriFromResource)(ConfigProjectFrameworkResource::class,$entity->getConfigFramework()->getId())
-            : null;
-
-        // 3) Relations ToMany => array of IRIs (si présentes dans le DTO)
-        // sprintInstances (ToMany => array of IRIs)
-        $dto->sprintInstances = $this->toIriList($entity->getSprintInstances(), SprintInstanceResource::class);
-
-        // projectInstances (ToMany => array of IRIs)
-        $dto->projectInstances = $this->toIriList($entity->getProjectInstances(), ProjectInstanceResource::class);
-*/
-
-            $items[] = $dto;
+            $items[] = $this->projectInstanceMapper->mapEntityToCollectionDto($entity);
         }
         return $items;
-    }
-
-    private function toIriList(iterable $items, string $resourceClass): array
-    {
-        $iris = [];
-
-        foreach ($items as $item) {
-            if (!is_object($item)) {
-                continue;
-            }
-
-            $iri = ($this->iriFromResource)($resourceClass, $item->getId());
-            if (null !== $iri) {
-                $iris[] = $iri;
-            }
-        }
-
-        return $iris;
     }
 }

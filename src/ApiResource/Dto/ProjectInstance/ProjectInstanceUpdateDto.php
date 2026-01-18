@@ -13,61 +13,66 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ProjectInstance::class)]
+// #[Map(target: ProjectInstance::class)]
 final class ProjectInstanceUpdateDto
 {
     #[Groups(['ProjectInstance:update'])]
-    public ?string $name;
+    public ?string $name = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?string $pathFileDatabase;
+    public ?string $pathFileDatabase = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?string $pathProject;
+    public ?string $pathProject = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?string $description;
+    public ?string $description = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?string $icon;
+    public ?string $icon = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?string $color;
+    public ?string $color = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?bool $isFavory;
+    public ?bool $favory = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?int $position;
+    public ?int $position = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?\DateTimeInterface $startDate;
+    public ?\DateTimeInterface $startDate = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?\DateTimeInterface $endDate;
+    public ?\DateTimeInterface $endDate = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?string $createdByUser;
+    public ?string $createdByUser = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?string $updatedByUser;
+    public ?string $updatedByUser = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?\DateTimeInterface $createdAt;
+    public ?\DateTimeInterface $createdAt = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    public ?\DateTimeInterface $updatedAt = null;
 
     #[Groups(['ProjectInstance:update'])]
-    public ?string $status;
+    public ?string $status = null;
+
     #[Groups(['ProjectInstance:update'])]
-    public ?string $priority;
+    public ?string $priority = null;
+
     #[Groups(['ProjectInstance:update'])]
-    public ?string $projectTemplate;
+    public ?string $projectTemplate = null;
+
     #[Groups(['ProjectInstance:update'])]
-    public ?string $comment;
+    public ?string $comment = null;
+
     #[Groups(['ProjectInstance:update'])]
-    public ?string $parent;
+    public ?string $parent = null;
+
     #[Groups(['ProjectInstance:update'])]
-    public ?string $configFramework;
+    public ?string $configFramework = null;
 }

@@ -32,6 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     shortName: 'ProjectInstance',
     stateOptions: new Options(entityClass: ProjectInstance::class),
     operations: [
+
         new GetCollection(
             uriTemplate: 'project_instances',
             normalizationContext: ['groups' => ['ProjectInstance:collection:read']],
@@ -45,7 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             output: ProjectInstanceItemDto::class
         ),
         new Post(
-            uriTemplate: 'project_instances/{id}',
+            uriTemplate: 'project_instances',
             denormalizationContext: ['groups' => ['ProjectInstance:create']],
             processor: ProjectInstanceCreateProcessor::class,
             input: ProjectInstanceCreateDto::class,

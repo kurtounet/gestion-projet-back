@@ -280,8 +280,10 @@ class AppFixtures extends Fixture
 
         $frameworksData = [
             [
-                "name" => "Symfony",
+                "label" => "Symfony",
+                "type" => "backend",
                 "version" => "7.4",
+                "description" => "",
                 "configuration" => [],
                 "icon" => "https://symfony.com/favicon.ico",
                 "color" => "#000000",
@@ -289,8 +291,10 @@ class AppFixtures extends Fixture
                 "technology" => $technologies['PHP'],
             ],
             [
-                "name" => "Angular",
-                "version" => "24.0",
+                "label" => "Angular",
+                "type" => "frontend",
+                "version" => "21.0",
+                "description" => "",
                 "configuration" => [],
                 "icon" => "https://angular.io/favicon.ico",
                 "color" => "#C3002F",
@@ -298,8 +302,10 @@ class AppFixtures extends Fixture
                 "technology" => $technologies['TypeScript'],
             ],
             [
-                "name" => "Vue.js",
+                "label" => "Vue.js",
+                "type" => "frontend",
                 "version" => "3.0",
+                "description" => "",
                 "configuration" => [],
                 "icon" => "https://vuejs.org/favicon.ico",
                 "color" => "#41B883",
@@ -307,8 +313,10 @@ class AppFixtures extends Fixture
                 "technology" => $technologies['TypeScript'],
             ],
             [
-                "name" => "Nuxt",
+                "label" => "Nuxt",
+                "type" => "frontend",
                 "version" => "4.0",
+                "description" => "",
                 "configuration" => [],
                 "icon" => "https://nuxtjs.org/favicon.ico",
                 "color" => "#41B883",
@@ -320,12 +328,14 @@ class AppFixtures extends Fixture
         $frameworks = [];
         foreach ($frameworksData as $index => $framework) {
             $f = new Framework();
-            $f->setName($framework["name"])
+            $f->setLabel($framework["label"])
+                ->setType($framework["type"])
                 ->setVersion($framework["version"])
+                ->setDescription($framework["description"])
                 ->setIcon($framework["icon"])
                 ->setColor($framework["color"])
                 ->setTechnology($framework["technology"])
-                ->setConfiguration($framework["configuration"]);
+                ->setConfiguration($framework["configuj'airation"]);
             $manager->persist($f);
             $frameworks[$index] = $f;
         }

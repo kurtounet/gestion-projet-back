@@ -33,33 +33,33 @@ use Symfony\Component\Validator\Constraints as Assert;
     stateOptions: new Options(entityClass: Framework::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'framework',
+            uriTemplate: 'frameworks',
             normalizationContext: ['groups' => ['Framework:collection:read']],
             provider: FrameworkCollectionProvider::class,
             output: FrameworkCollectionItemDto::class
         ),
         new Get(
-            uriTemplate: 'framework/{id}',
+            uriTemplate: 'frameworks/{id}',
             normalizationContext: ['groups' => ['Framework:item:read']],
             provider: FrameworkItemProvider::class,
             output: FrameworkItemDto::class
         ),
         new Post(
-            uriTemplate: 'framework/{id}',
+            uriTemplate: 'frameworks/{id}',
             denormalizationContext: ['groups' => ['Framework:create']],
             processor: FrameworkCreateProcessor::class,
             input: FrameworkCreateDto::class,
             output: FrameworkItemDto::class
         ),
         new Patch(
-            uriTemplate: 'framework/{id}',
+            uriTemplate: 'frameworks/{id}',
             denormalizationContext: ['groups' => ['Framework:update']],
             processor: FrameworkUpdateProcessor::class,
             input: FrameworkUpdateDto::class,
             output: FrameworkItemDto::class
         ),
         new Delete(
-            uriTemplate: 'framework/{id}',
+            uriTemplate: 'frameworks/{id}',
             processor: FrameworkDeleteProcessor::class,
             output: false,
             status: 204
@@ -70,7 +70,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class FrameworkResource
 {
     public int $id;
-/*
+    /*
     #[Groups(['Framework:collection:read', 'Framework:item:read'])]
     public int $id;
 

@@ -16,20 +16,27 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Map(target: Framework::class)]
 final class FrameworkUpdateDto
 {
-    #[Groups(['Framework:update'])]
-    public ?string $name;
+
+    #[Groups(['Framework:create'])]
+    public string $label;
+
+    #[Groups(['Framework:create'])]
+    public string $type;
 
     #[Groups(['Framework:update'])]
     public ?string $version;
 
     #[Groups(['Framework:update'])]
-    public ?array $configuration;
+    public ?string $description;
 
     #[Groups(['Framework:update'])]
     public ?string $icon;
 
     #[Groups(['Framework:update'])]
     public ?string $color;
+
+    #[Groups(['Framework:update'])]
+    public ?array $configuration;
 
     #[Groups(['Framework:update'])]
     public ?string $technology;

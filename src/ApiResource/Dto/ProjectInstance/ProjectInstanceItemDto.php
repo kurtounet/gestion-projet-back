@@ -14,46 +14,46 @@ final class ProjectInstanceItemDto
     public int $id;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public string $name;
+    public ?string $name = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public ?string $pathFileDatabase;
+    public ?string $pathFileDatabase = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public ?string $pathProject;
+    public ?string $pathProject = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public ?string $description;
+    public ?string $description = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public ?string $icon;
+    public ?string $icon = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public ?string $color;
+    public ?string $color = null;
 
     #[Groups(['ProjectInstance:item:read'])]
     public bool $isFavory;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public int $position;
+    public ?int $position = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public \DateTimeInterface $startDate;
+    public ?\DateTimeInterface $startDate = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public \DateTimeInterface $endDate;
+    public ?\DateTimeInterface $endDate = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public ?string $createdByUser;
+    public ?string $createdByUser = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public ?string $updatedByUser;
+    public ?string $updatedByUser = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public \DateTimeInterface $createdAt;
+    public ?\DateTimeInterface $createdAt = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+    public ?\DateTimeInterface $updatedAt = null;
 
     #[Groups(['ProjectInstance:item:read'])]
     public ?string $status = null;
@@ -68,15 +68,14 @@ final class ProjectInstanceItemDto
     public ?string $comment = null;
 
     #[Groups(['ProjectInstance:item:read'])]
-    public iterable $sprintInstances = [];
+    public ?iterable $sprintInstances = [];
 
     #[Groups(['ProjectInstance:item:read'])]
-    public iterable $projectInstances = [];
+    public ?iterable $projectInstances = [];
 
     #[Groups(['ProjectInstance:item:read'])]
     public ?string $parent = null;
 
     #[Groups(['ProjectInstance:item:read'])]
     public ?string $configFramework = null;
-
 }

@@ -4,24 +4,32 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FrameworkRepository;
-
-
+use App\Traits\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: FrameworkRepository::class)]
 class Framework
 {
+    use TimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $name = null;
+    private ?string $label = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $type = null;
 
     #[ORM\Column(length: 10)]
     private ?string $version = null;
+
+    #[ORM\Column(length: 250, nullable: true)]
+    private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
     private ?array $configuration = null;
@@ -51,14 +59,36 @@ class Framework
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getLabel(): ?string
     {
-        return $this->name;
+        return $this->label;
     }
 
-    public function setName(string $name): static
+    public function setLabel(string $label): static
     {
-        $this->name = $name;
+        $this->label = $label;
+
+        return $this;
+    }
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

@@ -18,11 +18,18 @@ final class FrameworkCreateDto
 {
     #[Assert\NotBlank]
     #[Groups(['Framework:create'])]
-    public string $name;
+    public string $label;
+
+    #[Assert\NotBlank]
+    #[Groups(['Framework:create'])]
+    public string $type;
 
     #[Assert\NotBlank]
     #[Groups(['Framework:create'])]
     public string $version;
+
+    #[Groups(['Framework:create'])]
+    public ?string $description;
 
     #[Groups(['Framework:create'])]
     public ?array $configuration;

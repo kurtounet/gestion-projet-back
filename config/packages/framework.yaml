@@ -1,7 +1,9 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    secret: '%env(APP_SECRET)%'
-
+    secret: "%env(APP_SECRET)%"
+    serializer:
+        # Cette option appartient au composant Serializer de Symfony
+        circular_reference_handler: 'App\Serializer\CircularReferenceHandler'
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 

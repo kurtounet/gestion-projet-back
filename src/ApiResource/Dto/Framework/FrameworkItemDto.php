@@ -14,7 +14,10 @@ final class FrameworkItemDto
     public int $id;
 
     #[Groups(['Framework:item:read'])]
-    public string $name;
+    public string $label;
+
+    #[Groups(['Framework:item:read'])]
+    public string $type;
 
     #[Groups(['Framework:item:read'])]
     public string $version;
@@ -33,5 +36,4 @@ final class FrameworkItemDto
 
     #[Groups(['Framework:item:read'])]
     public ?string $technology = null;
-
 }

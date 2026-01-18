@@ -13,7 +13,13 @@ final class FrameworkCollectionItemDto
     public int $id;
 
     #[Groups(['Framework:collection:read'])]
-    public string $name;
+    public string $label;
+
+    #[Groups(['Framework:collection:read'])]
+    public string $type;
+
+    #[Groups(['Framework:collection:read'])]
+    public ?string $description;
 
     #[Groups(['Framework:collection:read'])]
     public string $version;
