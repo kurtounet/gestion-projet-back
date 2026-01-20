@@ -220,11 +220,15 @@
         ],
         "fields": [
             "id",
-            "name",
+            "label",
+            "type",
             "version",
+            "description",
             "configuration",
             "icon",
-            "color"
+            "color",
+            "createdAt",
+            "updatedAt"
         ],
         "associations": [
             {
