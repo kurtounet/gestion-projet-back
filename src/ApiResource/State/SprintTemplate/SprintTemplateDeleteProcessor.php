@@ -6,12 +6,11 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-
 /**
- * Delete processor pour SprintTemplate.
- *
- * @implements ProcessorInterface<App\Entity\SprintTemplate, void>
- */
+* Delete processor pour SprintTemplate.
+*
+* @implements ProcessorInterface<App\Entity\SprintTemplate, void>
+*/
 final readonly class SprintTemplateDeleteProcessor implements ProcessorInterface
 {
     public function __construct(
@@ -24,8 +23,8 @@ final readonly class SprintTemplateDeleteProcessor implements ProcessorInterface
         if ($operation instanceof Delete) {
             $this->removeProcessor->process($data, $operation, $uriVariables, $context);
             return null;
-        }
 
         return $data;
+        }
     }
 }

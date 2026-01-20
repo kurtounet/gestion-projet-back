@@ -3,20 +3,19 @@
 namespace App\ApiResource\State\Status;
 
 use App\Entity\Status;
-use App\ApiResource\Dto\Status\StatusCollectionItemDto;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\ApiResource\Service\IriFromResource;
 use ApiPlatform\Metadata\CollectionOperationInterface;
+use App\ApiResource\Mapper\Status\StatusMapper;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use App\ApiResource\Resource\Context\ContextResource;
+
 
 final readonly class StatusCollectionProvider implements ProviderInterface
 {
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private IriFromResource $iriFromResource,
+        private StatusMapper $statusMapper
     ) {}
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
@@ -26,59 +25,18 @@ final readonly class StatusCollectionProvider implements ProviderInterface
         }
 
         $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
-
         if (!is_iterable($result)) {
             return $result;
         }
 
         $items = [];
-
         foreach ($result as $entity) {
+
             if (!$entity instanceof Status) {
                 continue;
             }
-
-            $dto = new StatusCollectionItemDto();
-
-        // 1) Scalars
-        $dto->id = $entity->getId();
-        $dto->label = $entity->getLabel();
-        $dto->color = $entity->getColor();
-        $dto->createdAt = $entity->getCreatedAt();
-        $dto->updatedAt = $entity->getUpdatedAt();
-
-         // 2) Relations ToOne => IRI (si présentes dans le DTO)
-/*
-        // context (ToOne => IRI)
-        $dto->context = $entity->getContext()
-            ? ($this->iriFromResource)(ContextResource::class,$entity->getContext()->getId())
-            : null;
-
-        // 3) Relations ToMany => array of IRIs (si présentes dans le DTO)
-        // No ToMany relations
-
-*/
-
-            $items[] = $dto;
+            $items[] = $this->statusMapper->entityToCollectionDto($entity);
         }
         return $items;
-    }
-
-    private function toIriList(iterable $items, string $resourceClass): array
-    {
-        $iris = [];
-
-        foreach ($items as $item) {
-            if (!is_object($item)) {
-                continue;
-            }
-
-            $iri = ($this->iriFromResource)($resourceClass, $item->getId());
-            if (null !== $iri) {
-                $iris[] = $iri;
-            }
-        }
-
-        return $iris;
     }
 }

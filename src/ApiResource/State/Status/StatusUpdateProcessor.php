@@ -3,25 +3,20 @@
 namespace App\ApiResource\State\Status;
 
 use App\Entity\Status;
-use App\ApiResource\Dto\Status\StatusUpdateDto;
-use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\State\ProcessorInterface;
-use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\EntityManagerInterface;
-use App\ApiResource\Service\IriFromResource;
+use ApiPlatform\State\ProcessorInterface;
+use App\ApiResource\Mapper\Status\StatusMapper;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use App\Entity\Context;
-
+use App\ApiResource\Dto\Status\StatusUpdateDto;
 
 
 final readonly class StatusUpdateProcessor implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private IriConverterInterface $iriConverter,
-         private IriFromResource $iriFromResource,
+        private StatusMapper $statusMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
     ) {}
@@ -37,101 +32,14 @@ final readonly class StatusUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(Status::class)->find($id);
+        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+
         if (!$entity instanceof Status) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Status::class, (string) $id));
         }
 
-            $entity->setLabel($data->label);
-
-            $entity->setColor($data->color);
-
-            $entity->setCreatedAt($data->createdAt);
-
-            $entity->setUpdatedAt($data->updatedAt);
-
-            $entity->setContext($data->context);
-
-
-
-
-        // $this->em->persist($entity);
-        // $this->em->flush();
-        // Persister l'entité
-        return $this->persistProcessor->process($entity, $operation, $uriVariables, $context);
+        $updatedEntity = $this->statusMapper->updateDtoToEntity($entity, $data);
+        $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+        return $this->statusMapper->entityToItemDto($entity);
     }
-        private function toIriList(iterable $items, string $resourceClass): array
-    {
-        $iris = [];
-
-        foreach ($items as $item) {
-            if (!is_object($item)) {
-                continue;
-            }
-
-            $iri = ($this->iriFromResource)($resourceClass, $item->getId());
-            if (null !== $iri) {
-                $iris[] = $iri;
-            }
-        }
-
-        return $iris;
-    }
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
-    {
-        if ($iri === null || $iri === '') {
-            if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
-            }
-
-            // OPTIONNEL => on retourne null (et on ne throw pas)
-            return null;
-        }
-
-        try {
-            $resource = $this->iriConverter->getResourceFromIri($iri);
-        } catch (\Throwable $e) {
-            throw new BadRequestHttpException(sprintf('Invalid IRI for field "%s".', $field), $e);
-        }
-
-        // 1) Si l’IRI te donne déjà l’Entity attendue, parfait
-        if ($resource instanceof $expectedClass) {
-            return $resource;
-        }
-
-        // 2) Sinon, on tente de récupérer l’ID depuis l’objet ressource
-        $id = null;
-        if (is_object($resource) && property_exists($resource, 'id')) {
-            $id = $resource->id;
-        }
-
-        // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
-            $id = (int) $m[1];
-        }
-
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
-        }
-
-        $entity = $this->em->getRepository($expectedClass)->find($id);
-
-        if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
-        }
-
-        return $entity;
-    }
-
 }
