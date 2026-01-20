@@ -166,7 +166,7 @@ class ProjectInstanceMapper
         $entity->setDescription($data->description);
         $entity->setIcon($data->icon);
         $entity->setColor($data->color);
-        $entity->setIsFavory($data->favory);
+        $entity->setIsFavory($data->isFavory);
         $entity->setPosition($data->position);
         $entity->setStartDate($data->startDate);
         $entity->setEndDate($data->endDate);
