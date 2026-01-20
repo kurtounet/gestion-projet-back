@@ -1,0 +1,45 @@
+<?php
+
+namespace App\ApiResource\State\Notification;
+
+use App\Entity\Notification;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Operation;
+use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\State\ProcessorInterface;
+use App\ApiResource\Mapper\Notification\NotificationMapper;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\ApiResource\Dto\Notification\NotificationUpdateDto;
+
+
+final readonly class NotificationUpdateProcessor implements ProcessorInterface
+{
+    public function __construct(
+        private EntityManagerInterface $em,
+        private NotificationMapper $notificationMapper,
+        #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
+        private ProcessorInterface $persistProcessor,
+    ) {}
+
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
+    {
+        if (!($operation instanceof Patch) || !($data instanceof NotificationUpdateDto)) {
+            return $data;
+        }
+
+        $id = $uriVariables['id'] ?? null;
+        if (!is_string($id) && !is_int($id)) {
+            throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
+        }
+
+        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+
+        if (!$entity instanceof Notification) {
+            throw new \RuntimeException(sprintf('Entity %s#%s not found.', Notification::class, (string) $id));
+        }
+
+        $updatedEntity = $this->notificationMapper->updateDtoToEntity($entity, $data);
+        $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+        return $this->notificationMapper->entityToItemDto($entity);
+    }
+}

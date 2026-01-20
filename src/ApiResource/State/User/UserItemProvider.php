@@ -1,0 +1,28 @@
+<?php
+
+namespace App\ApiResource\State\User;
+
+use App\Entity\User;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
+use App\ApiResource\Mapper\User\UserMapper;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
+final readonly class UserItemProvider implements ProviderInterface
+{
+     public function __construct(
+        #[Autowire(service: 'api_platform.doctrine.orm.state.item_provider')]
+        private ProviderInterface $itemProvider,
+        private UserMapper $userMapper
+    ) {}
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    {
+        $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
+
+        if (!$entity instanceof User) {
+            return $entity;
+        }
+
+        return $this->userMapper->entityToItemDto($entity);
+    }
+}
