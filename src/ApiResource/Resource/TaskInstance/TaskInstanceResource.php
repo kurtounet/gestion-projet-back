@@ -3,6 +3,7 @@
 namespace App\ApiResource\Resource\TaskInstance;
 
 use App\Entity\TaskInstance;
+use App\Entity\SprintInstance;
 
 
 use ApiPlatform\Metadata\Get;
@@ -12,7 +13,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
+use ApiPlatform\Metadata\Link;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceCreateDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceUpdateDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceItemDto;
@@ -24,14 +25,23 @@ use App\ApiResource\State\TaskInstance\TaskInstanceCreateProcessor;
 use App\ApiResource\State\TaskInstance\TaskInstanceUpdateProcessor;
 use App\ApiResource\State\TaskInstance\TaskInstanceDeleteProcessor;
 
-use Symfony\Component\ObjectMapper\Attribute\Map;
-use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'TaskInstance',
     stateOptions: new Options(entityClass: TaskInstance::class),
     operations: [
+        new GetCollection(
+            uriTemplate: 'task_instances/current_sprint/{sprintId}',
+            uriVariables: [
+                'sprintId' => new Link(
+                    fromClass: SprintInstance::class,
+                    toProperty: 'sprintInstance',
+                ),
+            ],
+            normalizationContext: ['groups' => ['TaskInstance:collection:read']],
+            provider: TaskInstanceCollectionProvider::class,
+            output: TaskInstanceCollectionItemDto::class
+        ),
         new GetCollection(
             uriTemplate: 'task_instances',
             normalizationContext: ['groups' => ['TaskInstance:collection:read']],
@@ -66,73 +76,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: TaskInstance::class)]
+
 final class TaskInstanceResource
 {
     public int $id;
-/*
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public int $id;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public string $name;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public string $description;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public \DateTimeInterface $startDate;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public \DateTimeInterface $dueDate;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?int $position;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public string $icon;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public string $color;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public \DateTimeInterface $createdAt;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $createdByUser;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $updatedByUser;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $user = null;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $taskTemplate = null;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $sprintInstance = null;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $priority = null;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $status = null;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $typeTask = null;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $parentTask = null;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $dependency = null;
-
-    #[Groups(['TaskInstance:collection:read', 'TaskInstance:item:read'])]
-    public ?string $comment = null;
-
-*/
 }
