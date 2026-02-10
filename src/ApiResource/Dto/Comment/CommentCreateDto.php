@@ -31,8 +31,6 @@ final class CommentCreateDto
     #[Groups(['Comment:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['Comment:create'])]
     public ?string $task;
     #[Groups(['Comment:create'])]

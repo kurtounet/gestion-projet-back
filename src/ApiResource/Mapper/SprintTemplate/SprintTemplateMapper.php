@@ -1,16 +1,16 @@
 <?php
 
 namespace App\ApiResource\Mapper\SprintTemplate;
-use App\Entity\SprintTemplate;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateItemDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateCreateDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateUpdateDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateCollectionItemDto;
 
+use ApiPlatform\Metadata\IriConverterInterface;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateCollectionItemDto;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateCreateDto;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateItemDto;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateUpdateDto;
+use App\ApiResource\Service\IriFromResource;
+use App\Entity\SprintTemplate;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\ApiResource\Service\IriFromResource;
-use ApiPlatform\Metadata\IriConverterInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class SprintTemplateMapper
@@ -20,78 +20,59 @@ class SprintTemplateMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
-
+    ) {
+    }
 
     public function entityToItemDto(SprintTemplate $entity): SprintTemplateItemDto
     {
-               $dto = new SprintTemplateItemDto();
-                     $dto->id = $entity->getId();
-             $dto->name = $entity->getName();
-             $dto->description = $entity->getDescription();
-             $dto->duration = $entity->getDuration();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-        /*
-        
+        $dto = new SprintTemplateItemDto();
+        $dto->id = $entity->getId();
+        $dto->name = $entity->getName();
+        $dto->description = $entity->getDescription();
+        $dto->duration = $entity->getDuration();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-        
-        */
         return $dto;
     }
 
     public function entityToCollectionDto(SprintTemplate $entity): SprintTemplateCollectionItemDto
     {
-                $dto = new SprintTemplateCollectionItemDto();
-                    $dto->id = $entity->getId();
-             $dto->name = $entity->getName();
-             $dto->description = $entity->getDescription();
-             $dto->duration = $entity->getDuration();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-       /*
-       
+        $dto = new SprintTemplateCollectionItemDto();
+        $dto->id = $entity->getId();
+        $dto->name = $entity->getName();
+        $dto->description = $entity->getDescription();
+        $dto->duration = $entity->getDuration();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-       
-       */
-       return $dto;
-
-
+        return $dto;
     }
+
     public function createDtoToEntity(SprintTemplateCreateDto $dto): SprintTemplate
     {
-               $entity = new SprintTemplate();
-                   $entity->setName($dto->name);
-            $entity->setDescription($dto->description);
-            $entity->setDuration($dto->duration);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new SprintTemplate();
+        $entity->setName($dto->name);
+        $entity->setDescription($dto->description);
+        $entity->setDuration($dto->duration);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-
-       return $entity;
-
-
-
+        return $entity;
     }
+
     public function updateDtoToEntity(SprintTemplate $entity, SprintTemplateUpdateDto $dto): SprintTemplate
     {
-               $entity = new SprintTemplate();
-                   $entity->setName($dto->name);
-            $entity->setDescription($dto->description);
-            $entity->setDuration($dto->duration);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new SprintTemplate();
+        $entity->setName($dto->name);
+        $entity->setDescription($dto->description);
+        $entity->setDuration($dto->duration);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-       return $entity;
+        return $entity;
     }
+
     /*
     public function mapEntityToCreateDto(SprintTemplate $entity): SprintTemplateCreateDto
     {
@@ -102,13 +83,13 @@ class SprintTemplateMapper
     */
     private function commonFieldsEntityToDto(SprintTemplate $entity, object $dto): void
     {
-                $dto->id = $entity->getId();
+        $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
     }
 
-        private function toIriList(iterable $items, string $resourceClass): array
-        {
+    private function toIriList(iterable $items, string $resourceClass): array
+    {
         $iris = [];
 
         foreach ($items as $item) {
@@ -121,17 +102,15 @@ class SprintTemplateMapper
                 $iris[] = $iri;
             }
         }
+
         return $iris;
     }
 
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
-        {
-        if ($iri === null || $iri === '') {
+    private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
+    {
+        if (null === $iri || '' === $iri) {
             if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
+                throw new BadRequestHttpException(sprintf('Field "%s" is required and must be a non-empty IRI string.', $field));
             }
 
             // OPTIONNEL => on retourne null (et on ne throw pas)
@@ -156,30 +135,20 @@ class SprintTemplateMapper
         }
 
         // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
+        if (null === $id && preg_match('~/(\d+)$~', $iri, $m)) {
             $id = (int) $m[1];
         }
 
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
+        if (null === $id) {
+            throw new BadRequestHttpException(sprintf('Invalid IRI type for field "%s". Expected "%s".', $field, $expectedClass));
         }
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
         if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
+            throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 
         return $entity;
     }
-
-
 }

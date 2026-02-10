@@ -6,7 +6,7 @@ use App\Entity\ContextStatus;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: ContextStatus::class)]
+// #[Map(source: ContextStatus::class)]
 final class ContextStatusCollectionItemDto
 {
     #[Groups(['ContextStatus:collection:read'])]

@@ -26,6 +26,4 @@ final class ContextCreateDto
 
     #[Groups(['Context:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

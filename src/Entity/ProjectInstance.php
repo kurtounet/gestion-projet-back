@@ -2,16 +2,13 @@
 
 namespace App\Entity;
 
+use App\Repository\ProjectInstanceRepository;
+use App\Traits\TimestampTrait;
+use App\Traits\UserStampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-
-use App\Repository\ProjectInstanceRepository;
-
-
-use App\Traits\UserStampTrait;
-use App\Traits\TimestampTrait;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectInstanceRepository::class)]
@@ -46,7 +43,7 @@ class ProjectInstance
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private ?bool $isFavory = null;
 
-    #[ORM\Column]    //
+    #[ORM\Column]
     private ?int $position = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -73,7 +70,7 @@ class ProjectInstance
     /**
      * @var Collection<int, SprintInstance>
      */
-    #[ORM\OneToMany(targetEntity: SprintInstance::class, mappedBy: 'projectInstance')] //, orphanRemoval: true
+    #[ORM\OneToMany(targetEntity: SprintInstance::class, mappedBy: 'projectInstance')] // , orphanRemoval: true
     private Collection $sprintInstances;
 
     /**
@@ -107,6 +104,7 @@ class ProjectInstance
     public function setStatus(?Status $status): static
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -118,6 +116,7 @@ class ProjectInstance
     public function setPriority(?Priority $priority): static
     {
         $this->priority = $priority;
+
         return $this;
     }
 
@@ -129,6 +128,7 @@ class ProjectInstance
     public function setProjectTemplate(?ProjectTemplate $projectTemplate): static
     {
         $this->projectTemplate = $projectTemplate;
+
         return $this;
     }
 
@@ -140,6 +140,7 @@ class ProjectInstance
     public function setComment(?Comment $comment): static
     {
         $this->comment = $comment;
+
         return $this;
     }
 
@@ -151,6 +152,7 @@ class ProjectInstance
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -162,6 +164,7 @@ class ProjectInstance
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -173,6 +176,7 @@ class ProjectInstance
     public function setStartDate(\DateTimeImmutable $startDate): static
     {
         $this->startDate = $startDate;
+
         return $this;
     }
 
@@ -184,6 +188,7 @@ class ProjectInstance
     public function setEndDate(\DateTimeImmutable $endDate): static
     {
         $this->endDate = $endDate;
+
         return $this;
     }
 

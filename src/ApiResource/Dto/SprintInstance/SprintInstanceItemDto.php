@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\SprintInstance;
 
 use App\Entity\SprintInstance;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: SprintInstance::class)]
+// #[Map(source: SprintInstance::class)]
 final class SprintInstanceItemDto
 {
     #[Groups(['SprintInstance:item:read'])]
@@ -63,5 +62,4 @@ final class SprintInstanceItemDto
 
     #[Groups(['SprintInstance:item:read'])]
     public ?string $projectInstance = null;
-
 }

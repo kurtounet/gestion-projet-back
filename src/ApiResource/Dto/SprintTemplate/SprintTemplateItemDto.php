@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\SprintTemplate;
 
 use App\Entity\SprintTemplate;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: SprintTemplate::class)]
+// #[Map(source: SprintTemplate::class)]
 final class SprintTemplateItemDto
 {
     #[Groups(['SprintTemplate:item:read'])]
@@ -27,6 +26,4 @@ final class SprintTemplateItemDto
 
     #[Groups(['SprintTemplate:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

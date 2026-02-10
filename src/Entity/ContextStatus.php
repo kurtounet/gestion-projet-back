@@ -2,13 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
 use App\Repository\ContextStatusRepository;
-
 use App\Traits\TimestampTrait;
-
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContextStatusRepository::class)]
@@ -42,6 +38,7 @@ class ContextStatus
     public function setContext(?Context $context): static
     {
         $this->context = $context;
+
         return $this;
     }
 
@@ -53,6 +50,7 @@ class ContextStatus
     public function setStatus(?Status $status): static
     {
         $this->status = $status;
+
         return $this;
     }
 }

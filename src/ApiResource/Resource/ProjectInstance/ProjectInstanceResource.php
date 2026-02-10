@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\ProjectInstance;
 
-use App\Entity\ProjectInstance;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCreateDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceUpdateDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionItemDto;
-
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCreateDto;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceItemDto;
+use App\ApiResource\Dto\ProjectInstance\ProjectInstanceUpdateDto;
 use App\ApiResource\State\ProjectInstance\ProjectInstanceCollectionProvider;
-use App\ApiResource\State\ProjectInstance\ProjectInstanceItemProvider;
 use App\ApiResource\State\ProjectInstance\ProjectInstanceCreateProcessor;
-use App\ApiResource\State\ProjectInstance\ProjectInstanceUpdateProcessor;
 use App\ApiResource\State\ProjectInstance\ProjectInstanceDeleteProcessor;
-
+use App\ApiResource\State\ProjectInstance\ProjectInstanceItemProvider;
+use App\ApiResource\State\ProjectInstance\ProjectInstanceUpdateProcessor;
+use App\Entity\ProjectInstance;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'ProjectInstance',
@@ -66,79 +60,79 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: ProjectInstance::class)]
+// #[Map(source: ProjectInstance::class)]
 final class ProjectInstanceResource
 {
     public int $id;
-/*
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public int $id;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public string $name;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public string $name;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $pathFileDatabase;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $pathFileDatabase;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $pathProject;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $pathProject;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $description;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $description;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $icon;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $icon;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $color;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $color;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public bool $isFavory;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public bool $isFavory;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public int $position;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public int $position;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public \DateTimeInterface $startDate;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public \DateTimeInterface $startDate;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public \DateTimeInterface $endDate;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public \DateTimeInterface $endDate;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $createdByUser;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $createdByUser;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $updatedByUser;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $updatedByUser;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $status = null;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $status = null;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $priority = null;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $priority = null;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $projectTemplate = null;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $projectTemplate = null;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $comment = null;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $comment = null;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public iterable $sprintInstances = [];
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public iterable $sprintInstances = [];
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public iterable $projectInstances = [];
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public iterable $projectInstances = [];
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $parent = null;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $parent = null;
 
-    #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
-    public ?string $configFramework = null;
+        #[Groups(['ProjectInstance:collection:read', 'ProjectInstance:item:read'])]
+        public ?string $configFramework = null;
 
-*/
+    */
 }

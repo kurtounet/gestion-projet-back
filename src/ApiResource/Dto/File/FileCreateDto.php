@@ -30,6 +30,4 @@ final class FileCreateDto
 
     #[Groups(['File:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

@@ -5,7 +5,6 @@ namespace App\ApiResource\Dto\ContextStatus;
 use App\Entity\ContextStatus;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour ContextStatus.

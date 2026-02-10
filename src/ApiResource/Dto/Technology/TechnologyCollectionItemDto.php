@@ -6,7 +6,7 @@ use App\Entity\Technology;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Technology::class)]
+// #[Map(source: Technology::class)]
 final class TechnologyCollectionItemDto
 {
     #[Groups(['Technology:collection:read'])]

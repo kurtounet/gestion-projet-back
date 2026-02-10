@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\ContextStatus;
 
 use App\Entity\ContextStatus;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: ContextStatus::class)]
+// #[Map(source: ContextStatus::class)]
 final class ContextStatusItemDto
 {
     #[Groups(['ContextStatus:item:read'])]
@@ -24,5 +23,4 @@ final class ContextStatusItemDto
 
     #[Groups(['ContextStatus:item:read'])]
     public ?string $status = null;
-
 }

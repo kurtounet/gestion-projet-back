@@ -2,11 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\ConfigProjectFrameworkRepository;
 use App\Traits\TimestampTrait;
 use Doctrine\ORM\Mapping as ORM;
-
-use App\Repository\ConfigProjectFrameworkRepository;
-
 
 #[ORM\Entity(repositoryClass: ConfigProjectFrameworkRepository::class)]
 class ConfigProjectFramework
@@ -16,11 +14,9 @@ class ConfigProjectFramework
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
@@ -87,12 +83,12 @@ class ConfigProjectFramework
     public function setProjectInstance(?ProjectInstance $projectInstance): static
     {
         // unset the owning side of the relation if necessary
-        if ($projectInstance === null && $this->projectInstance !== null) {
+        if (null === $projectInstance && null !== $this->projectInstance) {
             $this->projectInstance->setConfigFramework(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($projectInstance !== null && $projectInstance->getConfigFramework() !== $this) {
+        if (null !== $projectInstance && $projectInstance->getConfigFramework() !== $this) {
             $projectInstance->setConfigFramework($this);
         }
 

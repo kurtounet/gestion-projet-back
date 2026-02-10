@@ -2,14 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\SprintTemplateRepository;
+use App\Traits\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
-use App\Repository\SprintTemplateRepository;
-
-use App\Traits\TimestampTrait;
-
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: SprintTemplateRepository::class)]
@@ -44,6 +40,7 @@ class SprintTemplate
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -55,6 +52,7 @@ class SprintTemplate
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -66,6 +64,7 @@ class SprintTemplate
     public function setDuration(int $duration): static
     {
         $this->duration = $duration;
+
         return $this;
     }
 
@@ -77,6 +76,7 @@ class SprintTemplate
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -88,6 +88,7 @@ class SprintTemplate
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 }

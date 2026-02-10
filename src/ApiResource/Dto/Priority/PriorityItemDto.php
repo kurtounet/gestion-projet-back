@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\Priority;
 
 use App\Entity\Priority;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Priority::class)]
+// #[Map(source: Priority::class)]
 final class PriorityItemDto
 {
     #[Groups(['Priority:item:read'])]
@@ -27,6 +26,4 @@ final class PriorityItemDto
 
     #[Groups(['Priority:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

@@ -1,16 +1,16 @@
 <?php
 
 namespace App\ApiResource\Mapper\Context;
-use App\Entity\Context;
-use App\ApiResource\Dto\Context\ContextItemDto;
-use App\ApiResource\Dto\Context\ContextCreateDto;
-use App\ApiResource\Dto\Context\ContextUpdateDto;
-use App\ApiResource\Dto\Context\ContextCollectionItemDto;
 
+use ApiPlatform\Metadata\IriConverterInterface;
+use App\ApiResource\Dto\Context\ContextCollectionItemDto;
+use App\ApiResource\Dto\Context\ContextCreateDto;
+use App\ApiResource\Dto\Context\ContextItemDto;
+use App\ApiResource\Dto\Context\ContextUpdateDto;
+use App\ApiResource\Service\IriFromResource;
+use App\Entity\Context;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\ApiResource\Service\IriFromResource;
-use ApiPlatform\Metadata\IriConverterInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ContextMapper
@@ -20,70 +20,51 @@ class ContextMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
-
+    ) {
+    }
 
     public function entityToItemDto(Context $entity): ContextItemDto
     {
-               $dto = new ContextItemDto();
-                     $dto->id = $entity->getId();
-             $dto->contextLabel = $entity->getContextLabel();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-        /*
-        
+        $dto = new ContextItemDto();
+        $dto->id = $entity->getId();
+        $dto->contextLabel = $entity->getContextLabel();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-        
-        */
         return $dto;
     }
 
     public function entityToCollectionDto(Context $entity): ContextCollectionItemDto
     {
-                $dto = new ContextCollectionItemDto();
-                    $dto->id = $entity->getId();
-             $dto->contextLabel = $entity->getContextLabel();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-       /*
-       
+        $dto = new ContextCollectionItemDto();
+        $dto->id = $entity->getId();
+        $dto->contextLabel = $entity->getContextLabel();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-       
-       */
-       return $dto;
-
-
+        return $dto;
     }
+
     public function createDtoToEntity(ContextCreateDto $dto): Context
     {
-               $entity = new Context();
-                   $entity->setContextLabel($dto->contextLabel);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new Context();
+        $entity->setContextLabel($dto->contextLabel);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-
-       return $entity;
-
-
-
+        return $entity;
     }
+
     public function updateDtoToEntity(Context $entity, ContextUpdateDto $dto): Context
     {
-               $entity = new Context();
-                   $entity->setContextLabel($dto->contextLabel);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new Context();
+        $entity->setContextLabel($dto->contextLabel);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-       return $entity;
+        return $entity;
     }
+
     /*
     public function mapEntityToCreateDto(Context $entity): ContextCreateDto
     {
@@ -94,13 +75,13 @@ class ContextMapper
     */
     private function commonFieldsEntityToDto(Context $entity, object $dto): void
     {
-                $dto->id = $entity->getId();
+        $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
     }
 
-        private function toIriList(iterable $items, string $resourceClass): array
-        {
+    private function toIriList(iterable $items, string $resourceClass): array
+    {
         $iris = [];
 
         foreach ($items as $item) {
@@ -113,17 +94,15 @@ class ContextMapper
                 $iris[] = $iri;
             }
         }
+
         return $iris;
     }
 
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
-        {
-        if ($iri === null || $iri === '') {
+    private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
+    {
+        if (null === $iri || '' === $iri) {
             if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
+                throw new BadRequestHttpException(sprintf('Field "%s" is required and must be a non-empty IRI string.', $field));
             }
 
             // OPTIONNEL => on retourne null (et on ne throw pas)
@@ -148,30 +127,20 @@ class ContextMapper
         }
 
         // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
+        if (null === $id && preg_match('~/(\d+)$~', $iri, $m)) {
             $id = (int) $m[1];
         }
 
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
+        if (null === $id) {
+            throw new BadRequestHttpException(sprintf('Invalid IRI type for field "%s". Expected "%s".', $field, $expectedClass));
         }
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
         if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
+            throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 
         return $entity;
     }
-
-
 }

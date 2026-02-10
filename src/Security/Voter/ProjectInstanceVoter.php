@@ -3,16 +3,16 @@
 namespace App\Security\Voter;
 
 use App\Entity\ProjectInstance;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class ProjectInstanceVoter extends Voter
 {
     public const CREATE = 'PROJECT_INSTANCE_CREATE';
-    public const VIEW   = 'PROJECT_INSTANCE_VIEW';
-    public const EDIT   = 'PROJECT_INSTANCE_EDIT';
+    public const VIEW = 'PROJECT_INSTANCE_VIEW';
+    public const EDIT = 'PROJECT_INSTANCE_EDIT';
     public const DELETE = 'PROJECT_INSTANCE_DELETE';
 
     /**
@@ -21,7 +21,7 @@ final class ProjectInstanceVoter extends Voter
     protected function supports(string $attribute, mixed $subject): bool
     {
         // Pour CREATE, il n’y a pas encore de subject
-        if ($attribute === self::CREATE) {
+        if (self::CREATE === $attribute) {
             return true;
         }
 
@@ -31,24 +31,25 @@ final class ProjectInstanceVoter extends Voter
     }
 
     /**
-     * Logique métier d'autorisation
+     * Logique métier d'autorisation.
      */
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,
         TokenInterface $token,
-        ?Vote $vote = null
+        ?Vote $vote = null,
     ): bool {
         $user = $token->getUser();
 
         // Utilisateur non connecté
         if (!$user instanceof UserInterface) {
             $vote?->addReason('User is not authenticated.');
+
             return false;
         }
 
         // CREATE : toute personne authentifiée peut créer
-        if ($attribute === self::CREATE) {
+        if (self::CREATE === $attribute) {
             return true;
         }
 
@@ -61,6 +62,7 @@ final class ProjectInstanceVoter extends Voter
         }
 
         $vote?->addReason('User is not the owner of this ProjectInstance.');
+
         return false;
     }
 }

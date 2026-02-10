@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\Context;
 
-use App\Entity\Context;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\Context\ContextMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\Context\ContextUpdateDto;
-
+use App\ApiResource\Mapper\Context\ContextMapper;
+use App\Entity\Context;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class ContextUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class ContextUpdateProcessor implements ProcessorInterface
         private ContextMapper $contextMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class ContextUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->contextMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->contextMapper->entityToItemDto($entity);
     }
 }

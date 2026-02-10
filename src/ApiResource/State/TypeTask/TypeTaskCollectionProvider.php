@@ -2,25 +2,25 @@
 
 namespace App\ApiResource\State\TypeTask;
 
-use App\Entity\TypeTask;
+use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use ApiPlatform\Metadata\CollectionOperationInterface;
 use App\ApiResource\Mapper\TypeTask\TypeTaskMapper;
+use App\Entity\TypeTask;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-
 
 final readonly class TypeTaskCollectionProvider implements ProviderInterface
 {
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private TypeTaskMapper $typeTaskMapper
-    ) {}
+        private TypeTaskMapper $typeTaskMapper,
+    ) {
+    }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        if (!($operation instanceof CollectionOperationInterface)) {
+        if (!$operation instanceof CollectionOperationInterface) {
             throw new \LogicException(sprintf('%s ne gère que les opérations de collection.', self::class));
         }
 
@@ -31,12 +31,12 @@ final readonly class TypeTaskCollectionProvider implements ProviderInterface
 
         $items = [];
         foreach ($result as $entity) {
-
             if (!$entity instanceof TypeTask) {
                 continue;
             }
             $items[] = $this->typeTaskMapper->entityToCollectionDto($entity);
         }
+
         return $items;
     }
 }

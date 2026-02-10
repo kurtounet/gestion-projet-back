@@ -6,7 +6,7 @@ use App\Entity\File;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: File::class)]
+// #[Map(source: File::class)]
 final class FileCollectionItemDto
 {
     #[Groups(['File:collection:read'])]

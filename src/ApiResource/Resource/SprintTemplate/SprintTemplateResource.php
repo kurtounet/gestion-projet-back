@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\SprintTemplate;
 
-use App\Entity\SprintTemplate;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateCreateDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateUpdateDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\SprintTemplate\SprintTemplateCollectionItemDto;
-
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateCreateDto;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateItemDto;
+use App\ApiResource\Dto\SprintTemplate\SprintTemplateUpdateDto;
 use App\ApiResource\State\SprintTemplate\SprintTemplateCollectionProvider;
-use App\ApiResource\State\SprintTemplate\SprintTemplateItemProvider;
 use App\ApiResource\State\SprintTemplate\SprintTemplateCreateProcessor;
-use App\ApiResource\State\SprintTemplate\SprintTemplateUpdateProcessor;
 use App\ApiResource\State\SprintTemplate\SprintTemplateDeleteProcessor;
-
+use App\ApiResource\State\SprintTemplate\SprintTemplateItemProvider;
+use App\ApiResource\State\SprintTemplate\SprintTemplateUpdateProcessor;
+use App\Entity\SprintTemplate;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'SprintTemplate',
@@ -66,29 +60,29 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: SprintTemplate::class)]
+// #[Map(source: SprintTemplate::class)]
 final class SprintTemplateResource
 {
     public int $id;
-/*
-    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
+        public int $id;
 
-    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
-    public string $name;
+        #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
+        public string $name;
 
-    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
-    public string $description;
+        #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
+        public string $description;
 
-    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
-    public int $duration;
+        #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
+        public int $duration;
 
-    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['SprintTemplate:collection:read', 'SprintTemplate:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
 
-*/
+    */
 }

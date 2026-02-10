@@ -2,12 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 use App\Repository\SprintTaskRepository;
-
 use App\Traits\TimestampTrait;
-
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: SprintTaskRepository::class)]
@@ -44,6 +41,7 @@ class SprintTask
     public function setSprintTemplate(?SprintTemplate $sprintTemplate): static
     {
         $this->sprintTemplate = $sprintTemplate;
+
         return $this;
     }
 
@@ -55,6 +53,7 @@ class SprintTask
     public function setTaskTemplate(?TaskTemplate $taskTemplate): static
     {
         $this->taskTemplate = $taskTemplate;
+
         return $this;
     }
 
@@ -66,6 +65,7 @@ class SprintTask
     public function setTaskOrder(int $taskOrder): static
     {
         $this->taskOrder = $taskOrder;
+
         return $this;
     }
 }

@@ -9,11 +9,12 @@ class IriFromResource
 {
     public function __construct(
         private IriConverterInterface $iriConverter,
-    ) {}
+    ) {
+    }
 
     public function __invoke(string $resourceClass, int|string|null $id): ?string
     {
-        if ($id === null || $id === '') {
+        if (null === $id || '' === $id) {
             return null;
         }
 
@@ -24,11 +25,7 @@ class IriFromResource
             );
         } catch (\Throwable $e) {
             // Optionnel mais utile pour un message clair côté API
-            throw new NotFoundHttpException(sprintf(
-                'IRI not resolvable for resource %s with id %s.',
-                $resourceClass,
-                (string) $id
-            ), $e);
+            throw new NotFoundHttpException(sprintf('IRI not resolvable for resource %s with id %s.', $resourceClass, (string) $id), $e);
         }
     }
 }

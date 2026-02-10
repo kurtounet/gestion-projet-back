@@ -2,12 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
 use App\Repository\ProjectTemplateSprintTemplateRepository;
-
 use App\Traits\TimestampTrait;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectTemplateSprintTemplateRepository::class)]
@@ -31,7 +28,6 @@ class ProjectTemplateSprintTemplate
     #[ORM\JoinColumn(nullable: false)]
     private ?SprintTemplate $sprintTemplate = null;
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +41,7 @@ class ProjectTemplateSprintTemplate
     public function setProjectTemplate(?ProjectTemplate $projectTemplate): static
     {
         $this->projectTemplate = $projectTemplate;
+
         return $this;
     }
 
@@ -56,6 +53,7 @@ class ProjectTemplateSprintTemplate
     public function setSprintTemplate(?SprintTemplate $sprintTemplate): static
     {
         $this->sprintTemplate = $sprintTemplate;
+
         return $this;
     }
 
@@ -67,6 +65,7 @@ class ProjectTemplateSprintTemplate
     public function setSprintOrder(int $sprintOrder): static
     {
         $this->sprintOrder = $sprintOrder;
+
         return $this;
     }
 }

@@ -6,7 +6,7 @@ use App\Entity\Priority;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Priority::class)]
+// #[Map(source: Priority::class)]
 final class PriorityCollectionItemDto
 {
     #[Groups(['Priority:collection:read'])]

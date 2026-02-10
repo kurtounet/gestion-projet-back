@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\Technology;
 
-use App\Entity\Technology;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\Technology\TechnologyCreateDto;
-use App\ApiResource\Dto\Technology\TechnologyUpdateDto;
-use App\ApiResource\Dto\Technology\TechnologyItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\Technology\TechnologyCollectionItemDto;
-
+use App\ApiResource\Dto\Technology\TechnologyCreateDto;
+use App\ApiResource\Dto\Technology\TechnologyItemDto;
+use App\ApiResource\Dto\Technology\TechnologyUpdateDto;
 use App\ApiResource\State\Technology\TechnologyCollectionProvider;
-use App\ApiResource\State\Technology\TechnologyItemProvider;
 use App\ApiResource\State\Technology\TechnologyCreateProcessor;
-use App\ApiResource\State\Technology\TechnologyUpdateProcessor;
 use App\ApiResource\State\Technology\TechnologyDeleteProcessor;
-
+use App\ApiResource\State\Technology\TechnologyItemProvider;
+use App\ApiResource\State\Technology\TechnologyUpdateProcessor;
+use App\Entity\Technology;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Technology',
@@ -66,25 +60,25 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: Technology::class)]
+// #[Map(source: Technology::class)]
 final class TechnologyResource
 {
     public int $id;
-/*
-    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['Technology:collection:read', 'Technology:item:read'])]
+        public int $id;
 
-    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
-    public string $label;
+        #[Groups(['Technology:collection:read', 'Technology:item:read'])]
+        public string $label;
 
-    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['Technology:collection:read', 'Technology:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['Technology:collection:read', 'Technology:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['Technology:collection:read', 'Technology:item:read'])]
-    public iterable $framework = [];
+        #[Groups(['Technology:collection:read', 'Technology:item:read'])]
+        public iterable $framework = [];
 
-*/
+    */
 }

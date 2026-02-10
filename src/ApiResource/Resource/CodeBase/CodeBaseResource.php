@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\CodeBase;
 
-use App\Entity\CodeBase;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\CodeBase\CodeBaseCreateDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseUpdateDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\CodeBase\CodeBaseCollectionItemDto;
-
+use App\ApiResource\Dto\CodeBase\CodeBaseCreateDto;
+use App\ApiResource\Dto\CodeBase\CodeBaseItemDto;
+use App\ApiResource\Dto\CodeBase\CodeBaseUpdateDto;
 use App\ApiResource\State\CodeBase\CodeBaseCollectionProvider;
-use App\ApiResource\State\CodeBase\CodeBaseItemProvider;
 use App\ApiResource\State\CodeBase\CodeBaseCreateProcessor;
-use App\ApiResource\State\CodeBase\CodeBaseUpdateProcessor;
 use App\ApiResource\State\CodeBase\CodeBaseDeleteProcessor;
-
+use App\ApiResource\State\CodeBase\CodeBaseItemProvider;
+use App\ApiResource\State\CodeBase\CodeBaseUpdateProcessor;
+use App\Entity\CodeBase;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'CodeBase',
@@ -66,32 +60,32 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: CodeBase::class)]
+// #[Map(source: CodeBase::class)]
 final class CodeBaseResource
 {
     public int $id;
-/*
-    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
+        public int $id;
 
-    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-    public string $label;
+        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
+        public string $label;
 
-    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-    public string $code;
+        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
+        public string $code;
 
-    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-    public string $pathFile;
+        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
+        public string $pathFile;
 
-    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-    public string $feature;
+        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
+        public string $feature;
 
-    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
 
-*/
+    */
 }

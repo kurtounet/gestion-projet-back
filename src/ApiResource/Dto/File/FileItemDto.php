@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\File;
 
 use App\Entity\File;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: File::class)]
+// #[Map(source: File::class)]
 final class FileItemDto
 {
     #[Groups(['File:item:read'])]
@@ -24,6 +23,4 @@ final class FileItemDto
 
     #[Groups(['File:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

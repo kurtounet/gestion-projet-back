@@ -6,7 +6,7 @@ use App\Entity\Status;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Status::class)]
+// #[Map(source: Status::class)]
 final class StatusCollectionItemDto
 {
     #[Groups(['Status:collection:read'])]

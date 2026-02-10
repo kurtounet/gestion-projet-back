@@ -6,7 +6,7 @@ use App\Entity\ProjectTemplateSprintTemplate;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: ProjectTemplateSprintTemplate::class)]
+// #[Map(source: ProjectTemplateSprintTemplate::class)]
 final class ProjectTemplateSprintTemplateCollectionItemDto
 {
     #[Groups(['ProjectTemplateSprintTemplate:collection:read'])]

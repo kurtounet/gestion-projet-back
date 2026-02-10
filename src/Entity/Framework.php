@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FrameworkRepository;
 use App\Traits\TimestampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: FrameworkRepository::class)]
@@ -70,6 +70,7 @@ class Framework
 
         return $this;
     }
+
     public function getType(): ?string
     {
         return $this->type;
@@ -81,6 +82,7 @@ class Framework
 
         return $this;
     }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -140,7 +142,6 @@ class Framework
 
         return $this;
     }
-
 
     /**
      * @return Collection<int, ConfigProjectFramework>

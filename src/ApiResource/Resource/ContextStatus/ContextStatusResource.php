@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\ContextStatus;
 
-use App\Entity\ContextStatus;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\ContextStatus\ContextStatusCreateDto;
-use App\ApiResource\Dto\ContextStatus\ContextStatusUpdateDto;
-use App\ApiResource\Dto\ContextStatus\ContextStatusItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\ContextStatus\ContextStatusCollectionItemDto;
-
+use App\ApiResource\Dto\ContextStatus\ContextStatusCreateDto;
+use App\ApiResource\Dto\ContextStatus\ContextStatusItemDto;
+use App\ApiResource\Dto\ContextStatus\ContextStatusUpdateDto;
 use App\ApiResource\State\ContextStatus\ContextStatusCollectionProvider;
-use App\ApiResource\State\ContextStatus\ContextStatusItemProvider;
 use App\ApiResource\State\ContextStatus\ContextStatusCreateProcessor;
-use App\ApiResource\State\ContextStatus\ContextStatusUpdateProcessor;
 use App\ApiResource\State\ContextStatus\ContextStatusDeleteProcessor;
-
+use App\ApiResource\State\ContextStatus\ContextStatusItemProvider;
+use App\ApiResource\State\ContextStatus\ContextStatusUpdateProcessor;
+use App\Entity\ContextStatus;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'ContextStatus',
@@ -66,25 +60,25 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: ContextStatus::class)]
+// #[Map(source: ContextStatus::class)]
 final class ContextStatusResource
 {
     public int $id;
-/*
-    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
+        public int $id;
 
-    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
-    public ?string $context = null;
+        #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
+        public ?string $context = null;
 
-    #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
-    public ?string $status = null;
+        #[Groups(['ContextStatus:collection:read', 'ContextStatus:item:read'])]
+        public ?string $status = null;
 
-*/
+    */
 }

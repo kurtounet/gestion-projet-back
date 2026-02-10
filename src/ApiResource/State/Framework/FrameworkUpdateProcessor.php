@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\Framework;
 
-use App\Entity\Framework;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\Framework\FrameworkMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\Framework\FrameworkUpdateDto;
-
+use App\ApiResource\Mapper\Framework\FrameworkMapper;
+use App\Entity\Framework;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class FrameworkUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class FrameworkUpdateProcessor implements ProcessorInterface
         private FrameworkMapper $frameworkMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class FrameworkUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->frameworkMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->frameworkMapper->entityToItemDto($entity);
     }
 }

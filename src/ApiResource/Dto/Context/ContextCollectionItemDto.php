@@ -6,7 +6,7 @@ use App\Entity\Context;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Context::class)]
+// #[Map(source: Context::class)]
 final class ContextCollectionItemDto
 {
     #[Groups(['Context:collection:read'])]

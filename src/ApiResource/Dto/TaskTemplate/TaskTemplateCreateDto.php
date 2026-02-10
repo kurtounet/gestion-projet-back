@@ -35,8 +35,6 @@ final class TaskTemplateCreateDto
     #[Groups(['TaskTemplate:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['TaskTemplate:create'])]
     public ?string $sprintTemplate;
     #[Groups(['TaskTemplate:create'])]

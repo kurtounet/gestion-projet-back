@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\Feature;
 
 use App\Entity\Feature;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Feature::class)]
+// #[Map(source: Feature::class)]
 final class FeatureItemDto
 {
     #[Groups(['Feature:item:read'])]
@@ -21,6 +20,4 @@ final class FeatureItemDto
 
     #[Groups(['Feature:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

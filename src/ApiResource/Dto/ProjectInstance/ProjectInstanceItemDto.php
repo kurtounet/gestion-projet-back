@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\ProjectInstance;
 
 use App\Entity\ProjectInstance;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: ProjectInstance::class)]
+// #[Map(source: ProjectInstance::class)]
 final class ProjectInstanceItemDto
 {
     #[Groups(['ProjectInstance:item:read'])]
@@ -78,5 +77,4 @@ final class ProjectInstanceItemDto
 
     #[Groups(['ProjectInstance:item:read'])]
     public ?string $configFramework = null;
-
 }

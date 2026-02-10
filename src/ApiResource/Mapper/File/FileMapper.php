@@ -1,16 +1,16 @@
 <?php
 
 namespace App\ApiResource\Mapper\File;
-use App\Entity\File;
-use App\ApiResource\Dto\File\FileItemDto;
-use App\ApiResource\Dto\File\FileCreateDto;
-use App\ApiResource\Dto\File\FileUpdateDto;
-use App\ApiResource\Dto\File\FileCollectionItemDto;
 
+use ApiPlatform\Metadata\IriConverterInterface;
+use App\ApiResource\Dto\File\FileCollectionItemDto;
+use App\ApiResource\Dto\File\FileCreateDto;
+use App\ApiResource\Dto\File\FileItemDto;
+use App\ApiResource\Dto\File\FileUpdateDto;
+use App\ApiResource\Service\IriFromResource;
+use App\Entity\File;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\ApiResource\Service\IriFromResource;
-use ApiPlatform\Metadata\IriConverterInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class FileMapper
@@ -20,74 +20,55 @@ class FileMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
-
+    ) {
+    }
 
     public function entityToItemDto(File $entity): FileItemDto
     {
-               $dto = new FileItemDto();
-                     $dto->id = $entity->getId();
-             $dto->path = $entity->getPath();
-             $dto->keyWord = $entity->getKeyWord();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-        /*
-        
+        $dto = new FileItemDto();
+        $dto->id = $entity->getId();
+        $dto->path = $entity->getPath();
+        $dto->keyWord = $entity->getKeyWord();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-        
-        */
         return $dto;
     }
 
     public function entityToCollectionDto(File $entity): FileCollectionItemDto
     {
-                $dto = new FileCollectionItemDto();
-                    $dto->id = $entity->getId();
-             $dto->path = $entity->getPath();
-             $dto->keyWord = $entity->getKeyWord();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-       /*
-       
+        $dto = new FileCollectionItemDto();
+        $dto->id = $entity->getId();
+        $dto->path = $entity->getPath();
+        $dto->keyWord = $entity->getKeyWord();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-       
-       */
-       return $dto;
-
-
+        return $dto;
     }
+
     public function createDtoToEntity(FileCreateDto $dto): File
     {
-               $entity = new File();
-                   $entity->setPath($dto->path);
-            $entity->setKeyWord($dto->keyWord);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new File();
+        $entity->setPath($dto->path);
+        $entity->setKeyWord($dto->keyWord);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-
-       return $entity;
-
-
-
+        return $entity;
     }
+
     public function updateDtoToEntity(File $entity, FileUpdateDto $dto): File
     {
-               $entity = new File();
-                   $entity->setPath($dto->path);
-            $entity->setKeyWord($dto->keyWord);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new File();
+        $entity->setPath($dto->path);
+        $entity->setKeyWord($dto->keyWord);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-       return $entity;
+        return $entity;
     }
+
     /*
     public function mapEntityToCreateDto(File $entity): FileCreateDto
     {
@@ -98,13 +79,13 @@ class FileMapper
     */
     private function commonFieldsEntityToDto(File $entity, object $dto): void
     {
-                $dto->id = $entity->getId();
+        $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
     }
 
-        private function toIriList(iterable $items, string $resourceClass): array
-        {
+    private function toIriList(iterable $items, string $resourceClass): array
+    {
         $iris = [];
 
         foreach ($items as $item) {
@@ -117,17 +98,15 @@ class FileMapper
                 $iris[] = $iri;
             }
         }
+
         return $iris;
     }
 
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
-        {
-        if ($iri === null || $iri === '') {
+    private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
+    {
+        if (null === $iri || '' === $iri) {
             if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
+                throw new BadRequestHttpException(sprintf('Field "%s" is required and must be a non-empty IRI string.', $field));
             }
 
             // OPTIONNEL => on retourne null (et on ne throw pas)
@@ -152,30 +131,20 @@ class FileMapper
         }
 
         // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
+        if (null === $id && preg_match('~/(\d+)$~', $iri, $m)) {
             $id = (int) $m[1];
         }
 
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
+        if (null === $id) {
+            throw new BadRequestHttpException(sprintf('Invalid IRI type for field "%s". Expected "%s".', $field, $expectedClass));
         }
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
         if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
+            throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 
         return $entity;
     }
-
-
 }

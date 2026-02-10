@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\TaskTemplate;
 
-use App\Entity\TaskTemplate;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateCreateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\TaskTemplate\TaskTemplateCollectionItemDto;
-
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateCreateDto;
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateItemDto;
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
 use App\ApiResource\State\TaskTemplate\TaskTemplateCollectionProvider;
-use App\ApiResource\State\TaskTemplate\TaskTemplateItemProvider;
 use App\ApiResource\State\TaskTemplate\TaskTemplateCreateProcessor;
-use App\ApiResource\State\TaskTemplate\TaskTemplateUpdateProcessor;
 use App\ApiResource\State\TaskTemplate\TaskTemplateDeleteProcessor;
-
+use App\ApiResource\State\TaskTemplate\TaskTemplateItemProvider;
+use App\ApiResource\State\TaskTemplate\TaskTemplateUpdateProcessor;
+use App\Entity\TaskTemplate;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'TaskTemplate',
@@ -66,34 +60,34 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: TaskTemplate::class)]
+// #[Map(source: TaskTemplate::class)]
 final class TaskTemplateResource
 {
     public int $id;
-/*
-    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+        public int $id;
 
-    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public string $name;
+        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+        public string $name;
 
-    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public string $description;
+        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+        public string $description;
 
-    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public int $parentTask;
+        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+        public int $parentTask;
 
-    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public ?string $sprintTemplate = null;
+        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+        public ?string $sprintTemplate = null;
 
-    #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-    public ?string $typeTask = null;
+        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
+        public ?string $typeTask = null;
 
-*/
+    */
 }

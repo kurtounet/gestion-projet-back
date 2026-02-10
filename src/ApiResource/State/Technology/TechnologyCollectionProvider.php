@@ -2,25 +2,25 @@
 
 namespace App\ApiResource\State\Technology;
 
-use App\Entity\Technology;
+use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use ApiPlatform\Metadata\CollectionOperationInterface;
 use App\ApiResource\Mapper\Technology\TechnologyMapper;
+use App\Entity\Technology;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-
 
 final readonly class TechnologyCollectionProvider implements ProviderInterface
 {
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private TechnologyMapper $technologyMapper
-    ) {}
+        private TechnologyMapper $technologyMapper,
+    ) {
+    }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        if (!($operation instanceof CollectionOperationInterface)) {
+        if (!$operation instanceof CollectionOperationInterface) {
             throw new \LogicException(sprintf('%s ne gère que les opérations de collection.', self::class));
         }
 
@@ -31,12 +31,12 @@ final readonly class TechnologyCollectionProvider implements ProviderInterface
 
         $items = [];
         foreach ($result as $entity) {
-
             if (!$entity instanceof Technology) {
                 continue;
             }
             $items[] = $this->technologyMapper->entityToCollectionDto($entity);
         }
+
         return $items;
     }
 }

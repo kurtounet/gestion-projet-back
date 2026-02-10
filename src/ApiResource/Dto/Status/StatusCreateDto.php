@@ -30,8 +30,6 @@ final class StatusCreateDto
     #[Groups(['Status:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['Status:create'])]
     public ?string $context;
 }

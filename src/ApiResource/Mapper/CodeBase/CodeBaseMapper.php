@@ -1,16 +1,16 @@
 <?php
 
 namespace App\ApiResource\Mapper\CodeBase;
-use App\Entity\CodeBase;
-use App\ApiResource\Dto\CodeBase\CodeBaseItemDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseCreateDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseUpdateDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseCollectionItemDto;
 
+use ApiPlatform\Metadata\IriConverterInterface;
+use App\ApiResource\Dto\CodeBase\CodeBaseCollectionItemDto;
+use App\ApiResource\Dto\CodeBase\CodeBaseCreateDto;
+use App\ApiResource\Dto\CodeBase\CodeBaseItemDto;
+use App\ApiResource\Dto\CodeBase\CodeBaseUpdateDto;
+use App\ApiResource\Service\IriFromResource;
+use App\Entity\CodeBase;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\ApiResource\Service\IriFromResource;
-use ApiPlatform\Metadata\IriConverterInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CodeBaseMapper
@@ -20,82 +20,63 @@ class CodeBaseMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
-
+    ) {
+    }
 
     public function entityToItemDto(CodeBase $entity): CodeBaseItemDto
     {
-               $dto = new CodeBaseItemDto();
-                     $dto->id = $entity->getId();
-             $dto->label = $entity->getLabel();
-             $dto->code = $entity->getCode();
-             $dto->pathFile = $entity->getPathFile();
-             $dto->feature = $entity->getFeature();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-        /*
-        
+        $dto = new CodeBaseItemDto();
+        $dto->id = $entity->getId();
+        $dto->label = $entity->getLabel();
+        $dto->code = $entity->getCode();
+        $dto->pathFile = $entity->getPathFile();
+        $dto->feature = $entity->getFeature();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-        
-        */
         return $dto;
     }
 
     public function entityToCollectionDto(CodeBase $entity): CodeBaseCollectionItemDto
     {
-                $dto = new CodeBaseCollectionItemDto();
-                    $dto->id = $entity->getId();
-             $dto->label = $entity->getLabel();
-             $dto->code = $entity->getCode();
-             $dto->pathFile = $entity->getPathFile();
-             $dto->feature = $entity->getFeature();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-       /*
-       
+        $dto = new CodeBaseCollectionItemDto();
+        $dto->id = $entity->getId();
+        $dto->label = $entity->getLabel();
+        $dto->code = $entity->getCode();
+        $dto->pathFile = $entity->getPathFile();
+        $dto->feature = $entity->getFeature();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-       
-       */
-       return $dto;
-
-
+        return $dto;
     }
+
     public function createDtoToEntity(CodeBaseCreateDto $dto): CodeBase
     {
-               $entity = new CodeBase();
-                   $entity->setLabel($dto->label);
-            $entity->setCode($dto->code);
-            $entity->setPathFile($dto->pathFile);
-            $entity->setFeature($dto->feature);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new CodeBase();
+        $entity->setLabel($dto->label);
+        $entity->setCode($dto->code);
+        $entity->setPathFile($dto->pathFile);
+        $entity->setFeature($dto->feature);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-
-       return $entity;
-
-
-
+        return $entity;
     }
+
     public function updateDtoToEntity(CodeBase $entity, CodeBaseUpdateDto $dto): CodeBase
     {
-               $entity = new CodeBase();
-                   $entity->setLabel($dto->label);
-            $entity->setCode($dto->code);
-            $entity->setPathFile($dto->pathFile);
-            $entity->setFeature($dto->feature);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new CodeBase();
+        $entity->setLabel($dto->label);
+        $entity->setCode($dto->code);
+        $entity->setPathFile($dto->pathFile);
+        $entity->setFeature($dto->feature);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-       return $entity;
+        return $entity;
     }
+
     /*
     public function mapEntityToCreateDto(CodeBase $entity): CodeBaseCreateDto
     {
@@ -106,13 +87,13 @@ class CodeBaseMapper
     */
     private function commonFieldsEntityToDto(CodeBase $entity, object $dto): void
     {
-                $dto->id = $entity->getId();
+        $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
     }
 
-        private function toIriList(iterable $items, string $resourceClass): array
-        {
+    private function toIriList(iterable $items, string $resourceClass): array
+    {
         $iris = [];
 
         foreach ($items as $item) {
@@ -125,17 +106,15 @@ class CodeBaseMapper
                 $iris[] = $iri;
             }
         }
+
         return $iris;
     }
 
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
-        {
-        if ($iri === null || $iri === '') {
+    private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
+    {
+        if (null === $iri || '' === $iri) {
             if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
+                throw new BadRequestHttpException(sprintf('Field "%s" is required and must be a non-empty IRI string.', $field));
             }
 
             // OPTIONNEL => on retourne null (et on ne throw pas)
@@ -160,30 +139,20 @@ class CodeBaseMapper
         }
 
         // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
+        if (null === $id && preg_match('~/(\d+)$~', $iri, $m)) {
             $id = (int) $m[1];
         }
 
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
+        if (null === $id) {
+            throw new BadRequestHttpException(sprintf('Invalid IRI type for field "%s". Expected "%s".', $field, $expectedClass));
         }
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
         if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
+            throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 
         return $entity;
     }
-
-
 }

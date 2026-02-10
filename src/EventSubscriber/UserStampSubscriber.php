@@ -3,17 +3,18 @@
 namespace App\EventSubscriber;
 
 use App\Entity\User;
-use Doctrine\ORM\Events;
-use Symfony\Bundle\SecurityBundle\Security;
 use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\Event\PreUpdateEventArgs;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class UserStampSubscriber implements EventSubscriber
 {
     public function __construct(
-        private readonly Security $security
-    ) {}
+        private readonly Security $security,
+    ) {
+    }
 
     public function getSubscribedEvents(): array
     {
@@ -34,8 +35,7 @@ final class UserStampSubscriber implements EventSubscriber
 
         // On ne touche que les entités qui exposent ces méthodes
         if (method_exists($entity, 'setCreatedByUser') && method_exists($entity, 'setUpdatedByUser')) {
-
-            if (method_exists($entity, 'getCreatedByUser') && $entity->getCreatedByUser() === null) {
+            if (method_exists($entity, 'getCreatedByUser') && null === $entity->getCreatedByUser()) {
                 $entity->setCreatedByUser($userIdentifier);
             }
 
@@ -58,14 +58,14 @@ final class UserStampSubscriber implements EventSubscriber
 
         // Important pour notifier Doctrine que le champ a changé
         if (method_exists($entity, 'setCreatedByUser') && method_exists($entity, 'setUpdatedByUser')) {
-
-            if (method_exists($entity, 'getCreatedByUser') && $entity->getCreatedByUser() === null) {
+            if (method_exists($entity, 'getCreatedByUser') && null === $entity->getCreatedByUser()) {
                 $entity->setCreatedByUser($userIdentifier);
             }
 
             $entity->setUpdatedByUser($userIdentifier);
         }
     }
+
     private function getUserIdentifier(): ?string
     {
         $user = $this->security->getUser();
@@ -73,6 +73,7 @@ final class UserStampSubscriber implements EventSubscriber
         if (!$user instanceof User) {
             return null;
         }
+
         return $user->getUserIdentifier();
     }
 }

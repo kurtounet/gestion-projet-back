@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\ProjectTemplateRepository;
+use App\Traits\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
-use App\Traits\TimestampTrait;
-use App\Repository\ProjectTemplateRepository;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProjectTemplateRepository::class)]
@@ -41,6 +40,7 @@ class ProjectTemplate
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -52,6 +52,7 @@ class ProjectTemplate
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -63,6 +64,7 @@ class ProjectTemplate
     public function setDuration(int $duration): static
     {
         $this->duration = $duration;
+
         return $this;
     }
 }

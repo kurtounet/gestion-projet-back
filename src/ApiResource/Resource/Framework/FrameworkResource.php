@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\Framework;
 
-use App\Entity\Framework;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\Framework\FrameworkCreateDto;
-use App\ApiResource\Dto\Framework\FrameworkUpdateDto;
-use App\ApiResource\Dto\Framework\FrameworkItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\Framework\FrameworkCollectionItemDto;
-
+use App\ApiResource\Dto\Framework\FrameworkCreateDto;
+use App\ApiResource\Dto\Framework\FrameworkItemDto;
+use App\ApiResource\Dto\Framework\FrameworkUpdateDto;
 use App\ApiResource\State\Framework\FrameworkCollectionProvider;
-use App\ApiResource\State\Framework\FrameworkItemProvider;
 use App\ApiResource\State\Framework\FrameworkCreateProcessor;
-use App\ApiResource\State\Framework\FrameworkUpdateProcessor;
 use App\ApiResource\State\Framework\FrameworkDeleteProcessor;
-
+use App\ApiResource\State\Framework\FrameworkItemProvider;
+use App\ApiResource\State\Framework\FrameworkUpdateProcessor;
+use App\Entity\Framework;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Framework',
@@ -66,46 +60,46 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: Framework::class)]
+// #[Map(source: Framework::class)]
 final class FrameworkResource
 {
     public int $id;
-/*
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public int $id;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public string $label;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public string $label;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public string $type;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public string $type;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public string $version;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public string $version;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public ?string $description;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public ?string $description;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public ?array $configuration;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public ?array $configuration;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public ?string $icon;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public ?string $icon;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public ?string $color;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public ?string $color;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public iterable $configProjectFrameworks = [];
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public iterable $configProjectFrameworks = [];
 
-    #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-    public ?string $technology = null;
+        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
+        public ?string $technology = null;
 
-*/
+    */
 }

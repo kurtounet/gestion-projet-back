@@ -56,8 +56,6 @@ final class SprintInstanceCreateDto
     #[Groups(['SprintInstance:create'])]
     public ?string $updatedByUser;
 
-
-
     #[Groups(['SprintInstance:create'])]
     public ?string $priority;
     #[Groups(['SprintInstance:create'])]

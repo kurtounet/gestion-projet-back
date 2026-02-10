@@ -6,7 +6,7 @@ use App\Entity\CodeBase;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: CodeBase::class)]
+// #[Map(source: CodeBase::class)]
 final class CodeBaseCollectionItemDto
 {
     #[Groups(['CodeBase:collection:read'])]

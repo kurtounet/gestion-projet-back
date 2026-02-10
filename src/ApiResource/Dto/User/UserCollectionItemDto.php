@@ -6,7 +6,7 @@ use App\Entity\User;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: User::class)]
+// #[Map(source: User::class)]
 final class UserCollectionItemDto
 {
     #[Groups(['User:collection:read'])]

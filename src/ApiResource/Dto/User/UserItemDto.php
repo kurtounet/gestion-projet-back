@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\User;
 
 use App\Entity\User;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: User::class)]
+// #[Map(source: User::class)]
 final class UserItemDto
 {
     #[Groups(['User:item:read'])]
@@ -33,6 +32,4 @@ final class UserItemDto
 
     #[Groups(['User:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

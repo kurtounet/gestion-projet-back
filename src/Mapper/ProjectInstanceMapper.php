@@ -32,10 +32,11 @@ class ProjectInstanceMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
+    ) {
+    }
 
     /**
-     * Pour transformer une entité en DTO de DETAIL (Item)
+     * Pour transformer une entité en DTO de DETAIL (Item).
      */
     public function entityToItemDto(ProjectInstance $entity): ProjectInstanceItemDto
     {
@@ -91,8 +92,9 @@ class ProjectInstanceMapper
 
         return $dto;
     }
+
     /**
-     * Pour transformer une entité en DTO de LISTE (Collection)
+     * Pour transformer une entité en DTO de LISTE (Collection).
      */
     public function mapEntityToCollectionDto(ProjectInstance $entity): ProjectInstanceCollectionItemDto
     {
@@ -158,6 +160,7 @@ class ProjectInstanceMapper
         // On peut choisir de ne pas mettre certaines relations ici pour la performance
         return $dto;
     }
+
     public function updateDtoToEntity(ProjectInstance $entity, ProjectInstanceUpdateDto $data): ProjectInstance
     {
         $entity->setName($data->name);
@@ -185,9 +188,9 @@ class ProjectInstanceMapper
 
         return $entity;
     }
+
     public function createDtoToEntity(ProjectInstanceCreateDto $dto): ProjectInstance
     {
-
         $entity = new ProjectInstance();
 
         $entity->setName($dto->name);
@@ -225,12 +228,13 @@ class ProjectInstanceMapper
         // comment (ToMany => array of IRIs)
         $entity->setComment($this->resolveIri($dto->comment ?? null, Comment::class, 'comment', required: false));
         // projectinstance (ToMany => array of IRIs)
-        //$entity->setProjectInstances($this->resolveIri($dto->projectinstance ?? null, ProjectInstance::class, 'projectinstance', required: false));
+        // $entity->setProjectInstances($this->resolveIri($dto->projectinstance ?? null, ProjectInstance::class, 'projectinstance', required: false));
         // configprojectframework (ToMany => array of IRIs)
-        //$entity->setConfigProjectFramework($this->resolveIri($dto->configprojectframework ?? null, ConfigProjectFramework::class, 'configprojectframework', required: false));
+        // $entity->setConfigProjectFramework($this->resolveIri($dto->configprojectframework ?? null, ConfigProjectFramework::class, 'configprojectframework', required: false));
 
         return $entity;
     }
+
     public function mapEntityToCreateDto(ProjectInstance $entity): ProjectInstanceCreateDto
     {
         $dto = new ProjectInstanceCreateDto();
@@ -321,14 +325,12 @@ class ProjectInstanceMapper
 
         return $iris;
     }
+
     private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
     {
-        if ($iri === null || $iri === '') {
+        if (null === $iri || '' === $iri) {
             if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
+                throw new BadRequestHttpException(sprintf('Field "%s" is required and must be a non-empty IRI string.', $field));
             }
 
             // OPTIONNEL => on retourne null (et on ne throw pas)
@@ -353,26 +355,18 @@ class ProjectInstanceMapper
         }
 
         // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
+        if (null === $id && preg_match('~/(\d+)$~', $iri, $m)) {
             $id = (int) $m[1];
         }
 
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
+        if (null === $id) {
+            throw new BadRequestHttpException(sprintf('Invalid IRI type for field "%s". Expected "%s".', $field, $expectedClass));
         }
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
         if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
+            throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 
         return $entity;

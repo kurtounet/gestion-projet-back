@@ -23,8 +23,6 @@ final class ContextStatusCreateDto
     #[Groups(['ContextStatus:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['ContextStatus:create'])]
     public ?string $context;
     #[Groups(['ContextStatus:create'])]

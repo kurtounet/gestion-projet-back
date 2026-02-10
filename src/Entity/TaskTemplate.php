@@ -2,13 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\TaskTemplateRepository;
+use App\Traits\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\TaskTemplateRepository;
-
-use App\Traits\TimestampTrait;
-
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TaskTemplateRepository::class)]
@@ -21,7 +18,6 @@ class TaskTemplate
     #[ORM\Column]
     private ?int $id = null;
 
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -30,7 +26,6 @@ class TaskTemplate
 
     #[ORM\Column]
     private ?int $parentTask = null;
-
 
     #[ORM\ManyToOne(targetEntity: SprintTemplate::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -53,6 +48,7 @@ class TaskTemplate
     public function setSprintTemplate(?SprintTemplate $sprintTemplate): static
     {
         $this->sprintTemplate = $sprintTemplate;
+
         return $this;
     }
 
@@ -64,6 +60,7 @@ class TaskTemplate
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -75,6 +72,7 @@ class TaskTemplate
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -86,6 +84,7 @@ class TaskTemplate
     public function setParentTask(int $parentTask): static
     {
         $this->parentTask = $parentTask;
+
         return $this;
     }
 
@@ -97,6 +96,7 @@ class TaskTemplate
     public function setTypeTask(?TypeTask $typeTask): static
     {
         $this->typeTask = $typeTask;
+
         return $this;
     }
 }

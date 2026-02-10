@@ -34,6 +34,4 @@ final class SprintTemplateCreateDto
 
     #[Groups(['SprintTemplate:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

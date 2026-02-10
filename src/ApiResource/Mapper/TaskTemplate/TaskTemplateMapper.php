@@ -1,16 +1,16 @@
 <?php
 
 namespace App\ApiResource\Mapper\TaskTemplate;
-use App\Entity\TaskTemplate;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateItemDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateCreateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateCollectionItemDto;
 
+use ApiPlatform\Metadata\IriConverterInterface;
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateCollectionItemDto;
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateCreateDto;
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateItemDto;
+use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
+use App\ApiResource\Service\IriFromResource;
+use App\Entity\TaskTemplate;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\ApiResource\Service\IriFromResource;
-use ApiPlatform\Metadata\IriConverterInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class TaskTemplateMapper
@@ -20,20 +20,21 @@ class TaskTemplateMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
-
+    ) {
+    }
 
     public function entityToItemDto(TaskTemplate $entity): TaskTemplateItemDto
     {
-               $dto = new TaskTemplateItemDto();
-                     $dto->id = $entity->getId();
-             $dto->name = $entity->getName();
-             $dto->description = $entity->getDescription();
-             $dto->parentTask = $entity->getParentTask();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
+        $dto = new TaskTemplateItemDto();
+        $dto->id = $entity->getId();
+        $dto->name = $entity->getName();
+        $dto->description = $entity->getDescription();
+        $dto->parentTask = $entity->getParentTask();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
+
         /*
-        
+
         $dto->sprinttemplate = $entity->getSprinttemplate()
             ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
             : null;
@@ -42,77 +43,77 @@ class TaskTemplateMapper
             ? ($this->iriFromResource)(TypeTask::class,$entity->getTypetask()->getId())
             : null;
 
-        
+
         */
         return $dto;
     }
 
     public function entityToCollectionDto(TaskTemplate $entity): TaskTemplateCollectionItemDto
     {
-                $dto = new TaskTemplateCollectionItemDto();
-                    $dto->id = $entity->getId();
-             $dto->name = $entity->getName();
-             $dto->description = $entity->getDescription();
-             $dto->parentTask = $entity->getParentTask();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-       /*
-       
-        $dto->sprinttemplate = $entity->getSprinttemplate()
-            ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
-            : null;
+        $dto = new TaskTemplateCollectionItemDto();
+        $dto->id = $entity->getId();
+        $dto->name = $entity->getName();
+        $dto->description = $entity->getDescription();
+        $dto->parentTask = $entity->getParentTask();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-        $dto->typetask = $entity->getTypetask()
-            ? ($this->iriFromResource)(TypeTask::class,$entity->getTypetask()->getId())
-            : null;
+        /*
 
-       
-       */
-       return $dto;
+         $dto->sprinttemplate = $entity->getSprinttemplate()
+             ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
+             : null;
+
+         $dto->typetask = $entity->getTypetask()
+             ? ($this->iriFromResource)(TypeTask::class,$entity->getTypetask()->getId())
+             : null;
 
 
+        */
+        return $dto;
     }
+
     public function createDtoToEntity(TaskTemplateCreateDto $dto): TaskTemplate
     {
-               $entity = new TaskTemplate();
-                   $entity->setName($dto->name);
-            $entity->setDescription($dto->description);
-            $entity->setParentTask($dto->parentTask);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-                   $entity->setSprintTemplate($dto->sprintTemplate);
+        $entity = new TaskTemplate();
+        $entity->setName($dto->name);
+        $entity->setDescription($dto->description);
+        $entity->setParentTask($dto->parentTask);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
+        /*
+                    $entity->setSprintTemplate($dto->sprintTemplate);
 
-            $entity->setTypeTask($dto->typeTask);
-
-       
-        $entity->setSprintTemplate($this->resolveIri($dto->sprinttemplate ?? null, SprintTemplate::class, 'sprinttemplate', required: true));
-
-        $entity->setTypeTask($this->resolveIri($dto->typetask ?? null, TypeTask::class, 'typetask', required: true));
-       */
-
-       return $entity;
+             $entity->setTypeTask($dto->typeTask);
 
 
+         $entity->setSprintTemplate($this->resolveIri($dto->sprinttemplate ?? null, SprintTemplate::class, 'sprinttemplate', required: true));
 
+         $entity->setTypeTask($this->resolveIri($dto->typetask ?? null, TypeTask::class, 'typetask', required: true));
+        */
+
+        return $entity;
     }
+
     public function updateDtoToEntity(TaskTemplate $entity, TaskTemplateUpdateDto $dto): TaskTemplate
     {
-               $entity = new TaskTemplate();
-                   $entity->setName($dto->name);
-            $entity->setDescription($dto->description);
-            $entity->setParentTask($dto->parentTask);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-                   $entity->setSprintTemplate($dto->sprintTemplate);
+        $entity = new TaskTemplate();
+        $entity->setName($dto->name);
+        $entity->setDescription($dto->description);
+        $entity->setParentTask($dto->parentTask);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-            $entity->setTypeTask($dto->typeTask);
+        /*
+                    $entity->setSprintTemplate($dto->sprintTemplate);
 
-       
-       */
-       return $entity;
+             $entity->setTypeTask($dto->typeTask);
+
+
+        */
+        return $entity;
     }
+
     /*
     public function mapEntityToCreateDto(TaskTemplate $entity): TaskTemplateCreateDto
     {
@@ -123,13 +124,13 @@ class TaskTemplateMapper
     */
     private function commonFieldsEntityToDto(TaskTemplate $entity, object $dto): void
     {
-                $dto->id = $entity->getId();
+        $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
     }
 
-        private function toIriList(iterable $items, string $resourceClass): array
-        {
+    private function toIriList(iterable $items, string $resourceClass): array
+    {
         $iris = [];
 
         foreach ($items as $item) {
@@ -142,17 +143,15 @@ class TaskTemplateMapper
                 $iris[] = $iri;
             }
         }
+
         return $iris;
     }
 
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
-        {
-        if ($iri === null || $iri === '') {
+    private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
+    {
+        if (null === $iri || '' === $iri) {
             if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
+                throw new BadRequestHttpException(sprintf('Field "%s" is required and must be a non-empty IRI string.', $field));
             }
 
             // OPTIONNEL => on retourne null (et on ne throw pas)
@@ -177,30 +176,20 @@ class TaskTemplateMapper
         }
 
         // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
+        if (null === $id && preg_match('~/(\d+)$~', $iri, $m)) {
             $id = (int) $m[1];
         }
 
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
+        if (null === $id) {
+            throw new BadRequestHttpException(sprintf('Invalid IRI type for field "%s". Expected "%s".', $field, $expectedClass));
         }
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
         if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
+            throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 
         return $entity;
     }
-
-
 }

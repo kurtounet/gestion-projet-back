@@ -56,8 +56,6 @@ final class TaskInstanceCreateDto
     #[Groups(['TaskInstance:create'])]
     public ?string $updatedByUser;
 
-
-
     #[Groups(['TaskInstance:create'])]
     public ?string $user;
     #[Groups(['TaskInstance:create'])]

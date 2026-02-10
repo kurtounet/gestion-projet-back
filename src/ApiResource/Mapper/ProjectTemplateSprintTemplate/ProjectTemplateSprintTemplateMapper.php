@@ -1,16 +1,16 @@
 <?php
 
 namespace App\ApiResource\Mapper\ProjectTemplateSprintTemplate;
-use App\Entity\ProjectTemplateSprintTemplate;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateItemDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCreateDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateUpdateDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCollectionItemDto;
 
+use ApiPlatform\Metadata\IriConverterInterface;
+use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCollectionItemDto;
+use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCreateDto;
+use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateItemDto;
+use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateUpdateDto;
+use App\ApiResource\Service\IriFromResource;
+use App\Entity\ProjectTemplateSprintTemplate;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\ApiResource\Service\IriFromResource;
-use ApiPlatform\Metadata\IriConverterInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ProjectTemplateSprintTemplateMapper
@@ -20,18 +20,19 @@ class ProjectTemplateSprintTemplateMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
-
+    ) {
+    }
 
     public function entityToItemDto(ProjectTemplateSprintTemplate $entity): ProjectTemplateSprintTemplateItemDto
     {
-               $dto = new ProjectTemplateSprintTemplateItemDto();
-                     $dto->id = $entity->getId();
-             $dto->sprintOrder = $entity->getSprintOrder();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
+        $dto = new ProjectTemplateSprintTemplateItemDto();
+        $dto->id = $entity->getId();
+        $dto->sprintOrder = $entity->getSprintOrder();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
+
         /*
-        
+
         $dto->projecttemplate = $entity->getProjecttemplate()
             ? ($this->iriFromResource)(ProjectTemplate::class,$entity->getProjecttemplate()->getId())
             : null;
@@ -40,71 +41,71 @@ class ProjectTemplateSprintTemplateMapper
             ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
             : null;
 
-        
+
         */
         return $dto;
     }
 
     public function entityToCollectionDto(ProjectTemplateSprintTemplate $entity): ProjectTemplateSprintTemplateCollectionItemDto
     {
-                $dto = new ProjectTemplateSprintTemplateCollectionItemDto();
-                    $dto->id = $entity->getId();
-             $dto->sprintOrder = $entity->getSprintOrder();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-       /*
-       
-        $dto->projecttemplate = $entity->getProjecttemplate()
-            ? ($this->iriFromResource)(ProjectTemplate::class,$entity->getProjecttemplate()->getId())
-            : null;
+        $dto = new ProjectTemplateSprintTemplateCollectionItemDto();
+        $dto->id = $entity->getId();
+        $dto->sprintOrder = $entity->getSprintOrder();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-        $dto->sprinttemplate = $entity->getSprinttemplate()
-            ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
-            : null;
+        /*
 
-       
-       */
-       return $dto;
+         $dto->projecttemplate = $entity->getProjecttemplate()
+             ? ($this->iriFromResource)(ProjectTemplate::class,$entity->getProjecttemplate()->getId())
+             : null;
+
+         $dto->sprinttemplate = $entity->getSprinttemplate()
+             ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
+             : null;
 
 
+        */
+        return $dto;
     }
+
     public function createDtoToEntity(ProjectTemplateSprintTemplateCreateDto $dto): ProjectTemplateSprintTemplate
     {
-               $entity = new ProjectTemplateSprintTemplate();
-                   $entity->setSprintOrder($dto->sprintOrder);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-                   $entity->setProjectTemplate($dto->projectTemplate);
+        $entity = new ProjectTemplateSprintTemplate();
+        $entity->setSprintOrder($dto->sprintOrder);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
+        /*
+                    $entity->setProjectTemplate($dto->projectTemplate);
 
-            $entity->setSprintTemplate($dto->sprintTemplate);
-
-       
-        $entity->setProjectTemplate($this->resolveIri($dto->projecttemplate ?? null, ProjectTemplate::class, 'projecttemplate', required: true));
-
-        $entity->setSprintTemplate($this->resolveIri($dto->sprinttemplate ?? null, SprintTemplate::class, 'sprinttemplate', required: true));
-       */
-
-       return $entity;
+             $entity->setSprintTemplate($dto->sprintTemplate);
 
 
+         $entity->setProjectTemplate($this->resolveIri($dto->projecttemplate ?? null, ProjectTemplate::class, 'projecttemplate', required: true));
 
+         $entity->setSprintTemplate($this->resolveIri($dto->sprinttemplate ?? null, SprintTemplate::class, 'sprinttemplate', required: true));
+        */
+
+        return $entity;
     }
+
     public function updateDtoToEntity(ProjectTemplateSprintTemplate $entity, ProjectTemplateSprintTemplateUpdateDto $dto): ProjectTemplateSprintTemplate
     {
-               $entity = new ProjectTemplateSprintTemplate();
-                   $entity->setSprintOrder($dto->sprintOrder);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-                   $entity->setProjectTemplate($dto->projectTemplate);
+        $entity = new ProjectTemplateSprintTemplate();
+        $entity->setSprintOrder($dto->sprintOrder);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-            $entity->setSprintTemplate($dto->sprintTemplate);
+        /*
+                    $entity->setProjectTemplate($dto->projectTemplate);
 
-       
-       */
-       return $entity;
+             $entity->setSprintTemplate($dto->sprintTemplate);
+
+
+        */
+        return $entity;
     }
+
     /*
     public function mapEntityToCreateDto(ProjectTemplateSprintTemplate $entity): ProjectTemplateSprintTemplateCreateDto
     {
@@ -115,13 +116,13 @@ class ProjectTemplateSprintTemplateMapper
     */
     private function commonFieldsEntityToDto(ProjectTemplateSprintTemplate $entity, object $dto): void
     {
-                $dto->id = $entity->getId();
+        $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
     }
 
-        private function toIriList(iterable $items, string $resourceClass): array
-        {
+    private function toIriList(iterable $items, string $resourceClass): array
+    {
         $iris = [];
 
         foreach ($items as $item) {
@@ -134,17 +135,15 @@ class ProjectTemplateSprintTemplateMapper
                 $iris[] = $iri;
             }
         }
+
         return $iris;
     }
 
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
-        {
-        if ($iri === null || $iri === '') {
+    private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
+    {
+        if (null === $iri || '' === $iri) {
             if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
+                throw new BadRequestHttpException(sprintf('Field "%s" is required and must be a non-empty IRI string.', $field));
             }
 
             // OPTIONNEL => on retourne null (et on ne throw pas)
@@ -169,30 +168,20 @@ class ProjectTemplateSprintTemplateMapper
         }
 
         // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
+        if (null === $id && preg_match('~/(\d+)$~', $iri, $m)) {
             $id = (int) $m[1];
         }
 
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
+        if (null === $id) {
+            throw new BadRequestHttpException(sprintf('Invalid IRI type for field "%s". Expected "%s".', $field, $expectedClass));
         }
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
         if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
+            throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 
         return $entity;
     }
-
-
 }

@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\Notification;
 
-use App\Entity\Notification;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\Notification\NotificationCreateDto;
-use App\ApiResource\Dto\Notification\NotificationUpdateDto;
-use App\ApiResource\Dto\Notification\NotificationItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\Notification\NotificationCollectionItemDto;
-
+use App\ApiResource\Dto\Notification\NotificationCreateDto;
+use App\ApiResource\Dto\Notification\NotificationItemDto;
+use App\ApiResource\Dto\Notification\NotificationUpdateDto;
 use App\ApiResource\State\Notification\NotificationCollectionProvider;
-use App\ApiResource\State\Notification\NotificationItemProvider;
 use App\ApiResource\State\Notification\NotificationCreateProcessor;
-use App\ApiResource\State\Notification\NotificationUpdateProcessor;
 use App\ApiResource\State\Notification\NotificationDeleteProcessor;
-
+use App\ApiResource\State\Notification\NotificationItemProvider;
+use App\ApiResource\State\Notification\NotificationUpdateProcessor;
+use App\Entity\Notification;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Notification',
@@ -66,31 +60,31 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: Notification::class)]
+// #[Map(source: Notification::class)]
 final class NotificationResource
 {
     public int $id;
-/*
-    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
+        public int $id;
 
-    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-    public string $message;
+        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
+        public string $message;
 
-    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-    public \DateTimeInterface $date;
+        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
+        public \DateTimeInterface $date;
 
-    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-    public string $type;
+        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
+        public string $type;
 
-    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-    public ?string $user = null;
+        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
+        public ?string $user = null;
 
-*/
+    */
 }

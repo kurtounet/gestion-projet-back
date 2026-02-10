@@ -5,7 +5,6 @@ namespace App\ApiResource\Dto\ConfigProjectFramework;
 use App\Entity\ConfigProjectFramework;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DTO de mise à jour partielle pour ConfigProjectFramework.

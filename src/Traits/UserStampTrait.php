@@ -20,6 +20,7 @@ trait UserStampTrait
     public function setCreatedByUser(?string $userIdentifier): static
     {
         $this->createdByUser = $userIdentifier;
+
         return $this;
     }
 
@@ -31,6 +32,7 @@ trait UserStampTrait
     public function setUpdatedByUser(?string $userIdentifier): static
     {
         $this->updatedByUser = $userIdentifier;
+
         return $this;
     }
 }

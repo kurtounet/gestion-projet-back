@@ -2,13 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
-use App\Traits\TimestampTrait;
-use Symfony\Component\Serializer\Attribute\Groups;
-
 use App\Repository\PriorityRepository;
-
+use App\Traits\TimestampTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: PriorityRepository::class)]
@@ -45,6 +42,7 @@ class Priority
     public function setLabel(string $label): static
     {
         $this->label = $label;
+
         return $this;
     }
 
@@ -56,6 +54,7 @@ class Priority
     public function setPriorityNumber(int $priorityNumber): static
     {
         $this->priorityNumber = $priorityNumber;
+
         return $this;
     }
 

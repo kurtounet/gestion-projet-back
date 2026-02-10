@@ -6,7 +6,7 @@ use App\Entity\TypeTask;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: TypeTask::class)]
+// #[Map(source: TypeTask::class)]
 final class TypeTaskCollectionItemDto
 {
     #[Groups(['TypeTask:collection:read'])]

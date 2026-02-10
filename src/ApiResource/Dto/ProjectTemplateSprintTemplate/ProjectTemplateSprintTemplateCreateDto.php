@@ -27,8 +27,6 @@ final class ProjectTemplateSprintTemplateCreateDto
     #[Groups(['ProjectTemplateSprintTemplate:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['ProjectTemplateSprintTemplate:create'])]
     public ?string $projectTemplate;
     #[Groups(['ProjectTemplateSprintTemplate:create'])]

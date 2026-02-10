@@ -2,29 +2,25 @@
 
 namespace App\ApiResource\Resource\TaskInstance;
 
-use App\Entity\TaskInstance;
-use App\Entity\SprintInstance;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
-use App\ApiResource\Dto\TaskInstance\TaskInstanceCreateDto;
-use App\ApiResource\Dto\TaskInstance\TaskInstanceUpdateDto;
-use App\ApiResource\Dto\TaskInstance\TaskInstanceItemDto;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceCollectionItemDto;
-
+use App\ApiResource\Dto\TaskInstance\TaskInstanceCreateDto;
+use App\ApiResource\Dto\TaskInstance\TaskInstanceItemDto;
+use App\ApiResource\Dto\TaskInstance\TaskInstanceUpdateDto;
 use App\ApiResource\State\TaskInstance\TaskInstanceCollectionProvider;
-use App\ApiResource\State\TaskInstance\TaskInstanceItemProvider;
 use App\ApiResource\State\TaskInstance\TaskInstanceCreateProcessor;
-use App\ApiResource\State\TaskInstance\TaskInstanceUpdateProcessor;
 use App\ApiResource\State\TaskInstance\TaskInstanceDeleteProcessor;
-
+use App\ApiResource\State\TaskInstance\TaskInstanceItemProvider;
+use App\ApiResource\State\TaskInstance\TaskInstanceUpdateProcessor;
+use App\Entity\SprintInstance;
+use App\Entity\TaskInstance;
 
 #[ApiResource(
     shortName: 'TaskInstance',
@@ -76,7 +72,6 @@ use App\ApiResource\State\TaskInstance\TaskInstanceDeleteProcessor;
         ),
     ]
 )]
-
 final class TaskInstanceResource
 {
     public int $id;

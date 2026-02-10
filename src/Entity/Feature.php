@@ -2,11 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 use App\Repository\FeatureRepository;
-
 use App\Traits\TimestampTrait;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: FeatureRepository::class)]
@@ -35,6 +33,7 @@ class Feature
     public function setLabel(string $label): static
     {
         $this->label = $label;
+
         return $this;
     }
 }

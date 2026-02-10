@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\Comment;
 
 use App\Entity\Comment;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Comment::class)]
+// #[Map(source: Comment::class)]
 final class CommentItemDto
 {
     #[Groups(['Comment:item:read'])]
@@ -30,5 +29,4 @@ final class CommentItemDto
 
     #[Groups(['Comment:item:read'])]
     public ?string $user = null;
-
 }

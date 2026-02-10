@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\Context;
 
 use App\Entity\Context;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Context::class)]
+// #[Map(source: Context::class)]
 final class ContextItemDto
 {
     #[Groups(['Context:item:read'])]
@@ -21,6 +20,4 @@ final class ContextItemDto
 
     #[Groups(['Context:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

@@ -6,7 +6,7 @@ use App\Entity\SprintInstance;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: SprintInstance::class)]
+// #[Map(source: SprintInstance::class)]
 final class SprintInstanceCollectionItemDto
 {
     #[Groups(['SprintInstance:collection:read'])]

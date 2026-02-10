@@ -2,11 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
-use App\Traits\TimestampTrait;
 use App\Repository\ContextRepository;
-
+use App\Traits\TimestampTrait;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContextRepository::class)]
@@ -35,6 +33,7 @@ class Context
     public function setContextLabel(string $contextLabel): static
     {
         $this->contextLabel = $contextLabel;
+
         return $this;
     }
 }

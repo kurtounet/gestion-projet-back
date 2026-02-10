@@ -3,10 +3,10 @@
 namespace App\Security\Voter;
 
 use App\Entity\TaskInstance;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class TaskInstanceVoter extends Voter
 {
@@ -28,6 +28,7 @@ final class TaskInstanceVoter extends Voter
         // if the user is anonymous, do not grant access
         if (!$user instanceof UserInterface) {
             $vote?->addReason('The user is not logged in.');
+
             return false;
         }
         $task = $subject;
@@ -37,6 +38,7 @@ final class TaskInstanceVoter extends Voter
         }
 
         $vote?->addReason('The user is not Owner of the task.');
+
         return false;
     }
 }

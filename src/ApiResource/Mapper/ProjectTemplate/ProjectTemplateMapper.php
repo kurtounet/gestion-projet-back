@@ -1,16 +1,16 @@
 <?php
 
 namespace App\ApiResource\Mapper\ProjectTemplate;
-use App\Entity\ProjectTemplate;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateItemDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCreateDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateUpdateDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCollectionItemDto;
 
+use ApiPlatform\Metadata\IriConverterInterface;
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCollectionItemDto;
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCreateDto;
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateItemDto;
+use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateUpdateDto;
+use App\ApiResource\Service\IriFromResource;
+use App\Entity\ProjectTemplate;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\ApiResource\Service\IriFromResource;
-use ApiPlatform\Metadata\IriConverterInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ProjectTemplateMapper
@@ -20,78 +20,59 @@ class ProjectTemplateMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
-
+    ) {
+    }
 
     public function entityToItemDto(ProjectTemplate $entity): ProjectTemplateItemDto
     {
-               $dto = new ProjectTemplateItemDto();
-                     $dto->id = $entity->getId();
-             $dto->name = $entity->getName();
-             $dto->description = $entity->getDescription();
-             $dto->duration = $entity->getDuration();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-        /*
-        
+        $dto = new ProjectTemplateItemDto();
+        $dto->id = $entity->getId();
+        $dto->name = $entity->getName();
+        $dto->description = $entity->getDescription();
+        $dto->duration = $entity->getDuration();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-        
-        */
         return $dto;
     }
 
     public function entityToCollectionDto(ProjectTemplate $entity): ProjectTemplateCollectionItemDto
     {
-                $dto = new ProjectTemplateCollectionItemDto();
-                    $dto->id = $entity->getId();
-             $dto->name = $entity->getName();
-             $dto->description = $entity->getDescription();
-             $dto->duration = $entity->getDuration();
-             $dto->createdAt = $entity->getCreatedAt();
-             $dto->updatedAt = $entity->getUpdatedAt();
-       /*
-       
+        $dto = new ProjectTemplateCollectionItemDto();
+        $dto->id = $entity->getId();
+        $dto->name = $entity->getName();
+        $dto->description = $entity->getDescription();
+        $dto->duration = $entity->getDuration();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
-       
-       */
-       return $dto;
-
-
+        return $dto;
     }
+
     public function createDtoToEntity(ProjectTemplateCreateDto $dto): ProjectTemplate
     {
-               $entity = new ProjectTemplate();
-                   $entity->setName($dto->name);
-            $entity->setDescription($dto->description);
-            $entity->setDuration($dto->duration);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new ProjectTemplate();
+        $entity->setName($dto->name);
+        $entity->setDescription($dto->description);
+        $entity->setDuration($dto->duration);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-
-       return $entity;
-
-
-
+        return $entity;
     }
+
     public function updateDtoToEntity(ProjectTemplate $entity, ProjectTemplateUpdateDto $dto): ProjectTemplate
     {
-               $entity = new ProjectTemplate();
-                   $entity->setName($dto->name);
-            $entity->setDescription($dto->description);
-            $entity->setDuration($dto->duration);
-            $entity->setCreatedAt($dto->createdAt);
-            $entity->setUpdatedAt($dto->updatedAt);
-       /*
-       
+        $entity = new ProjectTemplate();
+        $entity->setName($dto->name);
+        $entity->setDescription($dto->description);
+        $entity->setDuration($dto->duration);
+        $entity->setCreatedAt($dto->createdAt);
+        $entity->setUpdatedAt($dto->updatedAt);
 
-       
-       */
-       return $entity;
+        return $entity;
     }
+
     /*
     public function mapEntityToCreateDto(ProjectTemplate $entity): ProjectTemplateCreateDto
     {
@@ -102,13 +83,13 @@ class ProjectTemplateMapper
     */
     private function commonFieldsEntityToDto(ProjectTemplate $entity, object $dto): void
     {
-                $dto->id = $entity->getId();
+        $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
     }
 
-        private function toIriList(iterable $items, string $resourceClass): array
-        {
+    private function toIriList(iterable $items, string $resourceClass): array
+    {
         $iris = [];
 
         foreach ($items as $item) {
@@ -121,17 +102,15 @@ class ProjectTemplateMapper
                 $iris[] = $iri;
             }
         }
+
         return $iris;
     }
 
-        private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
-        {
-        if ($iri === null || $iri === '') {
+    private function resolveIri(?string $iri, string $expectedClass, string $field, bool $required = false): ?object
+    {
+        if (null === $iri || '' === $iri) {
             if ($required) {
-                throw new BadRequestHttpException(sprintf(
-                    'Field "%s" is required and must be a non-empty IRI string.',
-                    $field
-                ));
+                throw new BadRequestHttpException(sprintf('Field "%s" is required and must be a non-empty IRI string.', $field));
             }
 
             // OPTIONNEL => on retourne null (et on ne throw pas)
@@ -156,30 +135,20 @@ class ProjectTemplateMapper
         }
 
         // 3) Fallback: extraire l’ID de la fin de l’IRI (/api/statuses/121)
-        if ($id === null && preg_match('~/(\d+)$~', $iri, $m)) {
+        if (null === $id && preg_match('~/(\d+)$~', $iri, $m)) {
             $id = (int) $m[1];
         }
 
-        if ($id === null) {
-            throw new BadRequestHttpException(sprintf(
-                'Invalid IRI type for field "%s". Expected "%s".',
-                $field,
-                $expectedClass
-            ));
+        if (null === $id) {
+            throw new BadRequestHttpException(sprintf('Invalid IRI type for field "%s". Expected "%s".', $field, $expectedClass));
         }
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
         if (!$entity) {
-            throw new BadRequestHttpException(sprintf(
-                'Resource not found for field "%s" (id: %s).',
-                $field,
-                (string) $id
-            ));
+            throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 
         return $entity;
     }
-
-
 }

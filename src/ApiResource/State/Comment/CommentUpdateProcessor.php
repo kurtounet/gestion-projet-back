@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\Comment;
 
-use App\Entity\Comment;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\Comment\CommentMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\Comment\CommentUpdateDto;
-
+use App\ApiResource\Mapper\Comment\CommentMapper;
+use App\Entity\Comment;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class CommentUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class CommentUpdateProcessor implements ProcessorInterface
         private CommentMapper $commentMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class CommentUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->commentMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->commentMapper->entityToItemDto($entity);
     }
 }

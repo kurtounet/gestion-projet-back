@@ -6,7 +6,7 @@ use App\Entity\TaskTemplate;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: TaskTemplate::class)]
+// #[Map(source: TaskTemplate::class)]
 final class TaskTemplateCollectionItemDto
 {
     #[Groups(['TaskTemplate:collection:read'])]

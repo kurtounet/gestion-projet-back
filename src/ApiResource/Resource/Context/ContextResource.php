@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\Context;
 
-use App\Entity\Context;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\Context\ContextCreateDto;
-use App\ApiResource\Dto\Context\ContextUpdateDto;
-use App\ApiResource\Dto\Context\ContextItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\Context\ContextCollectionItemDto;
-
+use App\ApiResource\Dto\Context\ContextCreateDto;
+use App\ApiResource\Dto\Context\ContextItemDto;
+use App\ApiResource\Dto\Context\ContextUpdateDto;
 use App\ApiResource\State\Context\ContextCollectionProvider;
-use App\ApiResource\State\Context\ContextItemProvider;
 use App\ApiResource\State\Context\ContextCreateProcessor;
-use App\ApiResource\State\Context\ContextUpdateProcessor;
 use App\ApiResource\State\Context\ContextDeleteProcessor;
-
+use App\ApiResource\State\Context\ContextItemProvider;
+use App\ApiResource\State\Context\ContextUpdateProcessor;
+use App\Entity\Context;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Context',
@@ -66,23 +60,23 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: Context::class)]
+// #[Map(source: Context::class)]
 final class ContextResource
 {
     public int $id;
-/*
-    #[Groups(['Context:collection:read', 'Context:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['Context:collection:read', 'Context:item:read'])]
+        public int $id;
 
-    #[Groups(['Context:collection:read', 'Context:item:read'])]
-    public string $contextLabel;
+        #[Groups(['Context:collection:read', 'Context:item:read'])]
+        public string $contextLabel;
 
-    #[Groups(['Context:collection:read', 'Context:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['Context:collection:read', 'Context:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['Context:collection:read', 'Context:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['Context:collection:read', 'Context:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
 
-*/
+    */
 }

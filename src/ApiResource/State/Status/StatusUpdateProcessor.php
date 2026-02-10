@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\Status;
 
-use App\Entity\Status;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\Status\StatusMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\Status\StatusUpdateDto;
-
+use App\ApiResource\Mapper\Status\StatusMapper;
+use App\Entity\Status;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class StatusUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class StatusUpdateProcessor implements ProcessorInterface
         private StatusMapper $statusMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class StatusUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->statusMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->statusMapper->entityToItemDto($entity);
     }
 }

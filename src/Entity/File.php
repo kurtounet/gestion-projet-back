@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\FileRepository;
+use App\Traits\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\FileRepository;
-
-use App\Traits\TimestampTrait;
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: FileRepository::class)]
@@ -25,10 +23,12 @@ class File
 
     #[ORM\Column(type: Types::STRING)]
     private ?string $keyWord = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getPath(): ?string
     {
         return $this->path;
@@ -37,6 +37,7 @@ class File
     public function setPath(string $path): static
     {
         $this->path = $path;
+
         return $this;
     }
 
@@ -45,11 +46,10 @@ class File
         return $this->keyWord;
     }
 
-
-
     public function setKeyWord(string $keyWord): static
     {
         $this->keyWord = $keyWord;
+
         return $this;
     }
 }

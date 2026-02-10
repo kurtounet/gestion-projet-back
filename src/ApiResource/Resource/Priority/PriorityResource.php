@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\Priority;
 
-use App\Entity\Priority;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\Priority\PriorityCreateDto;
-use App\ApiResource\Dto\Priority\PriorityUpdateDto;
-use App\ApiResource\Dto\Priority\PriorityItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\Priority\PriorityCollectionItemDto;
-
+use App\ApiResource\Dto\Priority\PriorityCreateDto;
+use App\ApiResource\Dto\Priority\PriorityItemDto;
+use App\ApiResource\Dto\Priority\PriorityUpdateDto;
 use App\ApiResource\State\Priority\PriorityCollectionProvider;
-use App\ApiResource\State\Priority\PriorityItemProvider;
 use App\ApiResource\State\Priority\PriorityCreateProcessor;
-use App\ApiResource\State\Priority\PriorityUpdateProcessor;
 use App\ApiResource\State\Priority\PriorityDeleteProcessor;
-
+use App\ApiResource\State\Priority\PriorityItemProvider;
+use App\ApiResource\State\Priority\PriorityUpdateProcessor;
+use App\Entity\Priority;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Priority',
@@ -66,29 +60,29 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: Priority::class)]
+// #[Map(source: Priority::class)]
 final class PriorityResource
 {
     public int $id;
-/*
-    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['Priority:collection:read', 'Priority:item:read'])]
+        public int $id;
 
-    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
-    public string $label;
+        #[Groups(['Priority:collection:read', 'Priority:item:read'])]
+        public string $label;
 
-    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
-    public ?string $color;
+        #[Groups(['Priority:collection:read', 'Priority:item:read'])]
+        public ?string $color;
 
-    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
-    public int $priorityNumber;
+        #[Groups(['Priority:collection:read', 'Priority:item:read'])]
+        public int $priorityNumber;
 
-    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['Priority:collection:read', 'Priority:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['Priority:collection:read', 'Priority:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['Priority:collection:read', 'Priority:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
 
-*/
+    */
 }

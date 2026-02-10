@@ -25,6 +25,7 @@ class SprintInstanceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findByProjectId($projectId): array
     {
         return $this->findBy(['projectInstance' => $projectId]);

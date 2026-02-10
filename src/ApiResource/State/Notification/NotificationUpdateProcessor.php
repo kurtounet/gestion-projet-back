@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\Notification;
 
-use App\Entity\Notification;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\Notification\NotificationMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\Notification\NotificationUpdateDto;
-
+use App\ApiResource\Mapper\Notification\NotificationMapper;
+use App\Entity\Notification;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class NotificationUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class NotificationUpdateProcessor implements ProcessorInterface
         private NotificationMapper $notificationMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class NotificationUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->notificationMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->notificationMapper->entityToItemDto($entity);
     }
 }

@@ -26,6 +26,4 @@ final class FeatureCreateDto
 
     #[Groups(['Feature:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\File;
 
-use App\Entity\File;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\File\FileMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\File\FileUpdateDto;
-
+use App\ApiResource\Mapper\File\FileMapper;
+use App\Entity\File;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class FileUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class FileUpdateProcessor implements ProcessorInterface
         private FileMapper $fileMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class FileUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->fileMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->fileMapper->entityToItemDto($entity);
     }
 }

@@ -35,8 +35,6 @@ final class NotificationCreateDto
     #[Groups(['Notification:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['Notification:create'])]
     public ?string $user;
 }

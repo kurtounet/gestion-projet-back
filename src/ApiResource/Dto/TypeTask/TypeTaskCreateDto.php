@@ -42,8 +42,6 @@ final class TypeTaskCreateDto
     #[Groups(['TypeTask:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['TypeTask:create'])]
     public ?string $code;
 }

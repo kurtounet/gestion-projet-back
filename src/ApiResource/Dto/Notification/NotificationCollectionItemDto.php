@@ -6,7 +6,7 @@ use App\Entity\Notification;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Notification::class)]
+// #[Map(source: Notification::class)]
 final class NotificationCollectionItemDto
 {
     #[Groups(['Notification:collection:read'])]

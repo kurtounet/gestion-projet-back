@@ -2,29 +2,25 @@
 
 namespace App\ApiResource\Resource\SprintInstance;
 
-use App\Entity\SprintInstance;
-use App\Entity\ProjectInstance;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceItemDto;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceCollectionItemDto;
-
+use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
+use App\ApiResource\Dto\SprintInstance\SprintInstanceItemDto;
+use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
 use App\ApiResource\State\SprintInstance\SprintInstanceCollectionProvider;
-use App\ApiResource\State\SprintInstance\SprintInstanceItemProvider;
 use App\ApiResource\State\SprintInstance\SprintInstanceCreateProcessor;
-use App\ApiResource\State\SprintInstance\SprintInstanceUpdateProcessor;
 use App\ApiResource\State\SprintInstance\SprintInstanceDeleteProcessor;
-
+use App\ApiResource\State\SprintInstance\SprintInstanceItemProvider;
+use App\ApiResource\State\SprintInstance\SprintInstanceUpdateProcessor;
+use App\Entity\ProjectInstance;
+use App\Entity\SprintInstance;
 
 #[ApiResource(
     shortName: 'SprintInstance',
@@ -76,7 +72,6 @@ use App\ApiResource\State\SprintInstance\SprintInstanceDeleteProcessor;
         ),
     ]
 )]
-
 final class SprintInstanceResource
 {
     public int $id;

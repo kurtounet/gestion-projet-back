@@ -27,8 +27,6 @@ final class SprintTaskCreateDto
     #[Groups(['SprintTask:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['SprintTask:create'])]
     public ?string $sprintTemplate;
     #[Groups(['SprintTask:create'])]

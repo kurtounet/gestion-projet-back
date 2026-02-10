@@ -2,13 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\StatusRepository;
-use Symfony\Component\Serializer\Attribute\Groups;
-
 use App\Traits\TimestampTrait;
-
-
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
@@ -22,11 +18,9 @@ class Status
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-
     private ?string $label = null;
 
     #[ORM\Column(length: 10, nullable: true)]
-
     private ?string $color = '#84e712ff';
 
     #[ORM\ManyToOne(targetEntity: Context::class)]
@@ -46,6 +40,7 @@ class Status
     public function setLabel(string $label): static
     {
         $this->label = $label;
+
         return $this;
     }
 
@@ -57,6 +52,7 @@ class Status
     public function setContext(?Context $context): static
     {
         $this->context = $context;
+
         return $this;
     }
 

@@ -47,8 +47,6 @@ final class FrameworkCreateDto
     #[Groups(['Framework:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['Framework:create'])]
     public ?string $technology;
 }

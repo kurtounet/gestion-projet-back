@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\NotificationRepository;
+use App\Traits\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\NotificationRepository;
-
-use App\Traits\TimestampTrait;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
@@ -28,12 +27,9 @@ class Notification
     #[ORM\Column(length: 50)]
     private ?string $type = null;
 
-
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
-
 
     public function getId(): ?int
     {
@@ -48,48 +44,43 @@ class Notification
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
         return $this;
     }
-
 
     public function getMessage(): ?string
     {
         return $this->message;
     }
 
-
-
     public function setMessage(string $message): static
     {
         $this->message = $message;
+
         return $this;
     }
-
 
     public function getDate(): ?\DateTimeImmutable
     {
         return $this->date;
     }
 
-
-
     public function setDate(\DateTimeImmutable $date): static
     {
         $this->date = $date;
+
         return $this;
     }
-
 
     public function getType(): ?string
     {
         return $this->type;
     }
 
-
-
     public function setType(string $type): static
     {
         $this->type = $type;
+
         return $this;
     }
 }

@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\ProjectTemplate;
 
 use App\Entity\ProjectTemplate;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: ProjectTemplate::class)]
+// #[Map(source: ProjectTemplate::class)]
 final class ProjectTemplateItemDto
 {
     #[Groups(['ProjectTemplate:item:read'])]
@@ -27,6 +26,4 @@ final class ProjectTemplateItemDto
 
     #[Groups(['ProjectTemplate:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

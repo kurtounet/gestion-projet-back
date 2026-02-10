@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\TaskTemplate;
 
 use App\Entity\TaskTemplate;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: TaskTemplate::class)]
+// #[Map(source: TaskTemplate::class)]
 final class TaskTemplateItemDto
 {
     #[Groups(['TaskTemplate:item:read'])]
@@ -33,5 +32,4 @@ final class TaskTemplateItemDto
 
     #[Groups(['TaskTemplate:item:read'])]
     public ?string $typeTask = null;
-
 }

@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\TaskTemplate;
 
-use App\Entity\TaskTemplate;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\TaskTemplate\TaskTemplateMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
-
+use App\ApiResource\Mapper\TaskTemplate\TaskTemplateMapper;
+use App\Entity\TaskTemplate;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class TaskTemplateUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class TaskTemplateUpdateProcessor implements ProcessorInterface
         private TaskTemplateMapper $taskTemplateMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class TaskTemplateUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->taskTemplateMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->taskTemplateMapper->entityToItemDto($entity);
     }
 }

@@ -38,6 +38,4 @@ final class CodeBaseCreateDto
 
     #[Groups(['CodeBase:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

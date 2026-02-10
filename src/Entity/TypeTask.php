@@ -2,13 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\TypeTaskRepository;
+use App\Traits\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
-use App\Repository\TypeTaskRepository;
-
-use App\Traits\TimestampTrait;
-
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TypeTaskRepository::class)]
@@ -53,6 +50,7 @@ class TypeTask
     public function setCode(?CodeBase $code): static
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -64,6 +62,7 @@ class TypeTask
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -75,6 +74,7 @@ class TypeTask
     public function setPathFileScript(string $pathFileScript): static
     {
         $this->pathFileScript = $pathFileScript;
+
         return $this;
     }
 
@@ -86,6 +86,7 @@ class TypeTask
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -97,6 +98,7 @@ class TypeTask
     public function setAutomatique(bool $automatique): static
     {
         $this->automatique = $automatique;
+
         return $this;
     }
 

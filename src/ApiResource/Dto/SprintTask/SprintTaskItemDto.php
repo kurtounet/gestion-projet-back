@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\SprintTask;
 
 use App\Entity\SprintTask;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: SprintTask::class)]
+// #[Map(source: SprintTask::class)]
 final class SprintTaskItemDto
 {
     #[Groups(['SprintTask:item:read'])]
@@ -27,5 +26,4 @@ final class SprintTaskItemDto
 
     #[Groups(['SprintTask:item:read'])]
     public ?string $taskTemplate = null;
-
 }

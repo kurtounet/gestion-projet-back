@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\Priority;
 
-use App\Entity\Priority;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\Priority\PriorityMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\Priority\PriorityUpdateDto;
-
+use App\ApiResource\Mapper\Priority\PriorityMapper;
+use App\Entity\Priority;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class PriorityUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class PriorityUpdateProcessor implements ProcessorInterface
         private PriorityMapper $priorityMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class PriorityUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->priorityMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->priorityMapper->entityToItemDto($entity);
     }
 }

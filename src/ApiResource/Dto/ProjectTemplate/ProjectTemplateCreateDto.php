@@ -34,6 +34,4 @@ final class ProjectTemplateCreateDto
 
     #[Groups(['ProjectTemplate:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

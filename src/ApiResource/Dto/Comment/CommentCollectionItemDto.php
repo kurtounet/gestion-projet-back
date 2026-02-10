@@ -6,7 +6,7 @@ use App\Entity\Comment;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Comment::class)]
+// #[Map(source: Comment::class)]
 final class CommentCollectionItemDto
 {
     #[Groups(['Comment:collection:read'])]

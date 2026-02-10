@@ -26,6 +26,4 @@ final class TechnologyCreateDto
 
     #[Groups(['Technology:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

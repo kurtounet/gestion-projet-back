@@ -33,6 +33,4 @@ final class PriorityCreateDto
 
     #[Groups(['Priority:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

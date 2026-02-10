@@ -42,6 +42,4 @@ final class UserCreateDto
 
     #[Groups(['User:create'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

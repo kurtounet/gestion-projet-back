@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\User;
 
-use App\Entity\User;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\User\UserCreateDto;
-use App\ApiResource\Dto\User\UserUpdateDto;
-use App\ApiResource\Dto\User\UserItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\User\UserCollectionItemDto;
-
+use App\ApiResource\Dto\User\UserCreateDto;
+use App\ApiResource\Dto\User\UserItemDto;
+use App\ApiResource\Dto\User\UserUpdateDto;
 use App\ApiResource\State\User\UserCollectionProvider;
-use App\ApiResource\State\User\UserItemProvider;
 use App\ApiResource\State\User\UserCreateProcessor;
-use App\ApiResource\State\User\UserUpdateProcessor;
 use App\ApiResource\State\User\UserDeleteProcessor;
-
+use App\ApiResource\State\User\UserItemProvider;
+use App\ApiResource\State\User\UserUpdateProcessor;
+use App\Entity\User;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'User',
@@ -66,35 +60,35 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: User::class)]
+// #[Map(source: User::class)]
 final class UserResource
 {
     public int $id;
-/*
-    #[Groups(['User:collection:read', 'User:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['User:collection:read', 'User:item:read'])]
+        public int $id;
 
-    #[Groups(['User:collection:read', 'User:item:read'])]
-    public string $firstName;
+        #[Groups(['User:collection:read', 'User:item:read'])]
+        public string $firstName;
 
-    #[Groups(['User:collection:read', 'User:item:read'])]
-    public string $lastName;
+        #[Groups(['User:collection:read', 'User:item:read'])]
+        public string $lastName;
 
-    #[Groups(['User:collection:read', 'User:item:read'])]
-    public string $email;
+        #[Groups(['User:collection:read', 'User:item:read'])]
+        public string $email;
 
-    #[Groups(['User:collection:read', 'User:item:read'])]
-    public array $roles;
+        #[Groups(['User:collection:read', 'User:item:read'])]
+        public array $roles;
 
-    #[Groups(['User:collection:read', 'User:item:read'])]
-    public string $password;
+        #[Groups(['User:collection:read', 'User:item:read'])]
+        public string $password;
 
-    #[Groups(['User:collection:read', 'User:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['User:collection:read', 'User:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['User:collection:read', 'User:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['User:collection:read', 'User:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
 
-*/
+    */
 }

@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
-
 use App\Repository\CodeBaseRepository;
+use App\Traits\TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
-use App\Traits\TimestampTrait;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CodeBaseRepository::class)]
@@ -36,15 +34,19 @@ class CodeBase
     {
         return $this->id;
     }
+
     public function getLabel(): ?string
     {
         return $this->label;
     }
+
     public function setLabel(string $label): static
     {
         $this->label = $label;
+
         return $this;
     }
+
     public function getCode(): ?string
     {
         return $this->code;
@@ -53,34 +55,31 @@ class CodeBase
     public function setCode(string $code): static
     {
         $this->code = $code;
+
         return $this;
     }
-
 
     public function getPathFile(): ?string
     {
         return $this->pathFile;
     }
 
-
-
     public function setPathFile(string $pathFile): static
     {
         $this->pathFile = $pathFile;
+
         return $this;
     }
-
 
     public function getFeature(): ?string
     {
         return $this->feature;
     }
 
-
-
     public function setFeature(string $feature): static
     {
         $this->feature = $feature;
+
         return $this;
     }
 }

@@ -2,15 +2,11 @@
 
 namespace App\Entity;
 
-
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
 use App\Repository\TaskInstanceRepository;
-
-
 use App\Traits\TimestampTrait;
 use App\Traits\UserStampTrait;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TaskInstanceRepository::class)]
@@ -22,35 +18,27 @@ class TaskInstance
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-
     private ?string $description = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-
     private ?\DateTimeImmutable $dueDate = null;
 
     #[ORM\Column(nullable: true)]
-
     private ?int $position = null;
 
     #[ORM\Column(length: 100)]
-
     private ?string $icon = null;
 
     #[ORM\Column(length: 7)]
-
     private ?string $color = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -63,34 +51,27 @@ class TaskInstance
 
     #[ORM\ManyToOne(targetEntity: SprintInstance::class)]
     #[ORM\JoinColumn(nullable: false)]
-
     private ?SprintInstance $sprintInstance = null;
 
     #[ORM\ManyToOne(targetEntity: Priority::class)]
     #[ORM\JoinColumn(nullable: false)]
-
     private ?Priority $priority = null;
 
     #[ORM\ManyToOne(targetEntity: Status::class)]
     #[ORM\JoinColumn(nullable: false)]
-
     private ?Status $status = null;
 
     #[ORM\ManyToOne(targetEntity: TypeTask::class)]
     #[ORM\JoinColumn(nullable: false)]
-
     private ?TypeTask $typeTask = null;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
-
     private ?self $parentTask = null;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
-
     private ?self $dependency = null;
 
     #[ORM\ManyToOne(targetEntity: Comment::class)]
-
     private ?Comment $comment = null;
 
     public function getId(): ?int
@@ -106,6 +87,7 @@ class TaskInstance
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -117,6 +99,7 @@ class TaskInstance
     public function setTaskTemplate(?TaskTemplate $taskTemplate): static
     {
         $this->taskTemplate = $taskTemplate;
+
         return $this;
     }
 
@@ -128,6 +111,7 @@ class TaskInstance
     public function setSprintInstance(?SprintInstance $sprintInstance): static
     {
         $this->sprintInstance = $sprintInstance;
+
         return $this;
     }
 
@@ -139,6 +123,7 @@ class TaskInstance
     public function setPriority(?Priority $priority): static
     {
         $this->priority = $priority;
+
         return $this;
     }
 
@@ -150,6 +135,7 @@ class TaskInstance
     public function setStatus(?Status $status): static
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -161,6 +147,7 @@ class TaskInstance
     public function setTypeTask(?TypeTask $typeTask): static
     {
         $this->typeTask = $typeTask;
+
         return $this;
     }
 
@@ -172,6 +159,7 @@ class TaskInstance
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -183,6 +171,7 @@ class TaskInstance
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -194,6 +183,7 @@ class TaskInstance
     public function setStartDate(\DateTimeImmutable $startDate): static
     {
         $this->startDate = $startDate;
+
         return $this;
     }
 
@@ -205,6 +195,7 @@ class TaskInstance
     public function setDueDate(\DateTimeImmutable $dueDate): static
     {
         $this->dueDate = $dueDate;
+
         return $this;
     }
 
@@ -216,6 +207,7 @@ class TaskInstance
     public function setPosition(int $order): static
     {
         $this->position = $order;
+
         return $this;
     }
 
@@ -227,6 +219,7 @@ class TaskInstance
     public function setParentTask(?self $parentTask): static
     {
         $this->parentTask = $parentTask;
+
         return $this;
     }
 
@@ -238,6 +231,7 @@ class TaskInstance
     public function setDependency(?self $dependency): static
     {
         $this->dependency = $dependency;
+
         return $this;
     }
 
@@ -249,11 +243,12 @@ class TaskInstance
     public function setComment(?Comment $comment): static
     {
         $this->comment = $comment;
+
         return $this;
     }
 
     /**
-     * Get the value of icon
+     * Get the value of icon.
      */
     public function getIcon()
     {
@@ -261,9 +256,9 @@ class TaskInstance
     }
 
     /**
-     * Set the value of icon
+     * Set the value of icon.
      *
-     * @return  self
+     * @return self
      */
     public function setIcon($icon)
     {
@@ -273,7 +268,7 @@ class TaskInstance
     }
 
     /**
-     * Get the value of color
+     * Get the value of color.
      */
     public function getColor()
     {
@@ -281,9 +276,9 @@ class TaskInstance
     }
 
     /**
-     * Set the value of color
+     * Set the value of color.
      *
-     * @return  self
+     * @return self
      */
     public function setColor($color)
     {

@@ -6,7 +6,7 @@ use App\Entity\ConfigProjectFramework;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: ConfigProjectFramework::class)]
+// #[Map(source: ConfigProjectFramework::class)]
 final class ConfigProjectFrameworkCollectionItemDto
 {
     #[Groups(['ConfigProjectFramework:collection:read'])]

@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\Comment;
 
-use App\Entity\Comment;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\Comment\CommentCreateDto;
-use App\ApiResource\Dto\Comment\CommentUpdateDto;
-use App\ApiResource\Dto\Comment\CommentItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\Comment\CommentCollectionItemDto;
-
+use App\ApiResource\Dto\Comment\CommentCreateDto;
+use App\ApiResource\Dto\Comment\CommentItemDto;
+use App\ApiResource\Dto\Comment\CommentUpdateDto;
 use App\ApiResource\State\Comment\CommentCollectionProvider;
-use App\ApiResource\State\Comment\CommentItemProvider;
 use App\ApiResource\State\Comment\CommentCreateProcessor;
-use App\ApiResource\State\Comment\CommentUpdateProcessor;
 use App\ApiResource\State\Comment\CommentDeleteProcessor;
-
+use App\ApiResource\State\Comment\CommentItemProvider;
+use App\ApiResource\State\Comment\CommentUpdateProcessor;
+use App\Entity\Comment;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Comment',
@@ -66,31 +60,31 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: Comment::class)]
+// #[Map(source: Comment::class)]
 final class CommentResource
 {
     public int $id;
-/*
-    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+        public int $id;
 
-    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-    public string $subject;
+        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+        public string $subject;
 
-    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-    public string $content;
+        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+        public string $content;
 
-    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
-    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-    public ?string $task = null;
+        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+        public ?string $task = null;
 
-    #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-    public ?string $user = null;
+        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
+        public ?string $user = null;
 
-*/
+    */
 }

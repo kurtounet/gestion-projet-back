@@ -1,13 +1,13 @@
 <?php
+
 namespace App\ApiResource\State\TypeTask;
 
-use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use App\ApiResource\Mapper\TypeTask\TypeTaskMapper;
 use App\ApiResource\Dto\TypeTask\TypeTaskCreateDto;
-
+use App\ApiResource\Mapper\TypeTask\TypeTaskMapper;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class TypeTaskCreateProcessor implements ProcessorInterface
 {
@@ -15,7 +15,8 @@ final readonly class TypeTaskCreateProcessor implements ProcessorInterface
         private TypeTaskMapper $typeTaskMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -25,6 +26,7 @@ final readonly class TypeTaskCreateProcessor implements ProcessorInterface
 
         $entity = $this->typeTaskMapper->createDtoToEntity($data);
         $entity = $this->persistProcessor->process($entity, $operation, $uriVariables, $context);
+
         return $this->typeTaskMapper->entityToItemDto($entity);
     }
 }

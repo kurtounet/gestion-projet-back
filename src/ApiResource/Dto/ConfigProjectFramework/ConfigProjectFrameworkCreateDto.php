@@ -36,8 +36,6 @@ final class ConfigProjectFrameworkCreateDto
     #[Groups(['ConfigProjectFramework:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['ConfigProjectFramework:create'])]
     public ?string $projectInstance;
     #[Groups(['ConfigProjectFramework:create'])]

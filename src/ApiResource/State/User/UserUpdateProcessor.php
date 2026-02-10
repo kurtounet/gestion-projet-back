@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\User;
 
-use App\Entity\User;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\User\UserMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\User\UserUpdateDto;
-
+use App\ApiResource\Mapper\User\UserMapper;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class UserUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class UserUpdateProcessor implements ProcessorInterface
         private UserMapper $userMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class UserUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->userMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->userMapper->entityToItemDto($entity);
     }
 }

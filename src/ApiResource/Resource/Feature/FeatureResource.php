@@ -2,31 +2,25 @@
 
 namespace App\ApiResource\Resource\Feature;
 
-use App\Entity\Feature;
-
-
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Doctrine\Orm\State\Options;
-
-use App\ApiResource\Dto\Feature\FeatureCreateDto;
-use App\ApiResource\Dto\Feature\FeatureUpdateDto;
-use App\ApiResource\Dto\Feature\FeatureItemDto;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\Feature\FeatureCollectionItemDto;
-
+use App\ApiResource\Dto\Feature\FeatureCreateDto;
+use App\ApiResource\Dto\Feature\FeatureItemDto;
+use App\ApiResource\Dto\Feature\FeatureUpdateDto;
 use App\ApiResource\State\Feature\FeatureCollectionProvider;
-use App\ApiResource\State\Feature\FeatureItemProvider;
 use App\ApiResource\State\Feature\FeatureCreateProcessor;
-use App\ApiResource\State\Feature\FeatureUpdateProcessor;
 use App\ApiResource\State\Feature\FeatureDeleteProcessor;
-
+use App\ApiResource\State\Feature\FeatureItemProvider;
+use App\ApiResource\State\Feature\FeatureUpdateProcessor;
+use App\Entity\Feature;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Feature',
@@ -66,23 +60,23 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-//#[Map(source: Feature::class)]
+// #[Map(source: Feature::class)]
 final class FeatureResource
 {
     public int $id;
-/*
-    #[Groups(['Feature:collection:read', 'Feature:item:read'])]
-    public int $id;
+    /*
+        #[Groups(['Feature:collection:read', 'Feature:item:read'])]
+        public int $id;
 
-    #[Groups(['Feature:collection:read', 'Feature:item:read'])]
-    public string $label;
+        #[Groups(['Feature:collection:read', 'Feature:item:read'])]
+        public string $label;
 
-    #[Groups(['Feature:collection:read', 'Feature:item:read'])]
-    public \DateTimeInterface $createdAt;
+        #[Groups(['Feature:collection:read', 'Feature:item:read'])]
+        public \DateTimeInterface $createdAt;
 
-    #[Groups(['Feature:collection:read', 'Feature:item:read'])]
-    public ?\DateTimeInterface $updatedAt;
+        #[Groups(['Feature:collection:read', 'Feature:item:read'])]
+        public ?\DateTimeInterface $updatedAt;
 
 
-*/
+    */
 }

@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\CodeBase;
 
 use App\Entity\CodeBase;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: CodeBase::class)]
+// #[Map(source: CodeBase::class)]
 final class CodeBaseItemDto
 {
     #[Groups(['CodeBase:item:read'])]
@@ -30,6 +29,4 @@ final class CodeBaseItemDto
 
     #[Groups(['CodeBase:item:read'])]
     public ?\DateTimeInterface $updatedAt;
-
-
 }

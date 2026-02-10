@@ -64,8 +64,6 @@ final class ProjectInstanceCreateDto
     #[Groups(['ProjectInstance:create'])]
     public ?\DateTimeInterface $updatedAt;
 
-
-
     #[Groups(['ProjectInstance:create'])]
     public ?string $status;
     #[Groups(['ProjectInstance:create'])]

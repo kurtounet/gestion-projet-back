@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\Framework;
 
 use App\Entity\Framework;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Framework::class)]
+// #[Map(source: Framework::class)]
 final class FrameworkItemDto
 {
     #[Groups(['Framework:item:read'])]
@@ -45,5 +44,4 @@ final class FrameworkItemDto
 
     #[Groups(['Framework:item:read'])]
     public ?string $technology = null;
-
 }

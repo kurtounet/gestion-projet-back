@@ -3,11 +3,10 @@
 namespace App\ApiResource\Dto\Notification;
 
 use App\Entity\Notification;
-
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Notification::class)]
+// #[Map(source: Notification::class)]
 final class NotificationItemDto
 {
     #[Groups(['Notification:item:read'])]
@@ -30,5 +29,4 @@ final class NotificationItemDto
 
     #[Groups(['Notification:item:read'])]
     public ?string $user = null;
-
 }

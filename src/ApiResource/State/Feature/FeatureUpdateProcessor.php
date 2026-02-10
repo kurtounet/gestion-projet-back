@@ -2,15 +2,14 @@
 
 namespace App\ApiResource\State\Feature;
 
-use App\Entity\Feature;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
-use App\ApiResource\Mapper\Feature\FeatureMapper;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\ApiResource\Dto\Feature\FeatureUpdateDto;
-
+use App\ApiResource\Mapper\Feature\FeatureMapper;
+use App\Entity\Feature;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class FeatureUpdateProcessor implements ProcessorInterface
 {
@@ -19,7 +18,8 @@ final readonly class FeatureUpdateProcessor implements ProcessorInterface
         private FeatureMapper $featureMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
@@ -40,6 +40,7 @@ final readonly class FeatureUpdateProcessor implements ProcessorInterface
 
         $updatedEntity = $this->featureMapper->updateDtoToEntity($entity, $data);
         $entity = $this->persistProcessor->process($updatedEntity, $operation, $uriVariables, $context);
+
         return $this->featureMapper->entityToItemDto($entity);
     }
 }

@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 use App\Repository\TechnologyRepository;
-
 use App\Traits\TimestampTrait;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TechnologyRepository::class)]
@@ -19,11 +17,9 @@ class Technology
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-
     private ?string $label = null;
 
     /**
@@ -50,6 +46,7 @@ class Technology
     public function setLabel(string $label): static
     {
         $this->label = $label;
+
         return $this;
     }
 

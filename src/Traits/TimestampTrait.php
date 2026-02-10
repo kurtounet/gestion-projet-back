@@ -21,6 +21,7 @@ trait TimestampTrait
     public function setCreatedAt(?\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -32,6 +33,7 @@ trait TimestampTrait
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 

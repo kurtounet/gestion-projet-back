@@ -6,7 +6,7 @@ use App\Entity\Framework;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-//#[Map(source: Framework::class)]
+// #[Map(source: Framework::class)]
 final class FrameworkCollectionItemDto
 {
     #[Groups(['Framework:collection:read'])]
