@@ -20,7 +20,7 @@ final readonly class FeatureCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof FeatureCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof FeatureCreateDto)) {
             return $data;
         }
 

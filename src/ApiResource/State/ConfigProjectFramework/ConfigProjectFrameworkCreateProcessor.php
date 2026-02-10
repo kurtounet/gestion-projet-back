@@ -20,7 +20,7 @@ final readonly class ConfigProjectFrameworkCreateProcessor implements ProcessorI
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof ConfigProjectFrameworkCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof ConfigProjectFrameworkCreateDto)) {
             return $data;
         }
 

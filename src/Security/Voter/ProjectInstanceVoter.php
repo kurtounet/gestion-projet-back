@@ -42,7 +42,7 @@ final class ProjectInstanceVoter extends Voter
         $user = $token->getUser();
 
         // Utilisateur non connecté
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             $vote?->addReason('User is not authenticated.');
 
             return false;

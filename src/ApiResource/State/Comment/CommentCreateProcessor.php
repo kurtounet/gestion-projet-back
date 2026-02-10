@@ -20,7 +20,7 @@ final readonly class CommentCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof CommentCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof CommentCreateDto)) {
             return $data;
         }
 

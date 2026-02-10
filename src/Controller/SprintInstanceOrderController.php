@@ -24,7 +24,7 @@ final class SprintInstanceOrderController extends AbstractController
     ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
-        if (!isset($data['items']) || !\is_array($data['items'])) {
+        if (! isset($data['items']) || ! \is_array($data['items'])) {
             return $this->json(
                 ['message' => 'Invalid payload, expected "sprints" array'],
                 JsonResponse::HTTP_BAD_REQUEST
@@ -32,7 +32,7 @@ final class SprintInstanceOrderController extends AbstractController
         }
 
         foreach ($data['items'] as $item) {
-            if (!isset($item['id'], $item['position'])) {
+            if (! isset($item['id'], $item['position'])) {
                 continue;
             }
 

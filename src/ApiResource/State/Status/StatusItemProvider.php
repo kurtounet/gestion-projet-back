@@ -21,7 +21,7 @@ final readonly class StatusItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof Status) {
+        if (! $entity instanceof Status) {
             return $entity;
         }
 

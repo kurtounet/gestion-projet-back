@@ -20,18 +20,18 @@ final readonly class ConfigProjectFrameworkCollectionProvider implements Provide
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        if (!$operation instanceof CollectionOperationInterface) {
+        if (! $operation instanceof CollectionOperationInterface) {
             throw new \LogicException(sprintf('%s ne gère que les opérations de collection.', self::class));
         }
 
         $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
-        if (!is_iterable($result)) {
+        if (! is_iterable($result)) {
             return $result;
         }
 
         $items = [];
         foreach ($result as $entity) {
-            if (!$entity instanceof ConfigProjectFramework) {
+            if (! $entity instanceof ConfigProjectFramework) {
                 continue;
             }
             $items[] = $this->configProjectFrameworkMapper->entityToCollectionDto($entity);

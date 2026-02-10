@@ -20,7 +20,7 @@ final readonly class ProjectTemplateCreateProcessor implements ProcessorInterfac
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof ProjectTemplateCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof ProjectTemplateCreateDto)) {
             return $data;
         }
 

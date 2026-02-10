@@ -20,7 +20,7 @@ final readonly class FileCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof FileCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof FileCreateDto)) {
             return $data;
         }
 

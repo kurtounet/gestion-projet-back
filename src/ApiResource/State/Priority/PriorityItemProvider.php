@@ -21,7 +21,7 @@ final readonly class PriorityItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof Priority) {
+        if (! $entity instanceof Priority) {
             return $entity;
         }
 

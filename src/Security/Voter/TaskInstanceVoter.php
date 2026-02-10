@@ -26,7 +26,7 @@ final class TaskInstanceVoter extends Voter
         $user = $token->getUser();
 
         // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             $vote?->addReason('The user is not logged in.');
 
             return false;

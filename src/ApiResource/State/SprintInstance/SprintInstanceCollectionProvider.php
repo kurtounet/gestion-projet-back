@@ -20,18 +20,18 @@ final readonly class SprintInstanceCollectionProvider implements ProviderInterfa
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        if (!$operation instanceof CollectionOperationInterface) {
+        if (! $operation instanceof CollectionOperationInterface) {
             throw new \LogicException(sprintf('%s ne gère que les opérations de collection.', self::class));
         }
 
         $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
-        if (!is_iterable($result)) {
+        if (! is_iterable($result)) {
             return $result;
         }
 
         $items = [];
         foreach ($result as $entity) {
-            if (!$entity instanceof SprintInstance) {
+            if (! $entity instanceof SprintInstance) {
                 continue;
             }
             $items[] = $this->sprintInstanceMapper->entityToCollectionDto($entity);

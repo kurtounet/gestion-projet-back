@@ -21,7 +21,7 @@ final readonly class TechnologyItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof Technology) {
+        if (! $entity instanceof Technology) {
             return $entity;
         }
 

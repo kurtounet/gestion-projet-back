@@ -60,7 +60,7 @@ class Technology
 
     public function addFramework(Framework $framework): static
     {
-        if (!$this->framework->contains($framework)) {
+        if (! $this->framework->contains($framework)) {
             $this->framework->add($framework);
             $framework->setTechnology($this);
         }

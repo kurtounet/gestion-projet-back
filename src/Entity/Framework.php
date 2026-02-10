@@ -153,7 +153,7 @@ class Framework
 
     public function addConfigProjectFramework(ConfigProjectFramework $configProjectFramework): static
     {
-        if (!$this->configProjectFrameworks->contains($configProjectFramework)) {
+        if (! $this->configProjectFrameworks->contains($configProjectFramework)) {
             $this->configProjectFrameworks->add($configProjectFramework);
             $configProjectFramework->setFramework($this);
         }

@@ -21,7 +21,7 @@ final readonly class UserItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof User) {
+        if (! $entity instanceof User) {
             return $entity;
         }
 

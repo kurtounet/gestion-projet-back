@@ -23,18 +23,18 @@ final readonly class TypeTaskUpdateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Patch) || !($data instanceof TypeTaskUpdateDto)) {
+        if (! ($operation instanceof Patch) || ! ($data instanceof TypeTaskUpdateDto)) {
             return $data;
         }
 
         $id = $uriVariables['id'] ?? null;
-        if (!is_string($id) && !is_int($id)) {
+        if (! is_string($id) && ! is_int($id)) {
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
         $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
 
-        if (!$entity instanceof TypeTask) {
+        if (! $entity instanceof TypeTask) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', TypeTask::class, (string) $id));
         }
 

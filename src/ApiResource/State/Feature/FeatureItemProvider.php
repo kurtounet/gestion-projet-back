@@ -21,7 +21,7 @@ final readonly class FeatureItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof Feature) {
+        if (! $entity instanceof Feature) {
             return $entity;
         }
 

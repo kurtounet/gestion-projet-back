@@ -21,7 +21,7 @@ final readonly class TypeTaskItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof TypeTask) {
+        if (! $entity instanceof TypeTask) {
             return $entity;
         }
 

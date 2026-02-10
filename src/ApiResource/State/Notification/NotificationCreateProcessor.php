@@ -20,7 +20,7 @@ final readonly class NotificationCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof NotificationCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof NotificationCreateDto)) {
             return $data;
         }
 

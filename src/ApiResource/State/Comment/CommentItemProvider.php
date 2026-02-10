@@ -21,7 +21,7 @@ final readonly class CommentItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof Comment) {
+        if (! $entity instanceof Comment) {
             return $entity;
         }
 

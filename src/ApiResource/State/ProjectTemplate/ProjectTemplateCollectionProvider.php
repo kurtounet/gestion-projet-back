@@ -20,18 +20,18 @@ final readonly class ProjectTemplateCollectionProvider implements ProviderInterf
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        if (!$operation instanceof CollectionOperationInterface) {
+        if (! $operation instanceof CollectionOperationInterface) {
             throw new \LogicException(sprintf('%s ne gère que les opérations de collection.', self::class));
         }
 
         $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
-        if (!is_iterable($result)) {
+        if (! is_iterable($result)) {
             return $result;
         }
 
         $items = [];
         foreach ($result as $entity) {
-            if (!$entity instanceof ProjectTemplate) {
+            if (! $entity instanceof ProjectTemplate) {
                 continue;
             }
             $items[] = $this->projectTemplateMapper->entityToCollectionDto($entity);

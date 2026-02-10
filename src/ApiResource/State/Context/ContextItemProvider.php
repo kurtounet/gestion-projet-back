@@ -21,7 +21,7 @@ final readonly class ContextItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof Context) {
+        if (! $entity instanceof Context) {
             return $entity;
         }
 

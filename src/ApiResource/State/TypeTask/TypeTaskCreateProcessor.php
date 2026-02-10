@@ -20,7 +20,7 @@ final readonly class TypeTaskCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof TypeTaskCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof TypeTaskCreateDto)) {
             return $data;
         }
 

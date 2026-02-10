@@ -20,7 +20,7 @@ final readonly class UserCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof UserCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof UserCreateDto)) {
             return $data;
         }
 

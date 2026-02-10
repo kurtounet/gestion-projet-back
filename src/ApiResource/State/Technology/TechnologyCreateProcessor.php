@@ -20,7 +20,7 @@ final readonly class TechnologyCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof TechnologyCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof TechnologyCreateDto)) {
             return $data;
         }
 

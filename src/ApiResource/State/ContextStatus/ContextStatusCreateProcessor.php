@@ -20,7 +20,7 @@ final readonly class ContextStatusCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof ContextStatusCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof ContextStatusCreateDto)) {
             return $data;
         }
 

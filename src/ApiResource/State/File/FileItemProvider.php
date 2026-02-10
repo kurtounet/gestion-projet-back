@@ -21,7 +21,7 @@ final readonly class FileItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof File) {
+        if (! $entity instanceof File) {
             return $entity;
         }
 

@@ -21,7 +21,7 @@ final readonly class ConfigProjectFrameworkItemProvider implements ProviderInter
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof ConfigProjectFramework) {
+        if (! $entity instanceof ConfigProjectFramework) {
             return $entity;
         }
 

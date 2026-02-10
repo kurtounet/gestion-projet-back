@@ -31,18 +31,18 @@ final readonly class TaskInstanceCurrentSprintCollectionProvider implements Prov
         $context['filters'] ??= [];
         $context['filters']['sprintInstance.id'] = $sprintId;
 
-        if (!$operation instanceof CollectionOperationInterface) {
+        if (! $operation instanceof CollectionOperationInterface) {
             throw new \LogicException(sprintf('%s ne gère que les opérations de collection.', self::class));
         }
 
         $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
-        if (!is_iterable($result)) {
+        if (! is_iterable($result)) {
             return $result;
         }
 
         $items = [];
         foreach ($result as $entity) {
-            if (!$entity instanceof TaskInstance) {
+            if (! $entity instanceof TaskInstance) {
                 continue;
             }
             $items[] = $this->taskInstanceMapper->entityToCollectionDto($entity);

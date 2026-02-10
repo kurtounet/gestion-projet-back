@@ -235,7 +235,7 @@ class ProjectInstanceMapper
         $iris = [];
 
         foreach ($items as $item) {
-            if (!is_object($item)) {
+            if (! is_object($item)) {
                 continue;
             }
 
@@ -287,7 +287,7 @@ class ProjectInstanceMapper
 
         $entity = $this->em->getRepository($expectedClass)->find($id);
 
-        if (!$entity) {
+        if (! $entity) {
             throw new BadRequestHttpException(sprintf('Resource not found for field "%s" (id: %s).', $field, (string) $id));
         }
 

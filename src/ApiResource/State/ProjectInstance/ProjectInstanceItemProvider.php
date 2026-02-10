@@ -21,7 +21,7 @@ final readonly class ProjectInstanceItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof ProjectInstance) {
+        if (! $entity instanceof ProjectInstance) {
             return $entity;
         }
 

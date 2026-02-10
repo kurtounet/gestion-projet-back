@@ -214,7 +214,7 @@ class ProjectInstance
 
     public function addSprintInstance(SprintInstance $sprintInstance): static
     {
-        if (!$this->sprintInstances->contains($sprintInstance)) {
+        if (! $this->sprintInstances->contains($sprintInstance)) {
             $this->sprintInstances->add($sprintInstance);
             $sprintInstance->setProjectInstance($this);
         }
@@ -304,7 +304,7 @@ class ProjectInstance
 
     public function addProjectInstances(self $projectInstances2): static
     {
-        if (!$this->projectInstances->contains($projectInstances2)) {
+        if (! $this->projectInstances->contains($projectInstances2)) {
             $this->projectInstances->add($projectInstances2);
             $projectInstances2->setParent($this);
         }

@@ -23,18 +23,18 @@ final readonly class PriorityUpdateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Patch) || !($data instanceof PriorityUpdateDto)) {
+        if (! ($operation instanceof Patch) || ! ($data instanceof PriorityUpdateDto)) {
             return $data;
         }
 
         $id = $uriVariables['id'] ?? null;
-        if (!is_string($id) && !is_int($id)) {
+        if (! is_string($id) && ! is_int($id)) {
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
         $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
 
-        if (!$entity instanceof Priority) {
+        if (! $entity instanceof Priority) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Priority::class, (string) $id));
         }
 

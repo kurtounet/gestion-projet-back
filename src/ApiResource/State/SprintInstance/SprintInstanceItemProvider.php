@@ -21,7 +21,7 @@ final readonly class SprintInstanceItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof SprintInstance) {
+        if (! $entity instanceof SprintInstance) {
             return $entity;
         }
 

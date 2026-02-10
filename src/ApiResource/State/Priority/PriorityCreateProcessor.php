@@ -20,7 +20,7 @@ final readonly class PriorityCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof PriorityCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof PriorityCreateDto)) {
             return $data;
         }
 

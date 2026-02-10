@@ -21,7 +21,7 @@ final readonly class ProjectTemplateSprintTemplateItemProvider implements Provid
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof ProjectTemplateSprintTemplate) {
+        if (! $entity instanceof ProjectTemplateSprintTemplate) {
             return $entity;
         }
 

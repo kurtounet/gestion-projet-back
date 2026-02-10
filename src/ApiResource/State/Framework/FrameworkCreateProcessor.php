@@ -20,7 +20,7 @@ final readonly class FrameworkCreateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!($operation instanceof Post) || !($data instanceof FrameworkCreateDto)) {
+        if (! ($operation instanceof Post) || ! ($data instanceof FrameworkCreateDto)) {
             return $data;
         }
 

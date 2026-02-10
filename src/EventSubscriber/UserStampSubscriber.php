@@ -29,7 +29,7 @@ final class UserStampSubscriber implements EventSubscriber
         $entity = $args->getObject();
         $userIdentifier = $this->getUserIdentifier();
 
-        if (!$userIdentifier) {
+        if (! $userIdentifier) {
             return;
         }
 
@@ -48,7 +48,7 @@ final class UserStampSubscriber implements EventSubscriber
         $entity = $args->getObject();
         $userIdentifier = $this->getUserIdentifier();
 
-        if (!$userIdentifier) {
+        if (! $userIdentifier) {
             return;
         }
 
@@ -70,7 +70,7 @@ final class UserStampSubscriber implements EventSubscriber
     {
         $user = $this->security->getUser();
 
-        if (!$user instanceof User) {
+        if (! $user instanceof User) {
             return null;
         }
 

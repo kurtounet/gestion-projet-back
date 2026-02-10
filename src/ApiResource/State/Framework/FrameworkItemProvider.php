@@ -21,7 +21,7 @@ final readonly class FrameworkItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof Framework) {
+        if (! $entity instanceof Framework) {
             return $entity;
         }
 

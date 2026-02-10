@@ -21,18 +21,18 @@ final class JsonLdContextSubscriber implements EventSubscriberInterface
         $response = $event->getResponse();
 
         // Vérifie si c'est une réponse API Platform en JSON-LD
-        if (!str_starts_with($request->getPathInfo(), '/api/')) {
+        if (! str_starts_with($request->getPathInfo(), '/api/')) {
             return;
         }
 
         $contentType = $response->headers->get('Content-Type');
-        if (!$contentType || !str_contains($contentType, 'application/ld+json')) {
+        if (! $contentType || ! str_contains($contentType, 'application/ld+json')) {
             return;
         }
 
         $content = json_decode($response->getContent(), true);
 
-        if (!$content || !isset($content['@context']) || !is_array($content['@context'])) {
+        if (! $content || ! isset($content['@context']) || ! is_array($content['@context'])) {
             return;
         }
 

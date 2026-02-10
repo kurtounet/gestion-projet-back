@@ -21,7 +21,7 @@ final readonly class NotificationItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof Notification) {
+        if (! $entity instanceof Notification) {
             return $entity;
         }
 

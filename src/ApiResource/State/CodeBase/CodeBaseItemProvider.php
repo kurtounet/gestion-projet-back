@@ -21,7 +21,7 @@ final readonly class CodeBaseItemProvider implements ProviderInterface
     {
         $entity = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-        if (!$entity instanceof CodeBase) {
+        if (! $entity instanceof CodeBase) {
             return $entity;
         }
 
