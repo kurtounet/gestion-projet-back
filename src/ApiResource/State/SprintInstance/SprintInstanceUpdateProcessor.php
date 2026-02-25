@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
 use App\ApiResource\Mapper\SprintInstance\SprintInstanceMapper;
+use App\Entity\ProjectInstance;
 use App\Entity\SprintInstance;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -18,8 +19,7 @@ final readonly class SprintInstanceUpdateProcessor implements ProcessorInterface
         private SprintInstanceMapper $sprintInstanceMapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,
-    ) {
-    }
+    ) {}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
