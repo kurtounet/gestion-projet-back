@@ -3,6 +3,7 @@
 namespace App\ApiResource\Resource\Priority;
 
 use ApiPlatform\Doctrine\Orm\State\Options;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -27,33 +28,33 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: Priority::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'priorities',
+            uriTemplate: '/priorities',
             normalizationContext: ['groups' => ['Priority:collection:read']],
             provider: PriorityCollectionProvider::class,
             output: PriorityCollectionItemDto::class
         ),
         new Get(
-            uriTemplate: 'priorities/{id}',
+            uriTemplate: '/priorities/{id}',
             normalizationContext: ['groups' => ['Priority:item:read']],
             provider: PriorityItemProvider::class,
             output: PriorityItemDto::class
         ),
         new Post(
-            uriTemplate: 'priorities',
+            uriTemplate: '/priorities',
             denormalizationContext: ['groups' => ['Priority:create']],
             processor: PriorityCreateProcessor::class,
             input: PriorityCreateDto::class,
             output: PriorityItemDto::class
         ),
         new Patch(
-            uriTemplate: 'priorities/{id}',
+            uriTemplate: '/priorities/{id}',
             denormalizationContext: ['groups' => ['Priority:update']],
             processor: PriorityUpdateProcessor::class,
             input: PriorityUpdateDto::class,
             output: PriorityItemDto::class
         ),
         new Delete(
-            uriTemplate: 'priorities/{id}',
+            uriTemplate: '/priorities/{id}',
             processor: PriorityDeleteProcessor::class,
             output: false,
             status: 204
@@ -63,6 +64,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 // #[Map(source: Priority::class)]
 final class PriorityResource
 {
+    #[ApiProperty(identifier: true)]
     public int $id;
     /*
         #[Groups(['Priority:collection:read', 'Priority:item:read'])]

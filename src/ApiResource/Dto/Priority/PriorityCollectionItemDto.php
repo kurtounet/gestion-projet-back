@@ -2,15 +2,18 @@
 
 namespace App\ApiResource\Dto\Priority;
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use App\ApiResource\Resource\Priority\PriorityResource;
 use App\Entity\Priority;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-// #[Map(source: Priority::class)]
 final class PriorityCollectionItemDto
 {
     #[Groups(['Priority:collection:read'])]
-    public int $id;
+    #[ApiProperty(identifier: true)]
+    public ?int $id;
 
     #[Groups(['Priority:collection:read'])]
     public string $label;
