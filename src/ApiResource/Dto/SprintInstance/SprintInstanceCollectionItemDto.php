@@ -44,4 +44,10 @@ final class SprintInstanceCollectionItemDto
 
     #[Groups(['SprintInstance:collection:read'])]
     public ?string $updatedByUser;
+
+    #[Groups(['SprintInstance:collection:read'])]
+    public ?string $status;
+
+    #[Groups(['SprintInstance:collection:read'])]
+    public ?string $priority;
 }

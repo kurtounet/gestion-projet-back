@@ -7,8 +7,12 @@ use App\ApiResource\Dto\SprintInstance\SprintInstanceCollectionItemDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceItemDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
+use App\ApiResource\Resource\Priority\PriorityResource;
+use App\ApiResource\Resource\Status\StatusResource;
 use App\ApiResource\Service\IriFromResource;
+use App\Entity\Priority;
 use App\Entity\SprintInstance;
+use App\Entity\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -20,8 +24,7 @@ class SprintInstanceMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {
-    }
+    ) {}
 
     public function entityToItemDto(SprintInstance $entity): SprintInstanceItemDto
     {
@@ -39,18 +42,16 @@ class SprintInstanceMapper
         $dto->createdByUser = $entity->getCreatedByUser();
         $dto->updatedByUser = $entity->getUpdatedByUser();
 
-        /*
-
         $dto->priority = $entity->getPriority()
-            ? ($this->iriFromResource)(Priority::class,$entity->getPriority()->getId())
-            : null;
-
-        $dto->sprinttemplate = $entity->getSprinttemplate()
-            ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
+            ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
             : null;
 
         $dto->status = $entity->getStatus()
-            ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
+            : null;
+        /*
+        $dto->sprinttemplate = $entity->getSprinttemplate()
+            ? ($this->iriFromResource)(SprintTemplate::class, $entity->getSprinttemplate()->getId())
             : null;
 
         $dto->comment = $entity->getComment()
@@ -85,6 +86,14 @@ class SprintInstanceMapper
         $dto->updatedAt = $entity->getUpdatedAt();
         $dto->createdByUser = $entity->getCreatedByUser();
         $dto->updatedByUser = $entity->getUpdatedByUser();
+
+        $dto->priority = $entity->getPriority()
+            ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
+            : null;
+
+        $dto->status = $entity->getStatus()
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
+            : null;
 
         /*
 
@@ -132,7 +141,7 @@ class SprintInstanceMapper
         $entity->setCreatedByUser($dto->createdByUser);
         $entity->setUpdatedByUser($dto->updatedByUser);
         /*
-                    $entity->setPriority($dto->priority);
+            $entity->setPriority($dto->priority);
 
              $entity->setSprintTemplate($dto->sprintTemplate);
 
