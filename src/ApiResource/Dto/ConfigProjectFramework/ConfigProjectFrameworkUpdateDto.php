@@ -33,6 +33,7 @@ final class ConfigProjectFrameworkUpdateDto
 
     #[Groups(['update'])]
     public ?string $projectInstance = null;
+
     #[Groups(['update'])]
     public ?string $framework = null;
 }

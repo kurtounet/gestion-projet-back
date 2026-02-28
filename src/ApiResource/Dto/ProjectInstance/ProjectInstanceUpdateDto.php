@@ -57,18 +57,25 @@ final class ProjectInstanceUpdateDto
 
     #[Groups(['update'])]
     public ?string $status = null;
+
     #[Groups(['update'])]
     public ?string $priority = null;
+
     #[Groups(['update'])]
     public ?string $projectTemplate = null;
+
     #[Groups(['update'])]
     public ?string $comment = null;
+
     #[Groups(['update'])]
     public iterable $sprintInstances = [];
+
     #[Groups(['update'])]
     public iterable $projectInstances = [];
+
     #[Groups(['update'])]
     public ?string $parent = null;
+
     #[Groups(['update'])]
     public ?string $configFramework = null;
 }

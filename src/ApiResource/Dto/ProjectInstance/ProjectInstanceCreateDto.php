@@ -62,22 +62,27 @@ final class ProjectInstanceCreateDto
     #[Groups(['create'])]
     public ?\DateTimeInterface $updatedAt = null;
 
-
-
     #[Groups(['create'])]
     public ?string $status = null;
+
     #[Groups(['create'])]
     public ?string $priority = null;
+
     #[Groups(['create'])]
     public ?string $projectTemplate = null;
+
     #[Groups(['create'])]
     public ?string $comment = null;
+
     #[Groups(['create'])]
     public iterable $sprintInstances = [];
+
     #[Groups(['create'])]
     public iterable $projectInstances = [];
+
     #[Groups(['create'])]
     public ?string $parent = null;
+
     #[Groups(['create'])]
     public ?string $configFramework = null;
 }
