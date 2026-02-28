@@ -1,0 +1,9 @@
+{
+    "@context": "\/api\/contexts\/Status",
+    "@id": "\/api\/statuses\/3",
+    "@type": "Status",
+    "id": 3,
+    "label": "Test Status 69a06f6a5faae",
+    "color": "#00ff00",
+    "context": "\/api\/contexts\/9"
+}

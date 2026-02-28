@@ -1,0 +1,9 @@
+{
+    "@context": "\/api\/contexts\/Priority",
+    "@id": "\/api\/priorities\/20",
+    "@type": "Priority",
+    "id": 20,
+    "label": "Test Priority 69a06f87b32e3",
+    "color": "#ff0000",
+    "priorityNumber": 309
+}
