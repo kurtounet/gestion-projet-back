@@ -3,10 +3,9 @@
 namespace App\ApiResource\Mapper\Feature;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\Feature\FeatureCollectionItemDto;
 use App\ApiResource\Dto\Feature\FeatureCreateDto;
-use App\ApiResource\Dto\Feature\FeatureItemDto;
 use App\ApiResource\Dto\Feature\FeatureUpdateDto;
+use App\ApiResource\Resource\Feature\FeatureResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\Feature;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,24 +22,28 @@ class FeatureMapper
     ) {
     }
 
-    public function entityToItemDto(Feature $entity): FeatureItemDto
+    public function entityToItemDto(Feature $entity): FeatureResource
     {
-        $dto = new FeatureItemDto();
+        $dto = new FeatureResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
 
-    public function entityToCollectionDto(Feature $entity): FeatureCollectionItemDto
+    public function entityToCollectionDto(Feature $entity): FeatureResource
     {
-        $dto = new FeatureCollectionItemDto();
+        $dto = new FeatureResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
@@ -48,19 +51,38 @@ class FeatureMapper
     public function createDtoToEntity(FeatureCreateDto $dto): Feature
     {
         $entity = new Feature();
-        $entity->setLabel($dto->label);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(Feature $entity, FeatureUpdateDto $dto): Feature
     {
-        $entity = new Feature();
-        $entity->setLabel($dto->label);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
 
         return $entity;
     }
@@ -70,7 +92,7 @@ class FeatureMapper
     {
                $dto = new FeatureCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(Feature $entity, object $dto): void

@@ -26,8 +26,8 @@ final readonly class ProjectTemplateDeleteProcessor implements ProcessorInterfac
             $this->removeProcessor->process($data, $operation, $uriVariables, $context);
 
             return null;
-
-            return $data;
         }
+
+        return $data;
     }
 }

@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Comment;
 
 use App\Entity\Comment;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,26 +12,27 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Comment::class)]
 final class CommentCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['Comment:create'])]
+    #[Groups(['create'])]
     public string $subject;
 
     #[Assert\NotBlank]
-    #[Groups(['Comment:create'])]
+    #[Groups(['create'])]
     public string $content;
 
     #[Assert\NotBlank]
-    #[Groups(['Comment:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Comment:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['Comment:create'])]
-    public ?string $task;
-    #[Groups(['Comment:create'])]
-    public ?string $user;
+
+
+    #[Groups(['create'])]
+    public ?string $task = null;
+    #[Groups(['create'])]
+    public ?string $user = null;
 }

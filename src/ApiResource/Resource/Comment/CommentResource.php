@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\Comment\CommentCollectionItemDto;
 use App\ApiResource\Dto\Comment\CommentCreateDto;
-use App\ApiResource\Dto\Comment\CommentItemDto;
 use App\ApiResource\Dto\Comment\CommentUpdateDto;
 use App\ApiResource\State\Comment\CommentCollectionProvider;
 use App\ApiResource\State\Comment\CommentCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\Comment\CommentDeleteProcessor;
 use App\ApiResource\State\Comment\CommentItemProvider;
 use App\ApiResource\State\Comment\CommentUpdateProcessor;
 use App\Entity\Comment;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,64 +24,58 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: Comment::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'comments',
-            normalizationContext: ['groups' => ['Comment:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: CommentCollectionProvider::class,
-            output: CommentCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'comments/{id}',
-            normalizationContext: ['groups' => ['Comment:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: CommentItemProvider::class,
-            output: CommentItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'comments',
-            denormalizationContext: ['groups' => ['Comment:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: CommentCreateProcessor::class,
             input: CommentCreateDto::class,
-            output: CommentItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'comments/{id}',
-            denormalizationContext: ['groups' => ['Comment:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: CommentUpdateProcessor::class,
             input: CommentUpdateDto::class,
-            output: CommentItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'comments/{id}',
             processor: CommentDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: Comment::class)]
+
 final class CommentResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-        public int $id;
 
-        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-        public string $subject;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $subject;
 
-        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-        public string $content;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $content;
 
-        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-        public ?string $task = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $task = null;
 
-        #[Groups(['Comment:collection:read', 'Comment:item:read'])]
-        public ?string $user = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $user = null;
 
-    */
+
 }

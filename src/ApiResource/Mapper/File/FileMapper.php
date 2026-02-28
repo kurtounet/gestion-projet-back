@@ -3,10 +3,9 @@
 namespace App\ApiResource\Mapper\File;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\File\FileCollectionItemDto;
 use App\ApiResource\Dto\File\FileCreateDto;
-use App\ApiResource\Dto\File\FileItemDto;
 use App\ApiResource\Dto\File\FileUpdateDto;
+use App\ApiResource\Resource\File\FileResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\File;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,26 +22,30 @@ class FileMapper
     ) {
     }
 
-    public function entityToItemDto(File $entity): FileItemDto
+    public function entityToItemDto(File $entity): FileResource
     {
-        $dto = new FileItemDto();
+        $dto = new FileResource();
         $dto->id = $entity->getId();
         $dto->path = $entity->getPath();
         $dto->keyWord = $entity->getKeyWord();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
 
-    public function entityToCollectionDto(File $entity): FileCollectionItemDto
+    public function entityToCollectionDto(File $entity): FileResource
     {
-        $dto = new FileCollectionItemDto();
+        $dto = new FileResource();
         $dto->id = $entity->getId();
         $dto->path = $entity->getPath();
         $dto->keyWord = $entity->getKeyWord();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
@@ -50,21 +53,44 @@ class FileMapper
     public function createDtoToEntity(FileCreateDto $dto): File
     {
         $entity = new File();
-        $entity->setPath($dto->path);
-        $entity->setKeyWord($dto->keyWord);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->path) {
+            $entity->setPath($dto->path);
+        }
+        if (null !== $dto->keyWord) {
+            $entity->setKeyWord($dto->keyWord);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(File $entity, FileUpdateDto $dto): File
     {
-        $entity = new File();
-        $entity->setPath($dto->path);
-        $entity->setKeyWord($dto->keyWord);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->path) {
+            $entity->setPath($dto->path);
+        }
+        if (null !== $dto->keyWord) {
+            $entity->setKeyWord($dto->keyWord);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
 
         return $entity;
     }
@@ -74,7 +100,7 @@ class FileMapper
     {
                $dto = new FileCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(File $entity, object $dto): void

@@ -32,7 +32,7 @@ final readonly class ContextStatusUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(ContextStatus::class)->find($id);
 
         if (! $entity instanceof ContextStatus) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', ContextStatus::class, (string) $id));

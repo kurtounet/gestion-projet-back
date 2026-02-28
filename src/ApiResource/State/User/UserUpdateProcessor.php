@@ -32,7 +32,7 @@ final readonly class UserUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(User::class)->find($id);
 
         if (! $entity instanceof User) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', User::class, (string) $id));

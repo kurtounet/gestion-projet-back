@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Priority;
 
 use App\Entity\Priority;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,24 +12,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Priority::class)]
 final class PriorityCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['Priority:create'])]
+    #[Groups(['create'])]
     public string $label;
 
-    #[Groups(['Priority:create'])]
-    public ?string $color;
+    #[Groups(['create'])]
+    public ?string $color = null;
 
     #[Assert\NotBlank]
-    #[Groups(['Priority:create'])]
+    #[Groups(['create'])]
     public int $priorityNumber;
 
     #[Assert\NotBlank]
-    #[Groups(['Priority:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Priority:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
+
+
 }

@@ -19,10 +19,12 @@ class IriFromResource
         }
 
         try {
-            return $this->iriConverter->getIriFromResource(
-                $resourceClass,
-                context: ['uri_variables' => ['id' => $id]]
-            );
+            $resource = new $resourceClass();
+            if (property_exists($resource, 'id')) {
+                $resource->id = (int) $id;
+            }
+
+            return $this->iriConverter->getIriFromResource($resource);
         } catch (\Throwable $e) {
             // Optionnel mais utile pour un message clair côté API
             throw new NotFoundHttpException(sprintf('IRI not resolvable for resource %s with id %s.', $resourceClass, (string) $id), $e);

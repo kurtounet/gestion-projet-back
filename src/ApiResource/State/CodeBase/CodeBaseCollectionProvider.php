@@ -14,7 +14,7 @@ final readonly class CodeBaseCollectionProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private CodeBaseMapper $codeBaseMapper,
+        private CodeBaseMapper $codeBaseMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class CodeBaseCollectionProvider implements ProviderInterface
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof CodeBase) {
                 continue;
             }

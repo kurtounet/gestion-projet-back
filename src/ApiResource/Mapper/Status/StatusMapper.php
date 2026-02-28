@@ -3,10 +3,10 @@
 namespace App\ApiResource\Mapper\Status;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\Status\StatusCollectionItemDto;
 use App\ApiResource\Dto\Status\StatusCreateDto;
-use App\ApiResource\Dto\Status\StatusItemDto;
 use App\ApiResource\Dto\Status\StatusUpdateDto;
+use App\ApiResource\Resource\Context\ContextResource;
+use App\ApiResource\Resource\Status\StatusResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\Status;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,76 +23,86 @@ class StatusMapper
     ) {
     }
 
-    public function entityToItemDto(Status $entity): StatusItemDto
+    public function entityToItemDto(Status $entity): StatusResource
     {
-        $dto = new StatusItemDto();
+        $dto = new StatusResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->color = $entity->getColor();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
         $dto->context = $entity->getContext()
-            ? ($this->iriFromResource)(Context::class,$entity->getContext()->getId())
+            ? ($this->iriFromResource)(ContextResource::class, $entity->getContext()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(Status $entity): StatusCollectionItemDto
+    public function entityToCollectionDto(Status $entity): StatusResource
     {
-        $dto = new StatusCollectionItemDto();
+        $dto = new StatusResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->color = $entity->getColor();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-         $dto->context = $entity->getContext()
-             ? ($this->iriFromResource)(Context::class,$entity->getContext()->getId())
-             : null;
+        $dto->context = $entity->getContext()
+            ? ($this->iriFromResource)(ContextResource::class, $entity->getContext()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(StatusCreateDto $dto): Status
     {
         $entity = new Status();
-        $entity->setLabel($dto->label);
-        $entity->setColor($dto->color);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setContext($dto->context);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->context) {
+            $entity->setContext($this->resolveIri($dto->context ?? null, \App\Entity\Context::class, 'context', required: true));
+        }
 
 
-         $entity->setContext($this->resolveIri($dto->context ?? null, Context::class, 'context', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(Status $entity, StatusUpdateDto $dto): Status
     {
-        $entity = new Status();
-        $entity->setLabel($dto->label);
-        $entity->setColor($dto->color);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->context) {
+            $entity->setContext($this->resolveIri($dto->context ?? null, \App\Entity\Context::class, 'context', required: true));
+        }
 
-        /*
-                    $entity->setContext($dto->context);
 
-
-        */
         return $entity;
     }
 
@@ -101,7 +111,7 @@ class StatusMapper
     {
                $dto = new StatusCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(Status $entity, object $dto): void

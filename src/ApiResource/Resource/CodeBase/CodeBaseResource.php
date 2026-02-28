@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\CodeBase\CodeBaseCollectionItemDto;
 use App\ApiResource\Dto\CodeBase\CodeBaseCreateDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseItemDto;
 use App\ApiResource\Dto\CodeBase\CodeBaseUpdateDto;
 use App\ApiResource\State\CodeBase\CodeBaseCollectionProvider;
 use App\ApiResource\State\CodeBase\CodeBaseCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\CodeBase\CodeBaseDeleteProcessor;
 use App\ApiResource\State\CodeBase\CodeBaseItemProvider;
 use App\ApiResource\State\CodeBase\CodeBaseUpdateProcessor;
 use App\Entity\CodeBase;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,65 +24,59 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: CodeBase::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'code_bases',
-            normalizationContext: ['groups' => ['CodeBase:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: CodeBaseCollectionProvider::class,
-            output: CodeBaseCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'code_bases/{id}',
-            normalizationContext: ['groups' => ['CodeBase:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: CodeBaseItemProvider::class,
-            output: CodeBaseItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'code_bases',
-            denormalizationContext: ['groups' => ['CodeBase:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: CodeBaseCreateProcessor::class,
             input: CodeBaseCreateDto::class,
-            output: CodeBaseItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'code_bases/{id}',
-            denormalizationContext: ['groups' => ['CodeBase:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: CodeBaseUpdateProcessor::class,
             input: CodeBaseUpdateDto::class,
-            output: CodeBaseItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'code_bases/{id}',
             processor: CodeBaseDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: CodeBase::class)]
+
 final class CodeBaseResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-        public int $id;
 
-        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-        public string $label;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $label;
 
-        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-        public string $code;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $code;
 
-        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-        public string $pathFile;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $pathFile;
 
-        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-        public string $feature;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $feature;
 
-        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['CodeBase:collection:read', 'CodeBase:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
 
-    */
+
 }

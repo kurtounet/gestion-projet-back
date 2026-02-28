@@ -3,10 +3,11 @@
 namespace App\ApiResource\Mapper\Framework;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\Framework\FrameworkCollectionItemDto;
 use App\ApiResource\Dto\Framework\FrameworkCreateDto;
-use App\ApiResource\Dto\Framework\FrameworkItemDto;
 use App\ApiResource\Dto\Framework\FrameworkUpdateDto;
+use App\ApiResource\Resource\ConfigProjectFramework\ConfigProjectFrameworkResource;
+use App\ApiResource\Resource\Framework\FrameworkResource;
+use App\ApiResource\Resource\Technology\TechnologyResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\Framework;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +24,9 @@ class FrameworkMapper
     ) {
     }
 
-    public function entityToItemDto(Framework $entity): FrameworkItemDto
+    public function entityToItemDto(Framework $entity): FrameworkResource
     {
-        $dto = new FrameworkItemDto();
+        $dto = new FrameworkResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->type = $entity->getType();
@@ -37,21 +38,19 @@ class FrameworkMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
         $dto->technology = $entity->getTechnology()
-            ? ($this->iriFromResource)(Technology::class,$entity->getTechnology()->getId())
+            ? ($this->iriFromResource)(TechnologyResource::class, $entity->getTechnology()->getId())
             : null;
 
 
-        $dto->configprojectframework = $this->toIriList($entity->getConfigProjectFramework(), ConfigProjectFramework::class);
-        */
+        $dto->configProjectFrameworks = $this->toIriList($entity->getConfigProjectFrameworks(), ConfigProjectFrameworkResource::class);
+
         return $dto;
     }
 
-    public function entityToCollectionDto(Framework $entity): FrameworkCollectionItemDto
+    public function entityToCollectionDto(Framework $entity): FrameworkResource
     {
-        $dto = new FrameworkCollectionItemDto();
+        $dto = new FrameworkResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->type = $entity->getType();
@@ -63,59 +62,92 @@ class FrameworkMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-         $dto->technology = $entity->getTechnology()
-             ? ($this->iriFromResource)(Technology::class,$entity->getTechnology()->getId())
-             : null;
+        $dto->technology = $entity->getTechnology()
+            ? ($this->iriFromResource)(TechnologyResource::class, $entity->getTechnology()->getId())
+            : null;
 
 
-         $dto->configprojectframework = $this->toIriList($entity->getConfigProjectFramework(), ConfigProjectFramework::class);
-        */
+        $dto->configProjectFrameworks = $this->toIriList($entity->getConfigProjectFrameworks(), ConfigProjectFrameworkResource::class);
+
         return $dto;
     }
 
     public function createDtoToEntity(FrameworkCreateDto $dto): Framework
     {
         $entity = new Framework();
-        $entity->setLabel($dto->label);
-        $entity->setType($dto->type);
-        $entity->setVersion($dto->version);
-        $entity->setDescription($dto->description);
-        $entity->setConfiguration($dto->configuration);
-        $entity->setIcon($dto->icon);
-        $entity->setColor($dto->color);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setTechnology($dto->technology);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->type) {
+            $entity->setType($dto->type);
+        }
+        if (null !== $dto->version) {
+            $entity->setVersion($dto->version);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->configuration) {
+            $entity->setConfiguration($dto->configuration);
+        }
+        if (null !== $dto->icon) {
+            $entity->setIcon($dto->icon);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->technology) {
+            $entity->setTechnology($this->resolveIri($dto->technology ?? null, \App\Entity\Technology::class, 'technology', required: false));
+        }
 
 
-         $entity->setTechnology($this->resolveIri($dto->technology ?? null, Technology::class, 'technology', required: false));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(Framework $entity, FrameworkUpdateDto $dto): Framework
     {
-        $entity = new Framework();
-        $entity->setLabel($dto->label);
-        $entity->setType($dto->type);
-        $entity->setVersion($dto->version);
-        $entity->setDescription($dto->description);
-        $entity->setConfiguration($dto->configuration);
-        $entity->setIcon($dto->icon);
-        $entity->setColor($dto->color);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->type) {
+            $entity->setType($dto->type);
+        }
+        if (null !== $dto->version) {
+            $entity->setVersion($dto->version);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->configuration) {
+            $entity->setConfiguration($dto->configuration);
+        }
+        if (null !== $dto->icon) {
+            $entity->setIcon($dto->icon);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->technology) {
+            $entity->setTechnology($this->resolveIri($dto->technology ?? null, \App\Entity\Technology::class, 'technology', required: false));
+        }
 
-        /*
-                    $entity->setTechnology($dto->technology);
 
-
-         $entity->setConfigProjectFramework($this->resolveIri($dto->configprojectframework ?? null, ConfigProjectFramework::class, 'configprojectframework', required: true));
-        */
         return $entity;
     }
 
@@ -124,7 +156,7 @@ class FrameworkMapper
     {
                $dto = new FrameworkCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(Framework $entity, object $dto): void

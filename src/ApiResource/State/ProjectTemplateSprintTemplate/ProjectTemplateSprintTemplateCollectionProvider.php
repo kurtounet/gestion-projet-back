@@ -14,7 +14,7 @@ final readonly class ProjectTemplateSprintTemplateCollectionProvider implements 
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private ProjectTemplateSprintTemplateMapper $projectTemplateSprintTemplateMapper,
+        private ProjectTemplateSprintTemplateMapper $projectTemplateSprintTemplateMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class ProjectTemplateSprintTemplateCollectionProvider implements 
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof ProjectTemplateSprintTemplate) {
                 continue;
             }

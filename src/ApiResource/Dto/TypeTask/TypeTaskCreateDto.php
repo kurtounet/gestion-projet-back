@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\TypeTask;
 
 use App\Entity\TypeTask;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,35 +12,36 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: TypeTask::class)]
 final class TypeTaskCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['TypeTask:create'])]
+    #[Groups(['create'])]
     public string $name;
 
-    #[Groups(['TypeTask:create'])]
-    public ?string $color;
+    #[Groups(['create'])]
+    public ?string $color = null;
 
     #[Assert\NotBlank]
-    #[Groups(['TypeTask:create'])]
+    #[Groups(['create'])]
     public string $pathFileScript;
 
     #[Assert\NotBlank]
-    #[Groups(['TypeTask:create'])]
+    #[Groups(['create'])]
     public string $description;
 
     #[Assert\NotBlank]
-    #[Groups(['TypeTask:create'])]
+    #[Groups(['create'])]
     public bool $automatique;
 
     #[Assert\NotBlank]
-    #[Groups(['TypeTask:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['TypeTask:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['TypeTask:create'])]
-    public ?string $code;
+
+
+    #[Groups(['create'])]
+    public ?string $code = null;
 }

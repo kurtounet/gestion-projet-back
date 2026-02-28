@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateCollectionItemDto;
 use App\ApiResource\Dto\TaskTemplate\TaskTemplateCreateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateItemDto;
 use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
 use App\ApiResource\State\TaskTemplate\TaskTemplateCollectionProvider;
 use App\ApiResource\State\TaskTemplate\TaskTemplateCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\TaskTemplate\TaskTemplateDeleteProcessor;
 use App\ApiResource\State\TaskTemplate\TaskTemplateItemProvider;
 use App\ApiResource\State\TaskTemplate\TaskTemplateUpdateProcessor;
 use App\Entity\TaskTemplate;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,67 +24,61 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: TaskTemplate::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'task_templates',
-            normalizationContext: ['groups' => ['TaskTemplate:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: TaskTemplateCollectionProvider::class,
-            output: TaskTemplateCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'task_templates/{id}',
-            normalizationContext: ['groups' => ['TaskTemplate:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: TaskTemplateItemProvider::class,
-            output: TaskTemplateItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'task_templates',
-            denormalizationContext: ['groups' => ['TaskTemplate:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: TaskTemplateCreateProcessor::class,
             input: TaskTemplateCreateDto::class,
-            output: TaskTemplateItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'task_templates/{id}',
-            denormalizationContext: ['groups' => ['TaskTemplate:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: TaskTemplateUpdateProcessor::class,
             input: TaskTemplateUpdateDto::class,
-            output: TaskTemplateItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'task_templates/{id}',
             processor: TaskTemplateDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: TaskTemplate::class)]
+
 final class TaskTemplateResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-        public int $id;
 
-        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-        public string $name;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $name;
 
-        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-        public string $description;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $description;
 
-        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-        public int $parentTask;
+    #[Groups(['collection:read', 'item:read'])]
+    public int $parentTask;
 
-        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-        public ?string $sprintTemplate = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $sprintTemplate = null;
 
-        #[Groups(['TaskTemplate:collection:read', 'TaskTemplate:item:read'])]
-        public ?string $typeTask = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $typeTask = null;
 
-    */
+
 }

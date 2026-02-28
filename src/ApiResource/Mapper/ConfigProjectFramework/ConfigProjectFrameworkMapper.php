@@ -3,10 +3,11 @@
 namespace App\ApiResource\Mapper\ConfigProjectFramework;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkCollectionItemDto;
 use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkCreateDto;
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkItemDto;
 use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkUpdateDto;
+use App\ApiResource\Resource\ConfigProjectFramework\ConfigProjectFrameworkResource;
+use App\ApiResource\Resource\Framework\FrameworkResource;
+use App\ApiResource\Resource\ProjectInstance\ProjectInstanceResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\ConfigProjectFramework;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +24,9 @@ class ConfigProjectFrameworkMapper
     ) {
     }
 
-    public function entityToItemDto(ConfigProjectFramework $entity): ConfigProjectFrameworkItemDto
+    public function entityToItemDto(ConfigProjectFramework $entity): ConfigProjectFrameworkResource
     {
-        $dto = new ConfigProjectFrameworkItemDto();
+        $dto = new ConfigProjectFrameworkResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->configuration = $entity->getConfiguration();
@@ -34,24 +35,21 @@ class ConfigProjectFrameworkMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-        $dto->projectinstance = $entity->getProjectinstance()
-            ? ($this->iriFromResource)(ProjectInstance::class,$entity->getProjectinstance()->getId())
+        $dto->projectInstance = $entity->getProjectInstance()
+            ? ($this->iriFromResource)(ProjectInstanceResource::class, $entity->getProjectInstance()->getId())
             : null;
 
         $dto->framework = $entity->getFramework()
-            ? ($this->iriFromResource)(Framework::class,$entity->getFramework()->getId())
+            ? ($this->iriFromResource)(FrameworkResource::class, $entity->getFramework()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(ConfigProjectFramework $entity): ConfigProjectFrameworkCollectionItemDto
+    public function entityToCollectionDto(ConfigProjectFramework $entity): ConfigProjectFrameworkResource
     {
-        $dto = new ConfigProjectFrameworkCollectionItemDto();
+        $dto = new ConfigProjectFrameworkResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->configuration = $entity->getConfiguration();
@@ -60,61 +58,82 @@ class ConfigProjectFrameworkMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
+        $dto->projectInstance = $entity->getProjectInstance()
+            ? ($this->iriFromResource)(ProjectInstanceResource::class, $entity->getProjectInstance()->getId())
+            : null;
 
-         $dto->projectinstance = $entity->getProjectinstance()
-             ? ($this->iriFromResource)(ProjectInstance::class,$entity->getProjectinstance()->getId())
-             : null;
-
-         $dto->framework = $entity->getFramework()
-             ? ($this->iriFromResource)(Framework::class,$entity->getFramework()->getId())
-             : null;
+        $dto->framework = $entity->getFramework()
+            ? ($this->iriFromResource)(FrameworkResource::class, $entity->getFramework()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(ConfigProjectFrameworkCreateDto $dto): ConfigProjectFramework
     {
         $entity = new ConfigProjectFramework();
-        $entity->setName($dto->name);
-        $entity->setConfiguration($dto->configuration);
-        $entity->setArchitecture($dto->architecture);
-        $entity->setScript($dto->script);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setProjectInstance($dto->projectInstance);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->configuration) {
+            $entity->setConfiguration($dto->configuration);
+        }
+        if (null !== $dto->architecture) {
+            $entity->setArchitecture($dto->architecture);
+        }
+        if (null !== $dto->script) {
+            $entity->setScript($dto->script);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->projectInstance) {
+            $entity->setProjectInstance($this->resolveIri($dto->projectInstance ?? null, \App\Entity\ProjectInstance::class, 'projectInstance', required: false));
+        }
+        if (null !== $dto->framework) {
+            $entity->setFramework($this->resolveIri($dto->framework ?? null, \App\Entity\Framework::class, 'framework', required: false));
+        }
 
-             $entity->setFramework($dto->framework);
 
-
-         $entity->setProjectInstance($this->resolveIri($dto->projectinstance ?? null, ProjectInstance::class, 'projectinstance', required: true));
-
-         $entity->setFramework($this->resolveIri($dto->framework ?? null, Framework::class, 'framework', required: false));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(ConfigProjectFramework $entity, ConfigProjectFrameworkUpdateDto $dto): ConfigProjectFramework
     {
-        $entity = new ConfigProjectFramework();
-        $entity->setName($dto->name);
-        $entity->setConfiguration($dto->configuration);
-        $entity->setArchitecture($dto->architecture);
-        $entity->setScript($dto->script);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->configuration) {
+            $entity->setConfiguration($dto->configuration);
+        }
+        if (null !== $dto->architecture) {
+            $entity->setArchitecture($dto->architecture);
+        }
+        if (null !== $dto->script) {
+            $entity->setScript($dto->script);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->projectInstance) {
+            $entity->setProjectInstance($this->resolveIri($dto->projectInstance ?? null, \App\Entity\ProjectInstance::class, 'projectInstance', required: false));
+        }
+        if (null !== $dto->framework) {
+            $entity->setFramework($this->resolveIri($dto->framework ?? null, \App\Entity\Framework::class, 'framework', required: false));
+        }
 
-        /*
-                    $entity->setProjectInstance($dto->projectInstance);
 
-             $entity->setFramework($dto->framework);
-
-
-        */
         return $entity;
     }
 
@@ -123,7 +142,7 @@ class ConfigProjectFrameworkMapper
     {
                $dto = new ConfigProjectFrameworkCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(ConfigProjectFramework $entity, object $dto): void

@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Technology;
 
 use App\Entity\Technology;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,15 +11,17 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Technology::class)]
 final class TechnologyUpdateDto
 {
-    #[Groups(['Technology:update'])]
-    public ?string $label;
+    #[Groups(['update'])]
+    public ?string $label = null;
 
-    #[Groups(['Technology:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['Technology:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
+
+    #[Groups(['update'])]
+    public iterable $framework = [];
 }

@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\ConfigProjectFramework;
 
 use App\Entity\ConfigProjectFramework;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,30 +11,28 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ConfigProjectFramework::class)]
 final class ConfigProjectFrameworkUpdateDto
 {
-    #[Groups(['ConfigProjectFramework:update'])]
-    public ?string $name;
+    #[Groups(['update'])]
+    public ?string $name = null;
 
-    #[Groups(['ConfigProjectFramework:update'])]
-    public ?array $configuration;
+    #[Groups(['update'])]
+    public ?array $configuration = null;
 
-    #[Groups(['ConfigProjectFramework:update'])]
-    public ?array $architecture;
+    #[Groups(['update'])]
+    public ?array $architecture = null;
 
-    #[Groups(['ConfigProjectFramework:update'])]
-    public ?array $script;
+    #[Groups(['update'])]
+    public ?array $script = null;
 
-    #[Groups(['ConfigProjectFramework:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['ConfigProjectFramework:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['ConfigProjectFramework:update'])]
-    public ?string $projectInstance;
-
-    #[Groups(['ConfigProjectFramework:update'])]
-    public ?string $framework;
+    #[Groups(['update'])]
+    public ?string $projectInstance = null;
+    #[Groups(['update'])]
+    public ?string $framework = null;
 }

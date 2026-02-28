@@ -40,7 +40,7 @@
             "fieldName": "id",
             "columnName": "id"
         },
-        "name": {
+        "label": {
             "length": 100,
             "id": null,
             "nullable": false,
@@ -63,8 +63,34 @@
             "version": null,
             "default": null,
             "type": "string",
-            "fieldName": "name",
-            "columnName": "name"
+            "fieldName": "label",
+            "columnName": "label"
+        },
+        "type": {
+            "length": 10,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "string",
+            "fieldName": "type",
+            "columnName": "type"
         },
         "version": {
             "length": 10,
@@ -91,6 +117,32 @@
             "type": "string",
             "fieldName": "version",
             "columnName": "version"
+        },
+        "description": {
+            "length": 250,
+            "id": null,
+            "nullable": true,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "string",
+            "fieldName": "description",
+            "columnName": "description"
         },
         "configuration": {
             "length": null,
@@ -169,23 +221,83 @@
             "type": "string",
             "fieldName": "color",
             "columnName": "color"
+        },
+        "createdAt": {
+            "length": null,
+            "id": null,
+            "nullable": false,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "datetime_immutable",
+            "fieldName": "createdAt",
+            "columnName": "created_at"
+        },
+        "updatedAt": {
+            "length": null,
+            "id": null,
+            "nullable": true,
+            "notInsertable": null,
+            "notUpdatable": null,
+            "columnDefinition": null,
+            "generated": null,
+            "enumType": null,
+            "precision": null,
+            "scale": null,
+            "unique": false,
+            "index": false,
+            "inherited": null,
+            "originalClass": null,
+            "originalField": null,
+            "quoted": null,
+            "declared": null,
+            "declaredField": null,
+            "options": null,
+            "version": null,
+            "default": null,
+            "type": "datetime_immutable",
+            "fieldName": "updatedAt",
+            "columnName": "updated_at"
         }
     },
     "fieldNames": {
         "id": "id",
-        "name": "name",
+        "label": "label",
+        "type": "type",
         "version": "version",
+        "description": "description",
         "configuration": "configuration",
         "icon": "icon",
-        "color": "color"
+        "color": "color",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt"
     },
     "columnNames": {
         "id": "id",
-        "name": "name",
+        "label": "label",
+        "type": "type",
         "version": "version",
+        "description": "description",
         "configuration": "configuration",
         "icon": "icon",
-        "color": "color"
+        "color": "color",
+        "createdAt": "created_at",
+        "updatedAt": "updated_at"
     },
     "discriminatorValue": null,
     "discriminatorMap": [],
@@ -193,7 +305,14 @@
     "table": {
         "name": "framework"
     },
-    "lifecycleCallbacks": [],
+    "lifecycleCallbacks": {
+        "prePersist": [
+            "_initTimestamps"
+        ],
+        "preUpdate": [
+            "_touchUpdatedAt"
+        ]
+    },
     "entityListeners": [],
     "associationMappings": {
         "configProjectFrameworks": {
@@ -273,11 +392,15 @@
     "reflFields": {},
     "propertyAccessors": {
         "id": {},
-        "name": {},
+        "label": {},
+        "type": {},
         "version": {},
+        "description": {},
         "configuration": {},
         "icon": {},
         "color": {},
+        "createdAt": {},
+        "updatedAt": {},
         "configProjectFrameworks": {},
         "technology": {}
     },

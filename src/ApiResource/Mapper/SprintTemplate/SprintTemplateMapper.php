@@ -3,10 +3,9 @@
 namespace App\ApiResource\Mapper\SprintTemplate;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateCollectionItemDto;
 use App\ApiResource\Dto\SprintTemplate\SprintTemplateCreateDto;
-use App\ApiResource\Dto\SprintTemplate\SprintTemplateItemDto;
 use App\ApiResource\Dto\SprintTemplate\SprintTemplateUpdateDto;
+use App\ApiResource\Resource\SprintTemplate\SprintTemplateResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\SprintTemplate;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,28 +22,32 @@ class SprintTemplateMapper
     ) {
     }
 
-    public function entityToItemDto(SprintTemplate $entity): SprintTemplateItemDto
+    public function entityToItemDto(SprintTemplate $entity): SprintTemplateResource
     {
-        $dto = new SprintTemplateItemDto();
+        $dto = new SprintTemplateResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
         $dto->duration = $entity->getDuration();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
 
-    public function entityToCollectionDto(SprintTemplate $entity): SprintTemplateCollectionItemDto
+    public function entityToCollectionDto(SprintTemplate $entity): SprintTemplateResource
     {
-        $dto = new SprintTemplateCollectionItemDto();
+        $dto = new SprintTemplateResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
         $dto->duration = $entity->getDuration();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
@@ -52,23 +55,50 @@ class SprintTemplateMapper
     public function createDtoToEntity(SprintTemplateCreateDto $dto): SprintTemplate
     {
         $entity = new SprintTemplate();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setDuration($dto->duration);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->duration) {
+            $entity->setDuration($dto->duration);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(SprintTemplate $entity, SprintTemplateUpdateDto $dto): SprintTemplate
     {
-        $entity = new SprintTemplate();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setDuration($dto->duration);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->duration) {
+            $entity->setDuration($dto->duration);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
 
         return $entity;
     }
@@ -78,7 +108,7 @@ class SprintTemplateMapper
     {
                $dto = new SprintTemplateCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(SprintTemplate $entity, object $dto): void

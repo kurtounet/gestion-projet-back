@@ -13,7 +13,7 @@ final readonly class CommentItemProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.item_provider')]
         private ProviderInterface $itemProvider,
-        private CommentMapper $commentMapper,
+        private CommentMapper $commentMapper
     ) {
     }
 

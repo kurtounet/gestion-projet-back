@@ -14,7 +14,7 @@ final readonly class FrameworkCollectionProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private FrameworkMapper $frameworkMapper,
+        private FrameworkMapper $frameworkMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class FrameworkCollectionProvider implements ProviderInterface
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof Framework) {
                 continue;
             }

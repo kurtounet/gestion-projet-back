@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\Notification\NotificationCollectionItemDto;
 use App\ApiResource\Dto\Notification\NotificationCreateDto;
-use App\ApiResource\Dto\Notification\NotificationItemDto;
 use App\ApiResource\Dto\Notification\NotificationUpdateDto;
 use App\ApiResource\State\Notification\NotificationCollectionProvider;
 use App\ApiResource\State\Notification\NotificationCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\Notification\NotificationDeleteProcessor;
 use App\ApiResource\State\Notification\NotificationItemProvider;
 use App\ApiResource\State\Notification\NotificationUpdateProcessor;
 use App\Entity\Notification;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,64 +24,58 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: Notification::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'notifications',
-            normalizationContext: ['groups' => ['Notification:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: NotificationCollectionProvider::class,
-            output: NotificationCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'notifications/{id}',
-            normalizationContext: ['groups' => ['Notification:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: NotificationItemProvider::class,
-            output: NotificationItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'notifications',
-            denormalizationContext: ['groups' => ['Notification:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: NotificationCreateProcessor::class,
             input: NotificationCreateDto::class,
-            output: NotificationItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'notifications/{id}',
-            denormalizationContext: ['groups' => ['Notification:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: NotificationUpdateProcessor::class,
             input: NotificationUpdateDto::class,
-            output: NotificationItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'notifications/{id}',
             processor: NotificationDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: Notification::class)]
+
 final class NotificationResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-        public int $id;
 
-        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-        public string $message;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $message;
 
-        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-        public \DateTimeInterface $date;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $date;
 
-        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-        public string $type;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $type;
 
-        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-        #[Groups(['Notification:collection:read', 'Notification:item:read'])]
-        public ?string $user = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $user = null;
 
-    */
+
 }

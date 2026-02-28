@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Comment;
 
 use App\Entity\Comment;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,23 +11,22 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Comment::class)]
 final class CommentUpdateDto
 {
-    #[Groups(['Comment:update'])]
-    public ?string $subject;
+    #[Groups(['update'])]
+    public ?string $subject = null;
 
-    #[Groups(['Comment:update'])]
-    public ?string $content;
+    #[Groups(['update'])]
+    public ?string $content = null;
 
-    #[Groups(['Comment:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['Comment:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['Comment:update'])]
-    public ?string $task;
-    #[Groups(['Comment:update'])]
-    public ?string $user;
+    #[Groups(['update'])]
+    public ?string $task = null;
+    #[Groups(['update'])]
+    public ?string $user = null;
 }

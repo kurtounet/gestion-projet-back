@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCollectionItemDto;
 use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCreateDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateItemDto;
 use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateUpdateDto;
 use App\ApiResource\State\ProjectTemplate\ProjectTemplateCollectionProvider;
 use App\ApiResource\State\ProjectTemplate\ProjectTemplateCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\ProjectTemplate\ProjectTemplateDeleteProcessor;
 use App\ApiResource\State\ProjectTemplate\ProjectTemplateItemProvider;
 use App\ApiResource\State\ProjectTemplate\ProjectTemplateUpdateProcessor;
 use App\Entity\ProjectTemplate;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,62 +24,56 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: ProjectTemplate::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'project_templates',
-            normalizationContext: ['groups' => ['ProjectTemplate:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: ProjectTemplateCollectionProvider::class,
-            output: ProjectTemplateCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'project_templates/{id}',
-            normalizationContext: ['groups' => ['ProjectTemplate:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: ProjectTemplateItemProvider::class,
-            output: ProjectTemplateItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'project_templates',
-            denormalizationContext: ['groups' => ['ProjectTemplate:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: ProjectTemplateCreateProcessor::class,
             input: ProjectTemplateCreateDto::class,
-            output: ProjectTemplateItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'project_templates/{id}',
-            denormalizationContext: ['groups' => ['ProjectTemplate:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: ProjectTemplateUpdateProcessor::class,
             input: ProjectTemplateUpdateDto::class,
-            output: ProjectTemplateItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'project_templates/{id}',
             processor: ProjectTemplateDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: ProjectTemplate::class)]
+
 final class ProjectTemplateResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
-        public int $id;
 
-        #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
-        public string $name;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $name;
 
-        #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
-        public string $description;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $description;
 
-        #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
-        public int $duration;
+    #[Groups(['collection:read', 'item:read'])]
+    public int $duration;
 
-        #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['ProjectTemplate:collection:read', 'ProjectTemplate:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
 
-    */
+
 }

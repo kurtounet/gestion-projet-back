@@ -32,7 +32,7 @@ final readonly class StatusUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(Status::class)->find($id);
 
         if (! $entity instanceof Status) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Status::class, (string) $id));

@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\SprintInstance;
 
 use App\Entity\SprintInstance;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,52 +11,51 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: SprintInstance::class)]
 final class SprintInstanceUpdateDto
 {
-    #[Groups(['SprintInstance:update'])]
-    public ?string $name;
+    #[Groups(['update'])]
+    public ?string $name = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?string $description;
+    #[Groups(['update'])]
+    public ?string $description = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?string $icon;
+    #[Groups(['update'])]
+    public ?string $icon = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?string $color;
+    #[Groups(['update'])]
+    public ?string $color = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?\DateTimeInterface $startDate;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $startDate = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?\DateTimeInterface $endDate;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $endDate = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?int $position;
+    #[Groups(['update'])]
+    public ?int $position = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?string $createdByUser;
+    #[Groups(['update'])]
+    public ?string $createdByUser = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?string $updatedByUser;
+    #[Groups(['update'])]
+    public ?string $updatedByUser = null;
 
-    #[Groups(['SprintInstance:update'])]
-    public ?string $priority;
-    #[Groups(['SprintInstance:update'])]
-    public ?string $sprintTemplate;
-    #[Groups(['SprintInstance:update'])]
-    public ?string $status;
-    #[Groups(['SprintInstance:update'])]
-    public ?string $comment;
-    #[Groups(['SprintInstance:update'])]
-    public ?string $sprintDependency;
-    #[Groups(['SprintInstance:update'])]
-    public ?string $projectInstance;
+    #[Groups(['update'])]
+    public ?string $priority = null;
+    #[Groups(['update'])]
+    public ?string $sprintTemplate = null;
+    #[Groups(['update'])]
+    public ?string $status = null;
+    #[Groups(['update'])]
+    public ?string $comment = null;
+    #[Groups(['update'])]
+    public ?string $sprintDependency = null;
+    #[Groups(['update'])]
+    public ?string $projectInstance = null;
 }

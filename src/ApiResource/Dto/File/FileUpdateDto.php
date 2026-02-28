@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\File;
 
 use App\Entity\File;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,18 +11,17 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: File::class)]
 final class FileUpdateDto
 {
-    #[Groups(['File:update'])]
-    public ?string $path;
+    #[Groups(['update'])]
+    public ?string $path = null;
 
-    #[Groups(['File:update'])]
-    public ?string $keyWord;
+    #[Groups(['update'])]
+    public ?string $keyWord = null;
 
-    #[Groups(['File:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['File:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 }

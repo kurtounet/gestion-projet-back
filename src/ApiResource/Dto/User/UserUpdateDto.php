@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\User;
 
 use App\Entity\User;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,27 +11,26 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: User::class)]
 final class UserUpdateDto
 {
-    #[Groups(['User:update'])]
-    public ?string $firstName;
+    #[Groups(['update'])]
+    public ?string $firstName = null;
 
-    #[Groups(['User:update'])]
-    public ?string $lastName;
+    #[Groups(['update'])]
+    public ?string $lastName = null;
 
-    #[Groups(['User:update'])]
-    public ?string $email;
+    #[Groups(['update'])]
+    public ?string $email = null;
 
-    #[Groups(['User:update'])]
-    public ?array $roles;
+    #[Groups(['update'])]
+    public ?array $roles = null;
 
-    #[Groups(['User:update'])]
-    public ?string $password;
+    #[Groups(['update'])]
+    public ?string $password = null;
 
-    #[Groups(['User:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['User:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 }

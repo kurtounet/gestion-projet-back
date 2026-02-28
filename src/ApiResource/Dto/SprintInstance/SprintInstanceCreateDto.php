@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\SprintInstance;
 
 use App\Entity\SprintInstance;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,59 +12,60 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: SprintInstance::class)]
 final class SprintInstanceCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['SprintInstance:create'])]
+    #[Groups(['create'])]
     public string $name;
 
     #[Assert\NotBlank]
-    #[Groups(['SprintInstance:create'])]
+    #[Groups(['create'])]
     public string $description;
 
     #[Assert\NotBlank]
-    #[Groups(['SprintInstance:create'])]
+    #[Groups(['create'])]
     public string $icon;
 
     #[Assert\NotBlank]
-    #[Groups(['SprintInstance:create'])]
+    #[Groups(['create'])]
     public string $color;
 
     #[Assert\NotBlank]
-    #[Groups(['SprintInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $startDate;
 
     #[Assert\NotBlank]
-    #[Groups(['SprintInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $endDate;
 
-    #[Groups(['SprintInstance:create'])]
-    public ?int $position;
+    #[Groups(['create'])]
+    public ?int $position = null;
 
     #[Assert\NotBlank]
-    #[Groups(['SprintInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['SprintInstance:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['SprintInstance:create'])]
-    public ?string $createdByUser;
+    #[Groups(['create'])]
+    public ?string $createdByUser = null;
 
-    #[Groups(['SprintInstance:create'])]
-    public ?string $updatedByUser;
+    #[Groups(['create'])]
+    public ?string $updatedByUser = null;
 
-    #[Groups(['SprintInstance:create'])]
-    public ?string $priority;
-    #[Groups(['SprintInstance:create'])]
-    public ?string $sprintTemplate;
-    #[Groups(['SprintInstance:create'])]
-    public ?string $status;
-    #[Groups(['SprintInstance:create'])]
-    public ?string $comment;
-    #[Groups(['SprintInstance:create'])]
-    public ?string $sprintDependency;
-    #[Groups(['SprintInstance:create'])]
-    public ?string $projectInstance;
+
+
+    #[Groups(['create'])]
+    public ?string $priority = null;
+    #[Groups(['create'])]
+    public ?string $sprintTemplate = null;
+    #[Groups(['create'])]
+    public ?string $status = null;
+    #[Groups(['create'])]
+    public ?string $comment = null;
+    #[Groups(['create'])]
+    public ?string $sprintDependency = null;
+    #[Groups(['create'])]
+    public ?string $projectInstance = null;
 }

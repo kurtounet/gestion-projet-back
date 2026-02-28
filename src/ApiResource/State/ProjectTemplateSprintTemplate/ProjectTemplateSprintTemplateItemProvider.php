@@ -13,7 +13,7 @@ final readonly class ProjectTemplateSprintTemplateItemProvider implements Provid
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.item_provider')]
         private ProviderInterface $itemProvider,
-        private ProjectTemplateSprintTemplateMapper $projectTemplateSprintTemplateMapper,
+        private ProjectTemplateSprintTemplateMapper $projectTemplateSprintTemplateMapper
     ) {
     }
 

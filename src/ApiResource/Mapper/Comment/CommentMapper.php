@@ -3,10 +3,11 @@
 namespace App\ApiResource\Mapper\Comment;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\Comment\CommentCollectionItemDto;
 use App\ApiResource\Dto\Comment\CommentCreateDto;
-use App\ApiResource\Dto\Comment\CommentItemDto;
 use App\ApiResource\Dto\Comment\CommentUpdateDto;
+use App\ApiResource\Resource\Comment\CommentResource;
+use App\ApiResource\Resource\TaskInstance\TaskInstanceResource;
+use App\ApiResource\Resource\User\UserResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,90 +24,100 @@ class CommentMapper
     ) {
     }
 
-    public function entityToItemDto(Comment $entity): CommentItemDto
+    public function entityToItemDto(Comment $entity): CommentResource
     {
-        $dto = new CommentItemDto();
+        $dto = new CommentResource();
         $dto->id = $entity->getId();
         $dto->subject = $entity->getSubject();
         $dto->content = $entity->getContent();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-        $dto->taskinstance = $entity->getTaskinstance()
-            ? ($this->iriFromResource)(TaskInstance::class,$entity->getTaskinstance()->getId())
+        $dto->task = $entity->getTask()
+            ? ($this->iriFromResource)(TaskInstanceResource::class, $entity->getTask()->getId())
             : null;
 
         $dto->user = $entity->getUser()
-            ? ($this->iriFromResource)(User::class,$entity->getUser()->getId())
+            ? ($this->iriFromResource)(UserResource::class, $entity->getUser()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(Comment $entity): CommentCollectionItemDto
+    public function entityToCollectionDto(Comment $entity): CommentResource
     {
-        $dto = new CommentCollectionItemDto();
+        $dto = new CommentResource();
         $dto->id = $entity->getId();
         $dto->subject = $entity->getSubject();
         $dto->content = $entity->getContent();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
+        $dto->task = $entity->getTask()
+            ? ($this->iriFromResource)(TaskInstanceResource::class, $entity->getTask()->getId())
+            : null;
 
-         $dto->taskinstance = $entity->getTaskinstance()
-             ? ($this->iriFromResource)(TaskInstance::class,$entity->getTaskinstance()->getId())
-             : null;
-
-         $dto->user = $entity->getUser()
-             ? ($this->iriFromResource)(User::class,$entity->getUser()->getId())
-             : null;
+        $dto->user = $entity->getUser()
+            ? ($this->iriFromResource)(UserResource::class, $entity->getUser()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(CommentCreateDto $dto): Comment
     {
         $entity = new Comment();
-        $entity->setSubject($dto->subject);
-        $entity->setContent($dto->content);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setTask($dto->task);
+        if (null !== $dto->subject) {
+            $entity->setSubject($dto->subject);
+        }
+        if (null !== $dto->content) {
+            $entity->setContent($dto->content);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->task) {
+            $entity->setTask($this->resolveIri($dto->task ?? null, \App\Entity\TaskInstance::class, 'task', required: true));
+        }
+        if (null !== $dto->user) {
+            $entity->setUser($this->resolveIri($dto->user ?? null, \App\Entity\User::class, 'user', required: true));
+        }
 
-             $entity->setUser($dto->user);
 
-
-         $entity->setTaskInstance($this->resolveIri($dto->taskinstance ?? null, TaskInstance::class, 'taskinstance', required: true));
-
-         $entity->setUser($this->resolveIri($dto->user ?? null, User::class, 'user', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(Comment $entity, CommentUpdateDto $dto): Comment
     {
-        $entity = new Comment();
-        $entity->setSubject($dto->subject);
-        $entity->setContent($dto->content);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->subject) {
+            $entity->setSubject($dto->subject);
+        }
+        if (null !== $dto->content) {
+            $entity->setContent($dto->content);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->task) {
+            $entity->setTask($this->resolveIri($dto->task ?? null, \App\Entity\TaskInstance::class, 'task', required: true));
+        }
+        if (null !== $dto->user) {
+            $entity->setUser($this->resolveIri($dto->user ?? null, \App\Entity\User::class, 'user', required: true));
+        }
 
-        /*
-                    $entity->setTask($dto->task);
 
-             $entity->setUser($dto->user);
-
-
-        */
         return $entity;
     }
 
@@ -115,7 +126,7 @@ class CommentMapper
     {
                $dto = new CommentCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(Comment $entity, object $dto): void

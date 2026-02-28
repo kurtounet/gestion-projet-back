@@ -32,7 +32,7 @@ final readonly class TaskInstanceUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(TaskInstance::class)->find($id);
 
         if (! $entity instanceof TaskInstance) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', TaskInstance::class, (string) $id));

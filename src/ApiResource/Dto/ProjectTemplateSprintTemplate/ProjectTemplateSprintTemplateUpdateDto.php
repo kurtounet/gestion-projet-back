@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\ProjectTemplateSprintTemplate;
 
 use App\Entity\ProjectTemplateSprintTemplate;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,20 +11,19 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ProjectTemplateSprintTemplate::class)]
 final class ProjectTemplateSprintTemplateUpdateDto
 {
-    #[Groups(['ProjectTemplateSprintTemplate:update'])]
-    public ?int $sprintOrder;
+    #[Groups(['update'])]
+    public ?int $sprintOrder = null;
 
-    #[Groups(['ProjectTemplateSprintTemplate:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['ProjectTemplateSprintTemplate:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['ProjectTemplateSprintTemplate:update'])]
-    public ?string $projectTemplate;
-    #[Groups(['ProjectTemplateSprintTemplate:update'])]
-    public ?string $sprintTemplate;
+    #[Groups(['update'])]
+    public ?string $projectTemplate = null;
+    #[Groups(['update'])]
+    public ?string $sprintTemplate = null;
 }

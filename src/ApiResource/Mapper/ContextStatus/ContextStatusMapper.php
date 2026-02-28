@@ -3,10 +3,11 @@
 namespace App\ApiResource\Mapper\ContextStatus;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\ContextStatus\ContextStatusCollectionItemDto;
 use App\ApiResource\Dto\ContextStatus\ContextStatusCreateDto;
-use App\ApiResource\Dto\ContextStatus\ContextStatusItemDto;
 use App\ApiResource\Dto\ContextStatus\ContextStatusUpdateDto;
+use App\ApiResource\Resource\Context\ContextResource;
+use App\ApiResource\Resource\ContextStatus\ContextStatusResource;
+use App\ApiResource\Resource\Status\StatusResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\ContextStatus;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,82 +24,84 @@ class ContextStatusMapper
     ) {
     }
 
-    public function entityToItemDto(ContextStatus $entity): ContextStatusItemDto
+    public function entityToItemDto(ContextStatus $entity): ContextStatusResource
     {
-        $dto = new ContextStatusItemDto();
+        $dto = new ContextStatusResource();
         $dto->id = $entity->getId();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
         $dto->context = $entity->getContext()
-            ? ($this->iriFromResource)(Context::class,$entity->getContext()->getId())
+            ? ($this->iriFromResource)(ContextResource::class, $entity->getContext()->getId())
             : null;
 
         $dto->status = $entity->getStatus()
-            ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(ContextStatus $entity): ContextStatusCollectionItemDto
+    public function entityToCollectionDto(ContextStatus $entity): ContextStatusResource
     {
-        $dto = new ContextStatusCollectionItemDto();
+        $dto = new ContextStatusResource();
         $dto->id = $entity->getId();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
+        $dto->context = $entity->getContext()
+            ? ($this->iriFromResource)(ContextResource::class, $entity->getContext()->getId())
+            : null;
 
-         $dto->context = $entity->getContext()
-             ? ($this->iriFromResource)(Context::class,$entity->getContext()->getId())
-             : null;
-
-         $dto->status = $entity->getStatus()
-             ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
-             : null;
+        $dto->status = $entity->getStatus()
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(ContextStatusCreateDto $dto): ContextStatus
     {
         $entity = new ContextStatus();
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setContext($dto->context);
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->context) {
+            $entity->setContext($this->resolveIri($dto->context ?? null, \App\Entity\Context::class, 'context', required: true));
+        }
+        if (null !== $dto->status) {
+            $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
+        }
 
-             $entity->setStatus($dto->status);
 
-
-         $entity->setContext($this->resolveIri($dto->context ?? null, Context::class, 'context', required: true));
-
-         $entity->setStatus($this->resolveIri($dto->status ?? null, Status::class, 'status', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(ContextStatus $entity, ContextStatusUpdateDto $dto): ContextStatus
     {
-        $entity = new ContextStatus();
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->context) {
+            $entity->setContext($this->resolveIri($dto->context ?? null, \App\Entity\Context::class, 'context', required: true));
+        }
+        if (null !== $dto->status) {
+            $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
+        }
 
-        /*
-                    $entity->setContext($dto->context);
 
-             $entity->setStatus($dto->status);
-
-
-        */
         return $entity;
     }
 
@@ -107,7 +110,7 @@ class ContextStatusMapper
     {
                $dto = new ContextStatusCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(ContextStatus $entity, object $dto): void

@@ -3,10 +3,11 @@
 namespace App\ApiResource\Mapper\ProjectTemplateSprintTemplate;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCollectionItemDto;
 use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCreateDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateItemDto;
 use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateUpdateDto;
+use App\ApiResource\Resource\ProjectTemplate\ProjectTemplateResource;
+use App\ApiResource\Resource\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateResource;
+use App\ApiResource\Resource\SprintTemplate\SprintTemplateResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\ProjectTemplateSprintTemplate;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,86 +24,92 @@ class ProjectTemplateSprintTemplateMapper
     ) {
     }
 
-    public function entityToItemDto(ProjectTemplateSprintTemplate $entity): ProjectTemplateSprintTemplateItemDto
+    public function entityToItemDto(ProjectTemplateSprintTemplate $entity): ProjectTemplateSprintTemplateResource
     {
-        $dto = new ProjectTemplateSprintTemplateItemDto();
+        $dto = new ProjectTemplateSprintTemplateResource();
         $dto->id = $entity->getId();
         $dto->sprintOrder = $entity->getSprintOrder();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-        $dto->projecttemplate = $entity->getProjecttemplate()
-            ? ($this->iriFromResource)(ProjectTemplate::class,$entity->getProjecttemplate()->getId())
+        $dto->projectTemplate = $entity->getProjectTemplate()
+            ? ($this->iriFromResource)(ProjectTemplateResource::class, $entity->getProjectTemplate()->getId())
             : null;
 
-        $dto->sprinttemplate = $entity->getSprinttemplate()
-            ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
+        $dto->sprintTemplate = $entity->getSprintTemplate()
+            ? ($this->iriFromResource)(SprintTemplateResource::class, $entity->getSprintTemplate()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(ProjectTemplateSprintTemplate $entity): ProjectTemplateSprintTemplateCollectionItemDto
+    public function entityToCollectionDto(ProjectTemplateSprintTemplate $entity): ProjectTemplateSprintTemplateResource
     {
-        $dto = new ProjectTemplateSprintTemplateCollectionItemDto();
+        $dto = new ProjectTemplateSprintTemplateResource();
         $dto->id = $entity->getId();
         $dto->sprintOrder = $entity->getSprintOrder();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
+        $dto->projectTemplate = $entity->getProjectTemplate()
+            ? ($this->iriFromResource)(ProjectTemplateResource::class, $entity->getProjectTemplate()->getId())
+            : null;
 
-         $dto->projecttemplate = $entity->getProjecttemplate()
-             ? ($this->iriFromResource)(ProjectTemplate::class,$entity->getProjecttemplate()->getId())
-             : null;
-
-         $dto->sprinttemplate = $entity->getSprinttemplate()
-             ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
-             : null;
+        $dto->sprintTemplate = $entity->getSprintTemplate()
+            ? ($this->iriFromResource)(SprintTemplateResource::class, $entity->getSprintTemplate()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(ProjectTemplateSprintTemplateCreateDto $dto): ProjectTemplateSprintTemplate
     {
         $entity = new ProjectTemplateSprintTemplate();
-        $entity->setSprintOrder($dto->sprintOrder);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setProjectTemplate($dto->projectTemplate);
+        if (null !== $dto->sprintOrder) {
+            $entity->setSprintOrder($dto->sprintOrder);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->projectTemplate) {
+            $entity->setProjectTemplate($this->resolveIri($dto->projectTemplate ?? null, \App\Entity\ProjectTemplate::class, 'projectTemplate', required: true));
+        }
+        if (null !== $dto->sprintTemplate) {
+            $entity->setSprintTemplate($this->resolveIri($dto->sprintTemplate ?? null, \App\Entity\SprintTemplate::class, 'sprintTemplate', required: true));
+        }
 
-             $entity->setSprintTemplate($dto->sprintTemplate);
 
-
-         $entity->setProjectTemplate($this->resolveIri($dto->projecttemplate ?? null, ProjectTemplate::class, 'projecttemplate', required: true));
-
-         $entity->setSprintTemplate($this->resolveIri($dto->sprinttemplate ?? null, SprintTemplate::class, 'sprinttemplate', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(ProjectTemplateSprintTemplate $entity, ProjectTemplateSprintTemplateUpdateDto $dto): ProjectTemplateSprintTemplate
     {
-        $entity = new ProjectTemplateSprintTemplate();
-        $entity->setSprintOrder($dto->sprintOrder);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->sprintOrder) {
+            $entity->setSprintOrder($dto->sprintOrder);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->projectTemplate) {
+            $entity->setProjectTemplate($this->resolveIri($dto->projectTemplate ?? null, \App\Entity\ProjectTemplate::class, 'projectTemplate', required: true));
+        }
+        if (null !== $dto->sprintTemplate) {
+            $entity->setSprintTemplate($this->resolveIri($dto->sprintTemplate ?? null, \App\Entity\SprintTemplate::class, 'sprintTemplate', required: true));
+        }
 
-        /*
-                    $entity->setProjectTemplate($dto->projectTemplate);
 
-             $entity->setSprintTemplate($dto->sprintTemplate);
-
-
-        */
         return $entity;
     }
 
@@ -111,7 +118,7 @@ class ProjectTemplateSprintTemplateMapper
     {
                $dto = new ProjectTemplateSprintTemplateCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(ProjectTemplateSprintTemplate $entity, object $dto): void

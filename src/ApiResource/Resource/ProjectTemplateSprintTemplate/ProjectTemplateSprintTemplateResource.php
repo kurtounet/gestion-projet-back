@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCollectionItemDto;
 use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCreateDto;
-use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateItemDto;
 use App\ApiResource\Dto\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateUpdateDto;
 use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCollectionProvider;
 use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTem
 use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateItemProvider;
 use App\ApiResource\State\ProjectTemplateSprintTemplate\ProjectTemplateSprintTemplateUpdateProcessor;
 use App\Entity\ProjectTemplateSprintTemplate;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,61 +24,55 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: ProjectTemplateSprintTemplate::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'project_template_sprint_templates',
-            normalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: ProjectTemplateSprintTemplateCollectionProvider::class,
-            output: ProjectTemplateSprintTemplateCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'project_template_sprint_templates/{id}',
-            normalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: ProjectTemplateSprintTemplateItemProvider::class,
-            output: ProjectTemplateSprintTemplateItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'project_template_sprint_templates',
-            denormalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: ProjectTemplateSprintTemplateCreateProcessor::class,
             input: ProjectTemplateSprintTemplateCreateDto::class,
-            output: ProjectTemplateSprintTemplateItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'project_template_sprint_templates/{id}',
-            denormalizationContext: ['groups' => ['ProjectTemplateSprintTemplate:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: ProjectTemplateSprintTemplateUpdateProcessor::class,
             input: ProjectTemplateSprintTemplateUpdateDto::class,
-            output: ProjectTemplateSprintTemplateItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'project_template_sprint_templates/{id}',
             processor: ProjectTemplateSprintTemplateDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: ProjectTemplateSprintTemplate::class)]
+
 final class ProjectTemplateSprintTemplateResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
-        public int $id;
 
-        #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
-        public int $sprintOrder;
+    #[Groups(['collection:read', 'item:read'])]
+    public int $sprintOrder;
 
-        #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-        #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
-        public ?string $projectTemplate = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $projectTemplate = null;
 
-        #[Groups(['ProjectTemplateSprintTemplate:collection:read', 'ProjectTemplateSprintTemplate:item:read'])]
-        public ?string $sprintTemplate = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $sprintTemplate = null;
 
-    */
+
 }

@@ -32,7 +32,7 @@ final readonly class TypeTaskUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(TypeTask::class)->find($id);
 
         if (! $entity instanceof TypeTask) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', TypeTask::class, (string) $id));

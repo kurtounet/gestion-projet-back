@@ -3,10 +3,9 @@
 namespace App\ApiResource\Mapper\User;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\User\UserCollectionItemDto;
 use App\ApiResource\Dto\User\UserCreateDto;
-use App\ApiResource\Dto\User\UserItemDto;
 use App\ApiResource\Dto\User\UserUpdateDto;
+use App\ApiResource\Resource\User\UserResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +22,9 @@ class UserMapper
     ) {
     }
 
-    public function entityToItemDto(User $entity): UserItemDto
+    public function entityToItemDto(User $entity): UserResource
     {
-        $dto = new UserItemDto();
+        $dto = new UserResource();
         $dto->id = $entity->getId();
         $dto->firstName = $entity->getFirstName();
         $dto->lastName = $entity->getLastName();
@@ -34,13 +33,15 @@ class UserMapper
         $dto->password = $entity->getPassword();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
 
-    public function entityToCollectionDto(User $entity): UserCollectionItemDto
+    public function entityToCollectionDto(User $entity): UserResource
     {
-        $dto = new UserCollectionItemDto();
+        $dto = new UserResource();
         $dto->id = $entity->getId();
         $dto->firstName = $entity->getFirstName();
         $dto->lastName = $entity->getLastName();
@@ -49,6 +50,8 @@ class UserMapper
         $dto->password = $entity->getPassword();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
@@ -56,27 +59,62 @@ class UserMapper
     public function createDtoToEntity(UserCreateDto $dto): User
     {
         $entity = new User();
-        $entity->setFirstName($dto->firstName);
-        $entity->setLastName($dto->lastName);
-        $entity->setEmail($dto->email);
-        $entity->setRoles($dto->roles);
-        $entity->setPassword($dto->password);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->firstName) {
+            $entity->setFirstName($dto->firstName);
+        }
+        if (null !== $dto->lastName) {
+            $entity->setLastName($dto->lastName);
+        }
+        if (null !== $dto->email) {
+            $entity->setEmail($dto->email);
+        }
+        if (null !== $dto->roles) {
+            $entity->setRoles($dto->roles);
+        }
+        if (null !== $dto->password) {
+            $entity->setPassword($dto->password);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(User $entity, UserUpdateDto $dto): User
     {
-        $entity = new User();
-        $entity->setFirstName($dto->firstName);
-        $entity->setLastName($dto->lastName);
-        $entity->setEmail($dto->email);
-        $entity->setRoles($dto->roles);
-        $entity->setPassword($dto->password);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->firstName) {
+            $entity->setFirstName($dto->firstName);
+        }
+        if (null !== $dto->lastName) {
+            $entity->setLastName($dto->lastName);
+        }
+        if (null !== $dto->email) {
+            $entity->setEmail($dto->email);
+        }
+        if (null !== $dto->roles) {
+            $entity->setRoles($dto->roles);
+        }
+        if (null !== $dto->password) {
+            $entity->setPassword($dto->password);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
 
         return $entity;
     }
@@ -86,7 +124,7 @@ class UserMapper
     {
                $dto = new UserCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(User $entity, object $dto): void

@@ -14,7 +14,7 @@ final readonly class TypeTaskCollectionProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private TypeTaskMapper $typeTaskMapper,
+        private TypeTaskMapper $typeTaskMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class TypeTaskCollectionProvider implements ProviderInterface
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof TypeTask) {
                 continue;
             }

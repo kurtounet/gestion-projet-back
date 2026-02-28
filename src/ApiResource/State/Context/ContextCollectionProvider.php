@@ -14,7 +14,7 @@ final readonly class ContextCollectionProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private ContextMapper $contextMapper,
+        private ContextMapper $contextMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class ContextCollectionProvider implements ProviderInterface
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof Context) {
                 continue;
             }

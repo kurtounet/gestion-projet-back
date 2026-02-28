@@ -14,7 +14,7 @@ final readonly class TaskTemplateCollectionProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private TaskTemplateMapper $taskTemplateMapper,
+        private TaskTemplateMapper $taskTemplateMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class TaskTemplateCollectionProvider implements ProviderInterface
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof TaskTemplate) {
                 continue;
             }

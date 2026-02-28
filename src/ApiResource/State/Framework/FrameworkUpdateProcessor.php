@@ -32,7 +32,7 @@ final readonly class FrameworkUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(Framework::class)->find($id);
 
         if (! $entity instanceof Framework) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Framework::class, (string) $id));

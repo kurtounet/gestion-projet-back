@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\ConfigProjectFramework;
 
 use App\Entity\ConfigProjectFramework;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,31 +12,32 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ConfigProjectFramework::class)]
 final class ConfigProjectFrameworkCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['ConfigProjectFramework:create'])]
+    #[Groups(['create'])]
     public string $name;
 
-    #[Groups(['ConfigProjectFramework:create'])]
-    public ?array $configuration;
+    #[Groups(['create'])]
+    public ?array $configuration = null;
 
-    #[Groups(['ConfigProjectFramework:create'])]
-    public ?array $architecture;
+    #[Groups(['create'])]
+    public ?array $architecture = null;
 
-    #[Groups(['ConfigProjectFramework:create'])]
-    public ?array $script;
+    #[Groups(['create'])]
+    public ?array $script = null;
 
     #[Assert\NotBlank]
-    #[Groups(['ConfigProjectFramework:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ConfigProjectFramework:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['ConfigProjectFramework:create'])]
-    public ?string $projectInstance;
-    #[Groups(['ConfigProjectFramework:create'])]
-    public ?string $framework;
+
+
+    #[Groups(['create'])]
+    public ?string $projectInstance = null;
+    #[Groups(['create'])]
+    public ?string $framework = null;
 }

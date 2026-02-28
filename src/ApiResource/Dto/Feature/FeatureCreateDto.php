@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Feature;
 
 use App\Entity\Feature;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,17 +12,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Feature::class)]
 final class FeatureCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['Feature:create'])]
+    #[Groups(['create'])]
     public string $label;
 
     #[Assert\NotBlank]
-    #[Groups(['Feature:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Feature:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
+
+
 }

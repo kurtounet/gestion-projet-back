@@ -3,10 +3,10 @@
 namespace App\ApiResource\Mapper\TypeTask;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\TypeTask\TypeTaskCollectionItemDto;
 use App\ApiResource\Dto\TypeTask\TypeTaskCreateDto;
-use App\ApiResource\Dto\TypeTask\TypeTaskItemDto;
 use App\ApiResource\Dto\TypeTask\TypeTaskUpdateDto;
+use App\ApiResource\Resource\CodeBase\CodeBaseResource;
+use App\ApiResource\Resource\TypeTask\TypeTaskResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\TypeTask;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +23,9 @@ class TypeTaskMapper
     ) {
     }
 
-    public function entityToItemDto(TypeTask $entity): TypeTaskItemDto
+    public function entityToItemDto(TypeTask $entity): TypeTaskResource
     {
-        $dto = new TypeTaskItemDto();
+        $dto = new TypeTaskResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->color = $entity->getColor();
@@ -35,20 +35,17 @@ class TypeTaskMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-        $dto->codebase = $entity->getCodebase()
-            ? ($this->iriFromResource)(CodeBase::class,$entity->getCodebase()->getId())
+        $dto->code = $entity->getCode()
+            ? ($this->iriFromResource)(CodeBaseResource::class, $entity->getCode()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(TypeTask $entity): TypeTaskCollectionItemDto
+    public function entityToCollectionDto(TypeTask $entity): TypeTaskResource
     {
-        $dto = new TypeTaskCollectionItemDto();
+        $dto = new TypeTaskResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->color = $entity->getColor();
@@ -58,53 +55,78 @@ class TypeTaskMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-         $dto->codebase = $entity->getCodebase()
-             ? ($this->iriFromResource)(CodeBase::class,$entity->getCodebase()->getId())
-             : null;
+        $dto->code = $entity->getCode()
+            ? ($this->iriFromResource)(CodeBaseResource::class, $entity->getCode()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(TypeTaskCreateDto $dto): TypeTask
     {
         $entity = new TypeTask();
-        $entity->setName($dto->name);
-        $entity->setColor($dto->color);
-        $entity->setPathFileScript($dto->pathFileScript);
-        $entity->setDescription($dto->description);
-        $entity->setAutomatique($dto->automatique);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setCode($dto->code);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->pathFileScript) {
+            $entity->setPathFileScript($dto->pathFileScript);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->automatique) {
+            $entity->setAutomatique($dto->automatique);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->code) {
+            $entity->setCode($this->resolveIri($dto->code ?? null, \App\Entity\CodeBase::class, 'code', required: true));
+        }
 
 
-         $entity->setCodeBase($this->resolveIri($dto->codebase ?? null, CodeBase::class, 'codebase', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(TypeTask $entity, TypeTaskUpdateDto $dto): TypeTask
     {
-        $entity = new TypeTask();
-        $entity->setName($dto->name);
-        $entity->setColor($dto->color);
-        $entity->setPathFileScript($dto->pathFileScript);
-        $entity->setDescription($dto->description);
-        $entity->setAutomatique($dto->automatique);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->pathFileScript) {
+            $entity->setPathFileScript($dto->pathFileScript);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->automatique) {
+            $entity->setAutomatique($dto->automatique);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->code) {
+            $entity->setCode($this->resolveIri($dto->code ?? null, \App\Entity\CodeBase::class, 'code', required: true));
+        }
 
-        /*
-                    $entity->setCode($dto->code);
 
-
-        */
         return $entity;
     }
 
@@ -113,7 +135,7 @@ class TypeTaskMapper
     {
                $dto = new TypeTaskCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(TypeTask $entity, object $dto): void

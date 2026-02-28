@@ -3,16 +3,16 @@
 namespace App\ApiResource\Mapper\SprintInstance;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceCollectionItemDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceItemDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
+use App\ApiResource\Resource\Comment\CommentResource;
 use App\ApiResource\Resource\Priority\PriorityResource;
+use App\ApiResource\Resource\ProjectInstance\ProjectInstanceResource;
+use App\ApiResource\Resource\SprintInstance\SprintInstanceResource;
+use App\ApiResource\Resource\SprintTemplate\SprintTemplateResource;
 use App\ApiResource\Resource\Status\StatusResource;
 use App\ApiResource\Service\IriFromResource;
-use App\Entity\Priority;
 use App\Entity\SprintInstance;
-use App\Entity\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -24,11 +24,12 @@ class SprintInstanceMapper
         private EntityManagerInterface $em,
         private IriFromResource $iriFromResource,
         private IriConverterInterface $iriConverter,
-    ) {}
+    ) {
+    }
 
-    public function entityToItemDto(SprintInstance $entity): SprintInstanceItemDto
+    public function entityToItemDto(SprintInstance $entity): SprintInstanceResource
     {
-        $dto = new SprintInstanceItemDto();
+        $dto = new SprintInstanceResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
@@ -46,34 +47,33 @@ class SprintInstanceMapper
             ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
             : null;
 
+        $dto->sprintTemplate = $entity->getSprintTemplate()
+            ? ($this->iriFromResource)(SprintTemplateResource::class, $entity->getSprintTemplate()->getId())
+            : null;
+
         $dto->status = $entity->getStatus()
             ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
-            : null;
-        /*
-        $dto->sprinttemplate = $entity->getSprinttemplate()
-            ? ($this->iriFromResource)(SprintTemplate::class, $entity->getSprinttemplate()->getId())
             : null;
 
         $dto->comment = $entity->getComment()
-            ? ($this->iriFromResource)(Comment::class,$entity->getComment()->getId())
+            ? ($this->iriFromResource)(CommentResource::class, $entity->getComment()->getId())
             : null;
 
-        $dto->sprintinstance = $entity->getSprintinstance()
-            ? ($this->iriFromResource)(SprintInstance::class,$entity->getSprintinstance()->getId())
+        $dto->sprintDependency = $entity->getSprintDependency()
+            ? ($this->iriFromResource)(SprintInstanceResource::class, $entity->getSprintDependency()->getId())
             : null;
 
-        $dto->projectinstance = $entity->getProjectinstance()
-            ? ($this->iriFromResource)(ProjectInstance::class,$entity->getProjectinstance()->getId())
+        $dto->projectInstance = $entity->getProjectInstance()
+            ? ($this->iriFromResource)(ProjectInstanceResource::class, $entity->getProjectInstance()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(SprintInstance $entity): SprintInstanceCollectionItemDto
+    public function entityToCollectionDto(SprintInstance $entity): SprintInstanceResource
     {
-        $dto = new SprintInstanceCollectionItemDto();
+        $dto = new SprintInstanceResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
@@ -91,115 +91,148 @@ class SprintInstanceMapper
             ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
             : null;
 
+        $dto->sprintTemplate = $entity->getSprintTemplate()
+            ? ($this->iriFromResource)(SprintTemplateResource::class, $entity->getSprintTemplate()->getId())
+            : null;
+
         $dto->status = $entity->getStatus()
             ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
             : null;
 
-        /*
+        $dto->comment = $entity->getComment()
+            ? ($this->iriFromResource)(CommentResource::class, $entity->getComment()->getId())
+            : null;
 
-         $dto->priority = $entity->getPriority()
-             ? ($this->iriFromResource)(Priority::class,$entity->getPriority()->getId())
-             : null;
+        $dto->sprintDependency = $entity->getSprintDependency()
+            ? ($this->iriFromResource)(SprintInstanceResource::class, $entity->getSprintDependency()->getId())
+            : null;
 
-         $dto->sprinttemplate = $entity->getSprinttemplate()
-             ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
-             : null;
-
-         $dto->status = $entity->getStatus()
-             ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
-             : null;
-
-         $dto->comment = $entity->getComment()
-             ? ($this->iriFromResource)(Comment::class,$entity->getComment()->getId())
-             : null;
-
-         $dto->sprintinstance = $entity->getSprintinstance()
-             ? ($this->iriFromResource)(SprintInstance::class,$entity->getSprintinstance()->getId())
-             : null;
-
-         $dto->projectinstance = $entity->getProjectinstance()
-             ? ($this->iriFromResource)(ProjectInstance::class,$entity->getProjectinstance()->getId())
-             : null;
+        $dto->projectInstance = $entity->getProjectInstance()
+            ? ($this->iriFromResource)(ProjectInstanceResource::class, $entity->getProjectInstance()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(SprintInstanceCreateDto $dto): SprintInstance
     {
         $entity = new SprintInstance();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setIcon($dto->icon);
-        $entity->setColor($dto->color);
-        $entity->setStartDate($dto->startDate);
-        $entity->setEndDate($dto->endDate);
-        $entity->setPosition($dto->position);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        $entity->setCreatedByUser($dto->createdByUser);
-        $entity->setUpdatedByUser($dto->updatedByUser);
-        /*
-            $entity->setPriority($dto->priority);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->icon) {
+            $entity->setIcon($dto->icon);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->startDate) {
+            $entity->setStartDate($dto->startDate);
+        }
+        if (null !== $dto->endDate) {
+            $entity->setEndDate($dto->endDate);
+        }
+        if (null !== $dto->position) {
+            $entity->setPosition($dto->position);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->createdByUser) {
+            $entity->setCreatedByUser($dto->createdByUser);
+        }
+        if (null !== $dto->updatedByUser) {
+            $entity->setUpdatedByUser($dto->updatedByUser);
+        }
+        if (null !== $dto->priority) {
+            $entity->setPriority($this->resolveIri($dto->priority ?? null, \App\Entity\Priority::class, 'priority', required: true));
+        }
+        if (null !== $dto->sprintTemplate) {
+            $entity->setSprintTemplate($this->resolveIri($dto->sprintTemplate ?? null, \App\Entity\SprintTemplate::class, 'sprintTemplate', required: true));
+        }
+        if (null !== $dto->status) {
+            $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
+        }
+        if (null !== $dto->comment) {
+            $entity->setComment($this->resolveIri($dto->comment ?? null, \App\Entity\Comment::class, 'comment', required: false));
+        }
+        if (null !== $dto->sprintDependency) {
+            $entity->setSprintDependency($this->resolveIri($dto->sprintDependency ?? null, SprintInstance::class, 'sprintDependency', required: false));
+        }
+        if (null !== $dto->projectInstance) {
+            $entity->setProjectInstance($this->resolveIri($dto->projectInstance ?? null, \App\Entity\ProjectInstance::class, 'projectInstance', required: true));
+        }
 
-             $entity->setSprintTemplate($dto->sprintTemplate);
 
-             $entity->setStatus($dto->status);
-
-             $entity->setComment($dto->comment);
-
-             $entity->setSprintDependency($dto->sprintDependency);
-
-             $entity->setProjectInstance($dto->projectInstance);
-
-
-         $entity->setPriority($this->resolveIri($dto->priority ?? null, Priority::class, 'priority', required: true));
-
-         $entity->setSprintTemplate($this->resolveIri($dto->sprinttemplate ?? null, SprintTemplate::class, 'sprinttemplate', required: true));
-
-         $entity->setStatus($this->resolveIri($dto->status ?? null, Status::class, 'status', required: true));
-
-         $entity->setComment($this->resolveIri($dto->comment ?? null, Comment::class, 'comment', required: false));
-
-         $entity->setSprintInstance($this->resolveIri($dto->sprintinstance ?? null, SprintInstance::class, 'sprintinstance', required: false));
-
-         $entity->setProjectInstance($this->resolveIri($dto->projectinstance ?? null, ProjectInstance::class, 'projectinstance', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(SprintInstance $entity, SprintInstanceUpdateDto $dto): SprintInstance
     {
-        $entity = new SprintInstance();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setIcon($dto->icon);
-        $entity->setColor($dto->color);
-        $entity->setStartDate($dto->startDate);
-        $entity->setEndDate($dto->endDate);
-        $entity->setPosition($dto->position);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        $entity->setCreatedByUser($dto->createdByUser);
-        $entity->setUpdatedByUser($dto->updatedByUser);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->icon) {
+            $entity->setIcon($dto->icon);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->startDate) {
+            $entity->setStartDate($dto->startDate);
+        }
+        if (null !== $dto->endDate) {
+            $entity->setEndDate($dto->endDate);
+        }
+        if (null !== $dto->position) {
+            $entity->setPosition($dto->position);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->createdByUser) {
+            $entity->setCreatedByUser($dto->createdByUser);
+        }
+        if (null !== $dto->updatedByUser) {
+            $entity->setUpdatedByUser($dto->updatedByUser);
+        }
+        if (null !== $dto->priority) {
+            $entity->setPriority($this->resolveIri($dto->priority ?? null, \App\Entity\Priority::class, 'priority', required: true));
+        }
+        if (null !== $dto->sprintTemplate) {
+            $entity->setSprintTemplate($this->resolveIri($dto->sprintTemplate ?? null, \App\Entity\SprintTemplate::class, 'sprintTemplate', required: true));
+        }
+        if (null !== $dto->status) {
+            $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
+        }
+        if (null !== $dto->comment) {
+            $entity->setComment($this->resolveIri($dto->comment ?? null, \App\Entity\Comment::class, 'comment', required: false));
+        }
+        if (null !== $dto->sprintDependency) {
+            $entity->setSprintDependency($this->resolveIri($dto->sprintDependency ?? null, SprintInstance::class, 'sprintDependency', required: false));
+        }
+        if (null !== $dto->projectInstance) {
+            $entity->setProjectInstance($this->resolveIri($dto->projectInstance ?? null, \App\Entity\ProjectInstance::class, 'projectInstance', required: true));
+        }
 
-        /*
-                    $entity->setPriority($dto->priority);
 
-             $entity->setSprintTemplate($dto->sprintTemplate);
-
-             $entity->setStatus($dto->status);
-
-             $entity->setComment($dto->comment);
-
-             $entity->setSprintDependency($dto->sprintDependency);
-
-             $entity->setProjectInstance($dto->projectInstance);
-
-
-        */
         return $entity;
     }
 
@@ -208,7 +241,7 @@ class SprintInstanceMapper
     {
                $dto = new SprintInstanceCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(SprintInstance $entity, object $dto): void

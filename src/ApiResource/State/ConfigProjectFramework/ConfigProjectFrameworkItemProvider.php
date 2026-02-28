@@ -13,7 +13,7 @@ final readonly class ConfigProjectFrameworkItemProvider implements ProviderInter
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.item_provider')]
         private ProviderInterface $itemProvider,
-        private ConfigProjectFrameworkMapper $configProjectFrameworkMapper,
+        private ConfigProjectFrameworkMapper $configProjectFrameworkMapper
     ) {
     }
 

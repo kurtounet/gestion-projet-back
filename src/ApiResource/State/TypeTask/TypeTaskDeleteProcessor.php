@@ -26,8 +26,8 @@ final readonly class TypeTaskDeleteProcessor implements ProcessorInterface
             $this->removeProcessor->process($data, $operation, $uriVariables, $context);
 
             return null;
-
-            return $data;
         }
+
+        return $data;
     }
 }

@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\Feature\FeatureCollectionItemDto;
 use App\ApiResource\Dto\Feature\FeatureCreateDto;
-use App\ApiResource\Dto\Feature\FeatureItemDto;
 use App\ApiResource\Dto\Feature\FeatureUpdateDto;
 use App\ApiResource\State\Feature\FeatureCollectionProvider;
 use App\ApiResource\State\Feature\FeatureCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\Feature\FeatureDeleteProcessor;
 use App\ApiResource\State\Feature\FeatureItemProvider;
 use App\ApiResource\State\Feature\FeatureUpdateProcessor;
 use App\Entity\Feature;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,56 +24,50 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: Feature::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'features',
-            normalizationContext: ['groups' => ['Feature:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: FeatureCollectionProvider::class,
-            output: FeatureCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'features/{id}',
-            normalizationContext: ['groups' => ['Feature:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: FeatureItemProvider::class,
-            output: FeatureItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'features',
-            denormalizationContext: ['groups' => ['Feature:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: FeatureCreateProcessor::class,
             input: FeatureCreateDto::class,
-            output: FeatureItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'features/{id}',
-            denormalizationContext: ['groups' => ['Feature:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: FeatureUpdateProcessor::class,
             input: FeatureUpdateDto::class,
-            output: FeatureItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'features/{id}',
             processor: FeatureDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: Feature::class)]
+
 final class FeatureResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['Feature:collection:read', 'Feature:item:read'])]
-        public int $id;
 
-        #[Groups(['Feature:collection:read', 'Feature:item:read'])]
-        public string $label;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $label;
 
-        #[Groups(['Feature:collection:read', 'Feature:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['Feature:collection:read', 'Feature:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
 
-    */
+
 }

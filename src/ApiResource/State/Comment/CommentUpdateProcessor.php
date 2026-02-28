@@ -32,7 +32,7 @@ final readonly class CommentUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(Comment::class)->find($id);
 
         if (! $entity instanceof Comment) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Comment::class, (string) $id));

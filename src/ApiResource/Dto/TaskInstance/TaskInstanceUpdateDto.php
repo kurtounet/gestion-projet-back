@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\TaskInstance;
 
 use App\Entity\TaskInstance;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,58 +11,57 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: TaskInstance::class)]
 final class TaskInstanceUpdateDto
 {
-    #[Groups(['TaskInstance:update'])]
-    public ?string $name;
+    #[Groups(['update'])]
+    public ?string $name = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?string $description;
+    #[Groups(['update'])]
+    public ?string $description = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?\DateTimeInterface $startDate;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $startDate = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?\DateTimeInterface $dueDate;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $dueDate = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?int $position;
+    #[Groups(['update'])]
+    public ?int $position = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?string $icon;
+    #[Groups(['update'])]
+    public ?string $icon = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?string $color;
+    #[Groups(['update'])]
+    public ?string $color = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?string $createdByUser;
+    #[Groups(['update'])]
+    public ?string $createdByUser = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?string $updatedByUser;
+    #[Groups(['update'])]
+    public ?string $updatedByUser = null;
 
-    #[Groups(['TaskInstance:update'])]
-    public ?string $user;
-    #[Groups(['TaskInstance:update'])]
-    public ?string $taskTemplate;
-    #[Groups(['TaskInstance:update'])]
-    public ?string $sprintInstance;
-    #[Groups(['TaskInstance:update'])]
-    public ?string $priority;
-    #[Groups(['TaskInstance:update'])]
-    public ?string $status;
-    #[Groups(['TaskInstance:update'])]
-    public ?string $typeTask;
-    #[Groups(['TaskInstance:update'])]
-    public ?string $parentTask;
-    #[Groups(['TaskInstance:update'])]
-    public ?string $dependency;
-    #[Groups(['TaskInstance:update'])]
-    public ?string $comment;
+    #[Groups(['update'])]
+    public ?string $user = null;
+    #[Groups(['update'])]
+    public ?string $taskTemplate = null;
+    #[Groups(['update'])]
+    public ?string $sprintInstance = null;
+    #[Groups(['update'])]
+    public ?string $priority = null;
+    #[Groups(['update'])]
+    public ?string $status = null;
+    #[Groups(['update'])]
+    public ?string $typeTask = null;
+    #[Groups(['update'])]
+    public ?string $parentTask = null;
+    #[Groups(['update'])]
+    public ?string $dependency = null;
+    #[Groups(['update'])]
+    public ?string $comment = null;
 }

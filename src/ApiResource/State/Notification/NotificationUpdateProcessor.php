@@ -32,7 +32,7 @@ final readonly class NotificationUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(Notification::class)->find($id);
 
         if (! $entity instanceof Notification) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Notification::class, (string) $id));

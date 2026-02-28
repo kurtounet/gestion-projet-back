@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\TypeTask;
 
 use App\Entity\TypeTask;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,30 +11,29 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: TypeTask::class)]
 final class TypeTaskUpdateDto
 {
-    #[Groups(['TypeTask:update'])]
-    public ?string $name;
+    #[Groups(['update'])]
+    public ?string $name = null;
 
-    #[Groups(['TypeTask:update'])]
-    public ?string $color;
+    #[Groups(['update'])]
+    public ?string $color = null;
 
-    #[Groups(['TypeTask:update'])]
-    public ?string $pathFileScript;
+    #[Groups(['update'])]
+    public ?string $pathFileScript = null;
 
-    #[Groups(['TypeTask:update'])]
-    public ?string $description;
+    #[Groups(['update'])]
+    public ?string $description = null;
 
-    #[Groups(['TypeTask:update'])]
-    public ?bool $automatique;
+    #[Groups(['update'])]
+    public ?bool $automatique = null;
 
-    #[Groups(['TypeTask:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['TypeTask:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['TypeTask:update'])]
-    public ?string $code;
+    #[Groups(['update'])]
+    public ?string $code = null;
 }

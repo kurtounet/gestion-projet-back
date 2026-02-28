@@ -14,7 +14,7 @@ final readonly class ConfigProjectFrameworkCollectionProvider implements Provide
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private ConfigProjectFrameworkMapper $configProjectFrameworkMapper,
+        private ConfigProjectFrameworkMapper $configProjectFrameworkMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class ConfigProjectFrameworkCollectionProvider implements Provide
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof ConfigProjectFramework) {
                 continue;
             }

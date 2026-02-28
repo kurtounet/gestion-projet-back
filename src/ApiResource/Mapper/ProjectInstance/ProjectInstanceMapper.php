@@ -3,10 +3,15 @@
 namespace App\ApiResource\Mapper\ProjectInstance;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCollectionItemDto;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceCreateDto;
-use App\ApiResource\Dto\ProjectInstance\ProjectInstanceItemDto;
 use App\ApiResource\Dto\ProjectInstance\ProjectInstanceUpdateDto;
+use App\ApiResource\Resource\Comment\CommentResource;
+use App\ApiResource\Resource\ConfigProjectFramework\ConfigProjectFrameworkResource;
+use App\ApiResource\Resource\Priority\PriorityResource;
+use App\ApiResource\Resource\ProjectInstance\ProjectInstanceResource;
+use App\ApiResource\Resource\ProjectTemplate\ProjectTemplateResource;
+use App\ApiResource\Resource\SprintInstance\SprintInstanceResource;
+use App\ApiResource\Resource\Status\StatusResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\ProjectInstance;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +28,9 @@ class ProjectInstanceMapper
     ) {
     }
 
-    public function entityToItemDto(ProjectInstance $entity): ProjectInstanceItemDto
+    public function entityToItemDto(ProjectInstance $entity): ProjectInstanceResource
     {
-        $dto = new ProjectInstanceItemDto();
+        $dto = new ProjectInstanceResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->pathFileDatabase = $entity->getPathFileDatabase();
@@ -42,43 +47,41 @@ class ProjectInstanceMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
         $dto->status = $entity->getStatus()
-            ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
             : null;
 
         $dto->priority = $entity->getPriority()
-            ? ($this->iriFromResource)(Priority::class,$entity->getPriority()->getId())
+            ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
             : null;
 
-        $dto->projecttemplate = $entity->getProjecttemplate()
-            ? ($this->iriFromResource)(ProjectTemplate::class,$entity->getProjecttemplate()->getId())
+        $dto->projectTemplate = $entity->getProjectTemplate()
+            ? ($this->iriFromResource)(ProjectTemplateResource::class, $entity->getProjectTemplate()->getId())
             : null;
 
         $dto->comment = $entity->getComment()
-            ? ($this->iriFromResource)(Comment::class,$entity->getComment()->getId())
+            ? ($this->iriFromResource)(CommentResource::class, $entity->getComment()->getId())
             : null;
 
-        $dto->projectinstance = $entity->getProjectinstance()
-            ? ($this->iriFromResource)(ProjectInstance::class,$entity->getProjectinstance()->getId())
+        $dto->parent = $entity->getParent()
+            ? ($this->iriFromResource)(ProjectInstanceResource::class, $entity->getParent()->getId())
             : null;
 
-        $dto->configprojectframework = $entity->getConfigprojectframework()
-            ? ($this->iriFromResource)(ConfigProjectFramework::class,$entity->getConfigprojectframework()->getId())
+        $dto->configFramework = $entity->getConfigFramework()
+            ? ($this->iriFromResource)(ConfigProjectFrameworkResource::class, $entity->getConfigFramework()->getId())
             : null;
 
 
-        $dto->sprintinstance = $this->toIriList($entity->getSprintInstance(), SprintInstance::class);
+        $dto->sprintInstances = $this->toIriList($entity->getSprintInstances(), SprintInstanceResource::class);
 
-        $dto->projectinstance = $this->toIriList($entity->getProjectInstance(), ProjectInstance::class);
-        */
+        $dto->projectInstances = $this->toIriList($entity->getProjectInstances(), ProjectInstanceResource::class);
+
         return $dto;
     }
 
-    public function entityToCollectionDto(ProjectInstance $entity): ProjectInstanceCollectionItemDto
+    public function entityToCollectionDto(ProjectInstance $entity): ProjectInstanceResource
     {
-        $dto = new ProjectInstanceCollectionItemDto();
+        $dto = new ProjectInstanceResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->pathFileDatabase = $entity->getPathFileDatabase();
@@ -95,123 +98,174 @@ class ProjectInstanceMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
+        $dto->status = $entity->getStatus()
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
+            : null;
 
-         $dto->status = $entity->getStatus()
-             ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
-             : null;
+        $dto->priority = $entity->getPriority()
+            ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
+            : null;
 
-         $dto->priority = $entity->getPriority()
-             ? ($this->iriFromResource)(Priority::class,$entity->getPriority()->getId())
-             : null;
+        $dto->projectTemplate = $entity->getProjectTemplate()
+            ? ($this->iriFromResource)(ProjectTemplateResource::class, $entity->getProjectTemplate()->getId())
+            : null;
 
-         $dto->projecttemplate = $entity->getProjecttemplate()
-             ? ($this->iriFromResource)(ProjectTemplate::class,$entity->getProjecttemplate()->getId())
-             : null;
+        $dto->comment = $entity->getComment()
+            ? ($this->iriFromResource)(CommentResource::class, $entity->getComment()->getId())
+            : null;
 
-         $dto->comment = $entity->getComment()
-             ? ($this->iriFromResource)(Comment::class,$entity->getComment()->getId())
-             : null;
+        $dto->parent = $entity->getParent()
+            ? ($this->iriFromResource)(ProjectInstanceResource::class, $entity->getParent()->getId())
+            : null;
 
-         $dto->projectinstance = $entity->getProjectinstance()
-             ? ($this->iriFromResource)(ProjectInstance::class,$entity->getProjectinstance()->getId())
-             : null;
-
-         $dto->configprojectframework = $entity->getConfigprojectframework()
-             ? ($this->iriFromResource)(ConfigProjectFramework::class,$entity->getConfigprojectframework()->getId())
-             : null;
+        $dto->configFramework = $entity->getConfigFramework()
+            ? ($this->iriFromResource)(ConfigProjectFrameworkResource::class, $entity->getConfigFramework()->getId())
+            : null;
 
 
-         $dto->sprintinstance = $this->toIriList($entity->getSprintInstance(), SprintInstance::class);
+        $dto->sprintInstances = $this->toIriList($entity->getSprintInstances(), SprintInstanceResource::class);
 
-         $dto->projectinstance = $this->toIriList($entity->getProjectInstance(), ProjectInstance::class);
-        */
+        $dto->projectInstances = $this->toIriList($entity->getProjectInstances(), ProjectInstanceResource::class);
+
         return $dto;
     }
 
     public function createDtoToEntity(ProjectInstanceCreateDto $dto): ProjectInstance
     {
         $entity = new ProjectInstance();
-        $entity->setName($dto->name);
-        $entity->setPathFileDatabase($dto->pathFileDatabase);
-        $entity->setPathProject($dto->pathProject);
-        $entity->setDescription($dto->description);
-        $entity->setIcon($dto->icon);
-        $entity->setColor($dto->color);
-        $entity->setIsFavory($dto->isFavory);
-        $entity->setPosition($dto->position);
-        $entity->setStartDate($dto->startDate);
-        $entity->setEndDate($dto->endDate);
-        $entity->setCreatedByUser($dto->createdByUser);
-        $entity->setUpdatedByUser($dto->updatedByUser);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setStatus($dto->status);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->pathFileDatabase) {
+            $entity->setPathFileDatabase($dto->pathFileDatabase);
+        }
+        if (null !== $dto->pathProject) {
+            $entity->setPathProject($dto->pathProject);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->icon) {
+            $entity->setIcon($dto->icon);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->isFavory) {
+            $entity->setIsFavory($dto->isFavory);
+        }
+        if (null !== $dto->position) {
+            $entity->setPosition($dto->position);
+        }
+        if (null !== $dto->startDate) {
+            $entity->setStartDate($dto->startDate);
+        }
+        if (null !== $dto->endDate) {
+            $entity->setEndDate($dto->endDate);
+        }
+        if (null !== $dto->createdByUser) {
+            $entity->setCreatedByUser($dto->createdByUser);
+        }
+        if (null !== $dto->updatedByUser) {
+            $entity->setUpdatedByUser($dto->updatedByUser);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->status) {
+            $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
+        }
+        if (null !== $dto->priority) {
+            $entity->setPriority($this->resolveIri($dto->priority ?? null, \App\Entity\Priority::class, 'priority', required: true));
+        }
+        if (null !== $dto->projectTemplate) {
+            $entity->setProjectTemplate($this->resolveIri($dto->projectTemplate ?? null, \App\Entity\ProjectTemplate::class, 'projectTemplate', required: false));
+        }
+        if (null !== $dto->comment) {
+            $entity->setComment($this->resolveIri($dto->comment ?? null, \App\Entity\Comment::class, 'comment', required: false));
+        }
+        if (null !== $dto->parent) {
+            $entity->setParent($this->resolveIri($dto->parent ?? null, ProjectInstance::class, 'parent', required: false));
+        }
+        if (null !== $dto->configFramework) {
+            $entity->setConfigFramework($this->resolveIri($dto->configFramework ?? null, \App\Entity\ConfigProjectFramework::class, 'configFramework', required: false));
+        }
 
-             $entity->setPriority($dto->priority);
 
-             $entity->setProjectTemplate($dto->projectTemplate);
-
-             $entity->setComment($dto->comment);
-
-             $entity->setParent($dto->parent);
-
-             $entity->setConfigFramework($dto->configFramework);
-
-
-         $entity->setStatus($this->resolveIri($dto->status ?? null, Status::class, 'status', required: true));
-
-         $entity->setPriority($this->resolveIri($dto->priority ?? null, Priority::class, 'priority', required: true));
-
-         $entity->setProjectTemplate($this->resolveIri($dto->projecttemplate ?? null, ProjectTemplate::class, 'projecttemplate', required: false));
-
-         $entity->setComment($this->resolveIri($dto->comment ?? null, Comment::class, 'comment', required: false));
-
-         $entity->setProjectInstance($this->resolveIri($dto->projectinstance ?? null, ProjectInstance::class, 'projectinstance', required: false));
-
-         $entity->setConfigProjectFramework($this->resolveIri($dto->configprojectframework ?? null, ConfigProjectFramework::class, 'configprojectframework', required: false));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(ProjectInstance $entity, ProjectInstanceUpdateDto $dto): ProjectInstance
     {
-        $entity = new ProjectInstance();
-        $entity->setName($dto->name);
-        $entity->setPathFileDatabase($dto->pathFileDatabase);
-        $entity->setPathProject($dto->pathProject);
-        $entity->setDescription($dto->description);
-        $entity->setIcon($dto->icon);
-        $entity->setColor($dto->color);
-        $entity->setIsFavory($dto->isFavory);
-        $entity->setPosition($dto->position);
-        $entity->setStartDate($dto->startDate);
-        $entity->setEndDate($dto->endDate);
-        $entity->setCreatedByUser($dto->createdByUser);
-        $entity->setUpdatedByUser($dto->updatedByUser);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->pathFileDatabase) {
+            $entity->setPathFileDatabase($dto->pathFileDatabase);
+        }
+        if (null !== $dto->pathProject) {
+            $entity->setPathProject($dto->pathProject);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->icon) {
+            $entity->setIcon($dto->icon);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->isFavory) {
+            $entity->setIsFavory($dto->isFavory);
+        }
+        if (null !== $dto->position) {
+            $entity->setPosition($dto->position);
+        }
+        if (null !== $dto->startDate) {
+            $entity->setStartDate($dto->startDate);
+        }
+        if (null !== $dto->endDate) {
+            $entity->setEndDate($dto->endDate);
+        }
+        if (null !== $dto->createdByUser) {
+            $entity->setCreatedByUser($dto->createdByUser);
+        }
+        if (null !== $dto->updatedByUser) {
+            $entity->setUpdatedByUser($dto->updatedByUser);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->status) {
+            $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
+        }
+        if (null !== $dto->priority) {
+            $entity->setPriority($this->resolveIri($dto->priority ?? null, \App\Entity\Priority::class, 'priority', required: true));
+        }
+        if (null !== $dto->projectTemplate) {
+            $entity->setProjectTemplate($this->resolveIri($dto->projectTemplate ?? null, \App\Entity\ProjectTemplate::class, 'projectTemplate', required: false));
+        }
+        if (null !== $dto->comment) {
+            $entity->setComment($this->resolveIri($dto->comment ?? null, \App\Entity\Comment::class, 'comment', required: false));
+        }
+        if (null !== $dto->parent) {
+            $entity->setParent($this->resolveIri($dto->parent ?? null, ProjectInstance::class, 'parent', required: false));
+        }
+        if (null !== $dto->configFramework) {
+            $entity->setConfigFramework($this->resolveIri($dto->configFramework ?? null, \App\Entity\ConfigProjectFramework::class, 'configFramework', required: false));
+        }
 
-        /*
-                    $entity->setStatus($dto->status);
 
-             $entity->setPriority($dto->priority);
-
-             $entity->setProjectTemplate($dto->projectTemplate);
-
-             $entity->setComment($dto->comment);
-
-             $entity->setParent($dto->parent);
-
-             $entity->setConfigFramework($dto->configFramework);
-
-
-         $entity->setSprintInstance($this->resolveIri($dto->sprintinstance ?? null, SprintInstance::class, 'sprintinstance', required: true));
-
-         $entity->setProjectInstance($this->resolveIri($dto->projectinstance ?? null, ProjectInstance::class, 'projectinstance', required: true));
-        */
         return $entity;
     }
 
@@ -220,7 +274,7 @@ class ProjectInstanceMapper
     {
                $dto = new ProjectInstanceCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(ProjectInstance $entity, object $dto): void

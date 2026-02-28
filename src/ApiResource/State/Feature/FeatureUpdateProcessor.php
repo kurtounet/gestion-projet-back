@@ -32,7 +32,7 @@ final readonly class FeatureUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(Feature::class)->find($id);
 
         if (! $entity instanceof Feature) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Feature::class, (string) $id));

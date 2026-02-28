@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\User\UserCollectionItemDto;
 use App\ApiResource\Dto\User\UserCreateDto;
-use App\ApiResource\Dto\User\UserItemDto;
 use App\ApiResource\Dto\User\UserUpdateDto;
 use App\ApiResource\State\User\UserCollectionProvider;
 use App\ApiResource\State\User\UserCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\User\UserDeleteProcessor;
 use App\ApiResource\State\User\UserItemProvider;
 use App\ApiResource\State\User\UserUpdateProcessor;
 use App\Entity\User;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,68 +24,62 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: User::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'users',
-            normalizationContext: ['groups' => ['User:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: UserCollectionProvider::class,
-            output: UserCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'users/{id}',
-            normalizationContext: ['groups' => ['User:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: UserItemProvider::class,
-            output: UserItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'users',
-            denormalizationContext: ['groups' => ['User:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: UserCreateProcessor::class,
             input: UserCreateDto::class,
-            output: UserItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'users/{id}',
-            denormalizationContext: ['groups' => ['User:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: UserUpdateProcessor::class,
             input: UserUpdateDto::class,
-            output: UserItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'users/{id}',
             processor: UserDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: User::class)]
+
 final class UserResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['User:collection:read', 'User:item:read'])]
-        public int $id;
 
-        #[Groups(['User:collection:read', 'User:item:read'])]
-        public string $firstName;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $firstName;
 
-        #[Groups(['User:collection:read', 'User:item:read'])]
-        public string $lastName;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $lastName;
 
-        #[Groups(['User:collection:read', 'User:item:read'])]
-        public string $email;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $email;
 
-        #[Groups(['User:collection:read', 'User:item:read'])]
-        public array $roles;
+    #[Groups(['collection:read', 'item:read'])]
+    public array $roles;
 
-        #[Groups(['User:collection:read', 'User:item:read'])]
-        public string $password;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $password;
 
-        #[Groups(['User:collection:read', 'User:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['User:collection:read', 'User:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
 
-    */
+
 }

@@ -13,7 +13,7 @@ final readonly class FeatureItemProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.item_provider')]
         private ProviderInterface $itemProvider,
-        private FeatureMapper $featureMapper,
+        private FeatureMapper $featureMapper
     ) {
     }
 

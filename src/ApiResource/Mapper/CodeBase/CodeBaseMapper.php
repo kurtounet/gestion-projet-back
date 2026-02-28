@@ -3,10 +3,9 @@
 namespace App\ApiResource\Mapper\CodeBase;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\CodeBase\CodeBaseCollectionItemDto;
 use App\ApiResource\Dto\CodeBase\CodeBaseCreateDto;
-use App\ApiResource\Dto\CodeBase\CodeBaseItemDto;
 use App\ApiResource\Dto\CodeBase\CodeBaseUpdateDto;
+use App\ApiResource\Resource\CodeBase\CodeBaseResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\CodeBase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +22,9 @@ class CodeBaseMapper
     ) {
     }
 
-    public function entityToItemDto(CodeBase $entity): CodeBaseItemDto
+    public function entityToItemDto(CodeBase $entity): CodeBaseResource
     {
-        $dto = new CodeBaseItemDto();
+        $dto = new CodeBaseResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->code = $entity->getCode();
@@ -33,13 +32,15 @@ class CodeBaseMapper
         $dto->feature = $entity->getFeature();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
 
-    public function entityToCollectionDto(CodeBase $entity): CodeBaseCollectionItemDto
+    public function entityToCollectionDto(CodeBase $entity): CodeBaseResource
     {
-        $dto = new CodeBaseCollectionItemDto();
+        $dto = new CodeBaseResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->code = $entity->getCode();
@@ -47,6 +48,8 @@ class CodeBaseMapper
         $dto->feature = $entity->getFeature();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
@@ -54,25 +57,56 @@ class CodeBaseMapper
     public function createDtoToEntity(CodeBaseCreateDto $dto): CodeBase
     {
         $entity = new CodeBase();
-        $entity->setLabel($dto->label);
-        $entity->setCode($dto->code);
-        $entity->setPathFile($dto->pathFile);
-        $entity->setFeature($dto->feature);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->code) {
+            $entity->setCode($dto->code);
+        }
+        if (null !== $dto->pathFile) {
+            $entity->setPathFile($dto->pathFile);
+        }
+        if (null !== $dto->feature) {
+            $entity->setFeature($dto->feature);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(CodeBase $entity, CodeBaseUpdateDto $dto): CodeBase
     {
-        $entity = new CodeBase();
-        $entity->setLabel($dto->label);
-        $entity->setCode($dto->code);
-        $entity->setPathFile($dto->pathFile);
-        $entity->setFeature($dto->feature);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->code) {
+            $entity->setCode($dto->code);
+        }
+        if (null !== $dto->pathFile) {
+            $entity->setPathFile($dto->pathFile);
+        }
+        if (null !== $dto->feature) {
+            $entity->setFeature($dto->feature);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
 
         return $entity;
     }
@@ -82,7 +116,7 @@ class CodeBaseMapper
     {
                $dto = new CodeBaseCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(CodeBase $entity, object $dto): void

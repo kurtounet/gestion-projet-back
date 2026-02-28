@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\SprintTask;
 
 use App\Entity\SprintTask;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,22 +12,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: SprintTask::class)]
 final class SprintTaskCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['SprintTask:create'])]
+    #[Groups(['create'])]
     public int $taskOrder;
 
     #[Assert\NotBlank]
-    #[Groups(['SprintTask:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['SprintTask:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['SprintTask:create'])]
-    public ?string $sprintTemplate;
-    #[Groups(['SprintTask:create'])]
-    public ?string $taskTemplate;
+
+
+    #[Groups(['create'])]
+    public ?string $sprintTemplate = null;
+    #[Groups(['create'])]
+    public ?string $taskTemplate = null;
 }

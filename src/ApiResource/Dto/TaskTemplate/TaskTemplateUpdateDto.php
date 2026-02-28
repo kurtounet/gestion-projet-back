@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\TaskTemplate;
 
 use App\Entity\TaskTemplate;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,26 +11,25 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: TaskTemplate::class)]
 final class TaskTemplateUpdateDto
 {
-    #[Groups(['TaskTemplate:update'])]
-    public ?string $name;
+    #[Groups(['update'])]
+    public ?string $name = null;
 
-    #[Groups(['TaskTemplate:update'])]
-    public ?string $description;
+    #[Groups(['update'])]
+    public ?string $description = null;
 
-    #[Groups(['TaskTemplate:update'])]
-    public ?int $parentTask;
+    #[Groups(['update'])]
+    public ?int $parentTask = null;
 
-    #[Groups(['TaskTemplate:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['TaskTemplate:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['TaskTemplate:update'])]
-    public ?string $sprintTemplate;
-    #[Groups(['TaskTemplate:update'])]
-    public ?string $typeTask;
+    #[Groups(['update'])]
+    public ?string $sprintTemplate = null;
+    #[Groups(['update'])]
+    public ?string $typeTask = null;
 }

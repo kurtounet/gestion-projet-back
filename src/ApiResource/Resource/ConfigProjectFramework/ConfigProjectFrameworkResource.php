@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkCollectionItemDto;
 use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkCreateDto;
-use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkItemDto;
 use App\ApiResource\Dto\ConfigProjectFramework\ConfigProjectFrameworkUpdateDto;
 use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkCollectionProvider;
 use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkDeletePro
 use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkItemProvider;
 use App\ApiResource\State\ConfigProjectFramework\ConfigProjectFrameworkUpdateProcessor;
 use App\Entity\ConfigProjectFramework;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,70 +24,64 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: ConfigProjectFramework::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'config_project_frameworks',
-            normalizationContext: ['groups' => ['ConfigProjectFramework:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: ConfigProjectFrameworkCollectionProvider::class,
-            output: ConfigProjectFrameworkCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'config_project_frameworks/{id}',
-            normalizationContext: ['groups' => ['ConfigProjectFramework:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: ConfigProjectFrameworkItemProvider::class,
-            output: ConfigProjectFrameworkItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'config_project_frameworks',
-            denormalizationContext: ['groups' => ['ConfigProjectFramework:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: ConfigProjectFrameworkCreateProcessor::class,
             input: ConfigProjectFrameworkCreateDto::class,
-            output: ConfigProjectFrameworkItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'config_project_frameworks/{id}',
-            denormalizationContext: ['groups' => ['ConfigProjectFramework:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: ConfigProjectFrameworkUpdateProcessor::class,
             input: ConfigProjectFrameworkUpdateDto::class,
-            output: ConfigProjectFrameworkItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'config_project_frameworks/{id}',
             processor: ConfigProjectFrameworkDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: ConfigProjectFramework::class)]
+
 final class ConfigProjectFrameworkResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public int $id;
 
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public string $name;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $name;
 
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public ?array $configuration;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?array $configuration = null;
 
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public ?array $architecture;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?array $architecture = null;
 
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public ?array $script;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?array $script = null;
 
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public ?string $projectInstance = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $projectInstance = null;
 
-        #[Groups(['ConfigProjectFramework:collection:read', 'ConfigProjectFramework:item:read'])]
-        public ?string $framework = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $framework = null;
 
-    */
+
 }

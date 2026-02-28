@@ -7,72 +7,108 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceCollectionItemDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
-use App\ApiResource\Dto\SprintInstance\SprintInstanceItemDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
 use App\ApiResource\State\SprintInstance\SprintInstanceCollectionProvider;
 use App\ApiResource\State\SprintInstance\SprintInstanceCreateProcessor;
 use App\ApiResource\State\SprintInstance\SprintInstanceDeleteProcessor;
 use App\ApiResource\State\SprintInstance\SprintInstanceItemProvider;
 use App\ApiResource\State\SprintInstance\SprintInstanceUpdateProcessor;
-use App\Entity\ProjectInstance;
 use App\Entity\SprintInstance;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     shortName: 'SprintInstance',
     stateOptions: new Options(entityClass: SprintInstance::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'sprint_instances/current_project/{projectId}',
-            uriVariables: [
-                'projectId' => new Link(
-                    fromClass: ProjectInstance::class,
-                    toProperty: 'projectInstance',
-                ),
-            ],
-            normalizationContext: ['groups' => ['SprintInstance:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: SprintInstanceCollectionProvider::class,
-            output: SprintInstanceCollectionItemDto::class
-        ),
-        new GetCollection(
-            uriTemplate: 'sprint_instances',
-            normalizationContext: ['groups' => ['SprintInstance:collection:read']],
-            provider: SprintInstanceCollectionProvider::class,
-            output: SprintInstanceCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'sprint_instances/{id}',
-            normalizationContext: ['groups' => ['SprintInstance:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: SprintInstanceItemProvider::class,
-            output: SprintInstanceItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'sprint_instances',
-            denormalizationContext: ['groups' => ['SprintInstance:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: SprintInstanceCreateProcessor::class,
             input: SprintInstanceCreateDto::class,
-            output: SprintInstanceItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'sprint_instances/{id}',
-            denormalizationContext: ['groups' => ['SprintInstance:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: SprintInstanceUpdateProcessor::class,
             input: SprintInstanceUpdateDto::class,
-            output: SprintInstanceItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'sprint_instances/{id}',
             processor: SprintInstanceDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
+
 final class SprintInstanceResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public string $name;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public string $description;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public string $icon;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public string $color;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $startDate;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $endDate;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?int $position = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $createdByUser = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $updatedByUser = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $priority = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $sprintTemplate = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $status = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $comment = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $sprintDependency = null;
+
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $projectInstance = null;
+
+
 }

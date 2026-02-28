@@ -3,10 +3,11 @@
 namespace App\ApiResource\Mapper\SprintTask;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\SprintTask\SprintTaskCollectionItemDto;
 use App\ApiResource\Dto\SprintTask\SprintTaskCreateDto;
-use App\ApiResource\Dto\SprintTask\SprintTaskItemDto;
 use App\ApiResource\Dto\SprintTask\SprintTaskUpdateDto;
+use App\ApiResource\Resource\SprintTask\SprintTaskResource;
+use App\ApiResource\Resource\SprintTemplate\SprintTemplateResource;
+use App\ApiResource\Resource\TaskTemplate\TaskTemplateResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\SprintTask;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,86 +24,92 @@ class SprintTaskMapper
     ) {
     }
 
-    public function entityToItemDto(SprintTask $entity): SprintTaskItemDto
+    public function entityToItemDto(SprintTask $entity): SprintTaskResource
     {
-        $dto = new SprintTaskItemDto();
+        $dto = new SprintTaskResource();
         $dto->id = $entity->getId();
         $dto->taskOrder = $entity->getTaskOrder();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-        $dto->sprinttemplate = $entity->getSprinttemplate()
-            ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
+        $dto->sprintTemplate = $entity->getSprintTemplate()
+            ? ($this->iriFromResource)(SprintTemplateResource::class, $entity->getSprintTemplate()->getId())
             : null;
 
-        $dto->tasktemplate = $entity->getTasktemplate()
-            ? ($this->iriFromResource)(TaskTemplate::class,$entity->getTasktemplate()->getId())
+        $dto->taskTemplate = $entity->getTaskTemplate()
+            ? ($this->iriFromResource)(TaskTemplateResource::class, $entity->getTaskTemplate()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(SprintTask $entity): SprintTaskCollectionItemDto
+    public function entityToCollectionDto(SprintTask $entity): SprintTaskResource
     {
-        $dto = new SprintTaskCollectionItemDto();
+        $dto = new SprintTaskResource();
         $dto->id = $entity->getId();
         $dto->taskOrder = $entity->getTaskOrder();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
+        $dto->sprintTemplate = $entity->getSprintTemplate()
+            ? ($this->iriFromResource)(SprintTemplateResource::class, $entity->getSprintTemplate()->getId())
+            : null;
 
-         $dto->sprinttemplate = $entity->getSprinttemplate()
-             ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
-             : null;
-
-         $dto->tasktemplate = $entity->getTasktemplate()
-             ? ($this->iriFromResource)(TaskTemplate::class,$entity->getTasktemplate()->getId())
-             : null;
+        $dto->taskTemplate = $entity->getTaskTemplate()
+            ? ($this->iriFromResource)(TaskTemplateResource::class, $entity->getTaskTemplate()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(SprintTaskCreateDto $dto): SprintTask
     {
         $entity = new SprintTask();
-        $entity->setTaskOrder($dto->taskOrder);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setSprintTemplate($dto->sprintTemplate);
+        if (null !== $dto->taskOrder) {
+            $entity->setTaskOrder($dto->taskOrder);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->sprintTemplate) {
+            $entity->setSprintTemplate($this->resolveIri($dto->sprintTemplate ?? null, \App\Entity\SprintTemplate::class, 'sprintTemplate', required: true));
+        }
+        if (null !== $dto->taskTemplate) {
+            $entity->setTaskTemplate($this->resolveIri($dto->taskTemplate ?? null, \App\Entity\TaskTemplate::class, 'taskTemplate', required: true));
+        }
 
-             $entity->setTaskTemplate($dto->taskTemplate);
 
-
-         $entity->setSprintTemplate($this->resolveIri($dto->sprinttemplate ?? null, SprintTemplate::class, 'sprinttemplate', required: true));
-
-         $entity->setTaskTemplate($this->resolveIri($dto->tasktemplate ?? null, TaskTemplate::class, 'tasktemplate', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(SprintTask $entity, SprintTaskUpdateDto $dto): SprintTask
     {
-        $entity = new SprintTask();
-        $entity->setTaskOrder($dto->taskOrder);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->taskOrder) {
+            $entity->setTaskOrder($dto->taskOrder);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->sprintTemplate) {
+            $entity->setSprintTemplate($this->resolveIri($dto->sprintTemplate ?? null, \App\Entity\SprintTemplate::class, 'sprintTemplate', required: true));
+        }
+        if (null !== $dto->taskTemplate) {
+            $entity->setTaskTemplate($this->resolveIri($dto->taskTemplate ?? null, \App\Entity\TaskTemplate::class, 'taskTemplate', required: true));
+        }
 
-        /*
-                    $entity->setSprintTemplate($dto->sprintTemplate);
 
-             $entity->setTaskTemplate($dto->taskTemplate);
-
-
-        */
         return $entity;
     }
 
@@ -111,7 +118,7 @@ class SprintTaskMapper
     {
                $dto = new SprintTaskCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(SprintTask $entity, object $dto): void

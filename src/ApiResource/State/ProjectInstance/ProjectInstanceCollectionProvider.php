@@ -14,7 +14,7 @@ final readonly class ProjectInstanceCollectionProvider implements ProviderInterf
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private ProjectInstanceMapper $projectInstanceMapper,
+        private ProjectInstanceMapper $projectInstanceMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class ProjectInstanceCollectionProvider implements ProviderInterf
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof ProjectInstance) {
                 continue;
             }

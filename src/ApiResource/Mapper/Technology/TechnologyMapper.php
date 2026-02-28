@@ -3,10 +3,10 @@
 namespace App\ApiResource\Mapper\Technology;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\Technology\TechnologyCollectionItemDto;
 use App\ApiResource\Dto\Technology\TechnologyCreateDto;
-use App\ApiResource\Dto\Technology\TechnologyItemDto;
 use App\ApiResource\Dto\Technology\TechnologyUpdateDto;
+use App\ApiResource\Resource\Framework\FrameworkResource;
+use App\ApiResource\Resource\Technology\TechnologyResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\Technology;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,63 +23,72 @@ class TechnologyMapper
     ) {
     }
 
-    public function entityToItemDto(Technology $entity): TechnologyItemDto
+    public function entityToItemDto(Technology $entity): TechnologyResource
     {
-        $dto = new TechnologyItemDto();
+        $dto = new TechnologyResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
 
 
+        $dto->framework = $this->toIriList($entity->getFramework(), FrameworkResource::class);
 
-        $dto->framework = $this->toIriList($entity->getFramework(), Framework::class);
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(Technology $entity): TechnologyCollectionItemDto
+    public function entityToCollectionDto(Technology $entity): TechnologyResource
     {
-        $dto = new TechnologyCollectionItemDto();
+        $dto = new TechnologyResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
 
 
+        $dto->framework = $this->toIriList($entity->getFramework(), FrameworkResource::class);
 
-         $dto->framework = $this->toIriList($entity->getFramework(), Framework::class);
-        */
         return $dto;
     }
 
     public function createDtoToEntity(TechnologyCreateDto $dto): Technology
     {
         $entity = new Technology();
-        $entity->setLabel($dto->label);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(Technology $entity, TechnologyUpdateDto $dto): Technology
     {
-        $entity = new Technology();
-        $entity->setLabel($dto->label);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
 
-        /*
 
 
-
-         $entity->setFramework($this->resolveIri($dto->framework ?? null, Framework::class, 'framework', required: true));
-        */
         return $entity;
     }
 
@@ -88,7 +97,7 @@ class TechnologyMapper
     {
                $dto = new TechnologyCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(Technology $entity, object $dto): void

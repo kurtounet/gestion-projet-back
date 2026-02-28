@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\CodeBase;
 
 use App\Entity\CodeBase;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,24 +11,23 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: CodeBase::class)]
 final class CodeBaseUpdateDto
 {
-    #[Groups(['CodeBase:update'])]
-    public ?string $label;
+    #[Groups(['update'])]
+    public ?string $label = null;
 
-    #[Groups(['CodeBase:update'])]
-    public ?string $code;
+    #[Groups(['update'])]
+    public ?string $code = null;
 
-    #[Groups(['CodeBase:update'])]
-    public ?string $pathFile;
+    #[Groups(['update'])]
+    public ?string $pathFile = null;
 
-    #[Groups(['CodeBase:update'])]
-    public ?string $feature;
+    #[Groups(['update'])]
+    public ?string $feature = null;
 
-    #[Groups(['CodeBase:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['CodeBase:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 }

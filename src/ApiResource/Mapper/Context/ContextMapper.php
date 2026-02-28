@@ -3,10 +3,9 @@
 namespace App\ApiResource\Mapper\Context;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\Context\ContextCollectionItemDto;
 use App\ApiResource\Dto\Context\ContextCreateDto;
-use App\ApiResource\Dto\Context\ContextItemDto;
 use App\ApiResource\Dto\Context\ContextUpdateDto;
+use App\ApiResource\Resource\Context\ContextResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\Context;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,24 +22,28 @@ class ContextMapper
     ) {
     }
 
-    public function entityToItemDto(Context $entity): ContextItemDto
+    public function entityToItemDto(Context $entity): ContextResource
     {
-        $dto = new ContextItemDto();
+        $dto = new ContextResource();
         $dto->id = $entity->getId();
         $dto->contextLabel = $entity->getContextLabel();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
 
-    public function entityToCollectionDto(Context $entity): ContextCollectionItemDto
+    public function entityToCollectionDto(Context $entity): ContextResource
     {
-        $dto = new ContextCollectionItemDto();
+        $dto = new ContextResource();
         $dto->id = $entity->getId();
         $dto->contextLabel = $entity->getContextLabel();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
@@ -48,19 +51,38 @@ class ContextMapper
     public function createDtoToEntity(ContextCreateDto $dto): Context
     {
         $entity = new Context();
-        $entity->setContextLabel($dto->contextLabel);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->contextLabel) {
+            $entity->setContextLabel($dto->contextLabel);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(Context $entity, ContextUpdateDto $dto): Context
     {
-        $entity = new Context();
-        $entity->setContextLabel($dto->contextLabel);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->contextLabel) {
+            $entity->setContextLabel($dto->contextLabel);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
 
         return $entity;
     }
@@ -70,7 +92,7 @@ class ContextMapper
     {
                $dto = new ContextCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(Context $entity, object $dto): void

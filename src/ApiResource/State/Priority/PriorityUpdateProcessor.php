@@ -32,7 +32,7 @@ final readonly class PriorityUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(Priority::class)->find($id);
 
         if (! $entity instanceof Priority) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Priority::class, (string) $id));

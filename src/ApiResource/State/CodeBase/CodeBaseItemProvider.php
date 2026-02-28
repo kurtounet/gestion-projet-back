@@ -13,7 +13,7 @@ final readonly class CodeBaseItemProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.item_provider')]
         private ProviderInterface $itemProvider,
-        private CodeBaseMapper $codeBaseMapper,
+        private CodeBaseMapper $codeBaseMapper
     ) {
     }
 

@@ -32,7 +32,7 @@ final readonly class ConfigProjectFrameworkUpdateProcessor implements ProcessorI
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(ConfigProjectFramework::class)->find($id);
 
         if (! $entity instanceof ConfigProjectFramework) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', ConfigProjectFramework::class, (string) $id));

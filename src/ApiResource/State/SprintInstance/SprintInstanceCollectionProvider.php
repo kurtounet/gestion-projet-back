@@ -14,7 +14,7 @@ final readonly class SprintInstanceCollectionProvider implements ProviderInterfa
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private SprintInstanceMapper $sprintInstanceMapper,
+        private SprintInstanceMapper $sprintInstanceMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class SprintInstanceCollectionProvider implements ProviderInterfa
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof SprintInstance) {
                 continue;
             }

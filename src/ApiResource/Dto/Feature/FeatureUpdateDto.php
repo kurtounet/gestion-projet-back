@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Feature;
 
 use App\Entity\Feature;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,15 +11,14 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Feature::class)]
 final class FeatureUpdateDto
 {
-    #[Groups(['Feature:update'])]
-    public ?string $label;
+    #[Groups(['update'])]
+    public ?string $label = null;
 
-    #[Groups(['Feature:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['Feature:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 }

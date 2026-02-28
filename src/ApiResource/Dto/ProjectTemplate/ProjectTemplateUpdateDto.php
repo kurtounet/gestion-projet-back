@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\ProjectTemplate;
 
 use App\Entity\ProjectTemplate;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,21 +11,20 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ProjectTemplate::class)]
 final class ProjectTemplateUpdateDto
 {
-    #[Groups(['ProjectTemplate:update'])]
-    public ?string $name;
+    #[Groups(['update'])]
+    public ?string $name = null;
 
-    #[Groups(['ProjectTemplate:update'])]
-    public ?string $description;
+    #[Groups(['update'])]
+    public ?string $description = null;
 
-    #[Groups(['ProjectTemplate:update'])]
-    public ?int $duration;
+    #[Groups(['update'])]
+    public ?int $duration = null;
 
-    #[Groups(['ProjectTemplate:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['ProjectTemplate:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 }

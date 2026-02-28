@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\User;
 
 use App\Entity\User;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,33 +12,34 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: User::class)]
 final class UserCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['User:create'])]
+    #[Groups(['create'])]
     public string $firstName;
 
     #[Assert\NotBlank]
-    #[Groups(['User:create'])]
+    #[Groups(['create'])]
     public string $lastName;
 
     #[Assert\NotBlank]
-    #[Groups(['User:create'])]
+    #[Groups(['create'])]
     public string $email;
 
     #[Assert\NotBlank]
-    #[Groups(['User:create'])]
+    #[Groups(['create'])]
     public array $roles;
 
     #[Assert\NotBlank]
-    #[Groups(['User:create'])]
+    #[Groups(['create'])]
     public string $password;
 
     #[Assert\NotBlank]
-    #[Groups(['User:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['User:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
+
+
 }

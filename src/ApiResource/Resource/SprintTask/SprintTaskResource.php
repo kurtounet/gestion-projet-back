@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\SprintTask\SprintTaskCollectionItemDto;
 use App\ApiResource\Dto\SprintTask\SprintTaskCreateDto;
-use App\ApiResource\Dto\SprintTask\SprintTaskItemDto;
 use App\ApiResource\Dto\SprintTask\SprintTaskUpdateDto;
 use App\ApiResource\State\SprintTask\SprintTaskCollectionProvider;
 use App\ApiResource\State\SprintTask\SprintTaskCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\SprintTask\SprintTaskDeleteProcessor;
 use App\ApiResource\State\SprintTask\SprintTaskItemProvider;
 use App\ApiResource\State\SprintTask\SprintTaskUpdateProcessor;
 use App\Entity\SprintTask;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,61 +24,55 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: SprintTask::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'sprint_tasks',
-            normalizationContext: ['groups' => ['SprintTask:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: SprintTaskCollectionProvider::class,
-            output: SprintTaskCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'sprint_tasks/{id}',
-            normalizationContext: ['groups' => ['SprintTask:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: SprintTaskItemProvider::class,
-            output: SprintTaskItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'sprint_tasks',
-            denormalizationContext: ['groups' => ['SprintTask:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: SprintTaskCreateProcessor::class,
             input: SprintTaskCreateDto::class,
-            output: SprintTaskItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'sprint_tasks/{id}',
-            denormalizationContext: ['groups' => ['SprintTask:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: SprintTaskUpdateProcessor::class,
             input: SprintTaskUpdateDto::class,
-            output: SprintTaskItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'sprint_tasks/{id}',
             processor: SprintTaskDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: SprintTask::class)]
+
 final class SprintTaskResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
-        public int $id;
 
-        #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
-        public int $taskOrder;
+    #[Groups(['collection:read', 'item:read'])]
+    public int $taskOrder;
 
-        #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-        #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
-        public ?string $sprintTemplate = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $sprintTemplate = null;
 
-        #[Groups(['SprintTask:collection:read', 'SprintTask:item:read'])]
-        public ?string $taskTemplate = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $taskTemplate = null;
 
-    */
+
 }

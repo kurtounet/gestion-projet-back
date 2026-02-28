@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\TaskInstance;
 
 use App\Entity\TaskInstance;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,65 +12,66 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: TaskInstance::class)]
 final class TaskInstanceCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['TaskInstance:create'])]
+    #[Groups(['create'])]
     public string $name;
 
     #[Assert\NotBlank]
-    #[Groups(['TaskInstance:create'])]
+    #[Groups(['create'])]
     public string $description;
 
     #[Assert\NotBlank]
-    #[Groups(['TaskInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $startDate;
 
     #[Assert\NotBlank]
-    #[Groups(['TaskInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $dueDate;
 
-    #[Groups(['TaskInstance:create'])]
-    public ?int $position;
+    #[Groups(['create'])]
+    public ?int $position = null;
 
     #[Assert\NotBlank]
-    #[Groups(['TaskInstance:create'])]
+    #[Groups(['create'])]
     public string $icon;
 
     #[Assert\NotBlank]
-    #[Groups(['TaskInstance:create'])]
+    #[Groups(['create'])]
     public string $color;
 
     #[Assert\NotBlank]
-    #[Groups(['TaskInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['TaskInstance:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['TaskInstance:create'])]
-    public ?string $createdByUser;
+    #[Groups(['create'])]
+    public ?string $createdByUser = null;
 
-    #[Groups(['TaskInstance:create'])]
-    public ?string $updatedByUser;
+    #[Groups(['create'])]
+    public ?string $updatedByUser = null;
 
-    #[Groups(['TaskInstance:create'])]
-    public ?string $user;
-    #[Groups(['TaskInstance:create'])]
-    public ?string $taskTemplate;
-    #[Groups(['TaskInstance:create'])]
-    public ?string $sprintInstance;
-    #[Groups(['TaskInstance:create'])]
-    public ?string $priority;
-    #[Groups(['TaskInstance:create'])]
-    public ?string $status;
-    #[Groups(['TaskInstance:create'])]
-    public ?string $typeTask;
-    #[Groups(['TaskInstance:create'])]
-    public ?string $parentTask;
-    #[Groups(['TaskInstance:create'])]
-    public ?string $dependency;
-    #[Groups(['TaskInstance:create'])]
-    public ?string $comment;
+
+
+    #[Groups(['create'])]
+    public ?string $user = null;
+    #[Groups(['create'])]
+    public ?string $taskTemplate = null;
+    #[Groups(['create'])]
+    public ?string $sprintInstance = null;
+    #[Groups(['create'])]
+    public ?string $priority = null;
+    #[Groups(['create'])]
+    public ?string $status = null;
+    #[Groups(['create'])]
+    public ?string $typeTask = null;
+    #[Groups(['create'])]
+    public ?string $parentTask = null;
+    #[Groups(['create'])]
+    public ?string $dependency = null;
+    #[Groups(['create'])]
+    public ?string $comment = null;
 }

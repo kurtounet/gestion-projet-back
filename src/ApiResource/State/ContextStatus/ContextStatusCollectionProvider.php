@@ -14,7 +14,7 @@ final readonly class ContextStatusCollectionProvider implements ProviderInterfac
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private ContextStatusMapper $contextStatusMapper,
+        private ContextStatusMapper $contextStatusMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class ContextStatusCollectionProvider implements ProviderInterfac
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof ContextStatus) {
                 continue;
             }

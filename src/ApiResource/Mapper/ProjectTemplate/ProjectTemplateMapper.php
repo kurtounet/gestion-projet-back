@@ -3,10 +3,9 @@
 namespace App\ApiResource\Mapper\ProjectTemplate;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCollectionItemDto;
 use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateCreateDto;
-use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateItemDto;
 use App\ApiResource\Dto\ProjectTemplate\ProjectTemplateUpdateDto;
+use App\ApiResource\Resource\ProjectTemplate\ProjectTemplateResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\ProjectTemplate;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,28 +22,32 @@ class ProjectTemplateMapper
     ) {
     }
 
-    public function entityToItemDto(ProjectTemplate $entity): ProjectTemplateItemDto
+    public function entityToItemDto(ProjectTemplate $entity): ProjectTemplateResource
     {
-        $dto = new ProjectTemplateItemDto();
+        $dto = new ProjectTemplateResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
         $dto->duration = $entity->getDuration();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
 
-    public function entityToCollectionDto(ProjectTemplate $entity): ProjectTemplateCollectionItemDto
+    public function entityToCollectionDto(ProjectTemplate $entity): ProjectTemplateResource
     {
-        $dto = new ProjectTemplateCollectionItemDto();
+        $dto = new ProjectTemplateResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
         $dto->duration = $entity->getDuration();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
@@ -52,23 +55,50 @@ class ProjectTemplateMapper
     public function createDtoToEntity(ProjectTemplateCreateDto $dto): ProjectTemplate
     {
         $entity = new ProjectTemplate();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setDuration($dto->duration);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->duration) {
+            $entity->setDuration($dto->duration);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(ProjectTemplate $entity, ProjectTemplateUpdateDto $dto): ProjectTemplate
     {
-        $entity = new ProjectTemplate();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setDuration($dto->duration);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->duration) {
+            $entity->setDuration($dto->duration);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
 
         return $entity;
     }
@@ -78,7 +108,7 @@ class ProjectTemplateMapper
     {
                $dto = new ProjectTemplateCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(ProjectTemplate $entity, object $dto): void

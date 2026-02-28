@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\ProjectInstance;
 
 use App\Entity\ProjectInstance;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,67 +12,72 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ProjectInstance::class)]
 final class ProjectInstanceCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['ProjectInstance:create'])]
+    #[Groups(['create'])]
     public string $name;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $pathFileDatabase;
+    #[Groups(['create'])]
+    public ?string $pathFileDatabase = null;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $pathProject;
+    #[Groups(['create'])]
+    public ?string $pathProject = null;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $description;
+    #[Groups(['create'])]
+    public ?string $description = null;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $icon;
+    #[Groups(['create'])]
+    public ?string $icon = null;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $color;
+    #[Groups(['create'])]
+    public ?string $color = null;
 
     #[Assert\NotBlank]
-    #[Groups(['ProjectInstance:create'])]
+    #[Groups(['create'])]
     public bool $isFavory;
 
     #[Assert\NotBlank]
-    #[Groups(['ProjectInstance:create'])]
+    #[Groups(['create'])]
     public int $position;
 
     #[Assert\NotBlank]
-    #[Groups(['ProjectInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $startDate;
 
     #[Assert\NotBlank]
-    #[Groups(['ProjectInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $endDate;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $createdByUser;
+    #[Groups(['create'])]
+    public ?string $createdByUser = null;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $updatedByUser;
+    #[Groups(['create'])]
+    public ?string $updatedByUser = null;
 
     #[Assert\NotBlank]
-    #[Groups(['ProjectInstance:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $status;
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $priority;
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $projectTemplate;
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $comment;
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $parent;
-    #[Groups(['ProjectInstance:create'])]
-    public ?string $configFramework;
+
+
+    #[Groups(['create'])]
+    public ?string $status = null;
+    #[Groups(['create'])]
+    public ?string $priority = null;
+    #[Groups(['create'])]
+    public ?string $projectTemplate = null;
+    #[Groups(['create'])]
+    public ?string $comment = null;
+    #[Groups(['create'])]
+    public iterable $sprintInstances = [];
+    #[Groups(['create'])]
+    public iterable $projectInstances = [];
+    #[Groups(['create'])]
+    public ?string $parent = null;
+    #[Groups(['create'])]
+    public ?string $configFramework = null;
 }

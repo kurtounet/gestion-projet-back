@@ -3,10 +3,9 @@
 namespace App\ApiResource\Mapper\Priority;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\Priority\PriorityCollectionItemDto;
 use App\ApiResource\Dto\Priority\PriorityCreateDto;
-use App\ApiResource\Dto\Priority\PriorityItemDto;
 use App\ApiResource\Dto\Priority\PriorityUpdateDto;
+use App\ApiResource\Resource\Priority\PriorityResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\Priority;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,28 +22,32 @@ class PriorityMapper
     ) {
     }
 
-    public function entityToItemDto(Priority $entity): PriorityItemDto
+    public function entityToItemDto(Priority $entity): PriorityResource
     {
-        $dto = new PriorityItemDto();
+        $dto = new PriorityResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->color = $entity->getColor();
         $dto->priorityNumber = $entity->getPriorityNumber();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
 
-    public function entityToCollectionDto(Priority $entity): PriorityCollectionItemDto
+    public function entityToCollectionDto(Priority $entity): PriorityResource
     {
-        $dto = new PriorityCollectionItemDto();
+        $dto = new PriorityResource();
         $dto->id = $entity->getId();
         $dto->label = $entity->getLabel();
         $dto->color = $entity->getColor();
         $dto->priorityNumber = $entity->getPriorityNumber();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+
+
 
         return $dto;
     }
@@ -52,23 +55,50 @@ class PriorityMapper
     public function createDtoToEntity(PriorityCreateDto $dto): Priority
     {
         $entity = new Priority();
-        $entity->setLabel($dto->label);
-        $entity->setColor($dto->color);
-        $entity->setPriorityNumber($dto->priorityNumber);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->priorityNumber) {
+            $entity->setPriorityNumber($dto->priorityNumber);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
+
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(Priority $entity, PriorityUpdateDto $dto): Priority
     {
-        $entity = new Priority();
-        $entity->setLabel($dto->label);
-        $entity->setColor($dto->color);
-        $entity->setPriorityNumber($dto->priorityNumber);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->label) {
+            $entity->setLabel($dto->label);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->priorityNumber) {
+            $entity->setPriorityNumber($dto->priorityNumber);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+
+
 
         return $entity;
     }
@@ -78,7 +108,7 @@ class PriorityMapper
     {
                $dto = new PriorityCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(Priority $entity, object $dto): void

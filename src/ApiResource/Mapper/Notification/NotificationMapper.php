@@ -3,10 +3,10 @@
 namespace App\ApiResource\Mapper\Notification;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\Notification\NotificationCollectionItemDto;
 use App\ApiResource\Dto\Notification\NotificationCreateDto;
-use App\ApiResource\Dto\Notification\NotificationItemDto;
 use App\ApiResource\Dto\Notification\NotificationUpdateDto;
+use App\ApiResource\Resource\Notification\NotificationResource;
+use App\ApiResource\Resource\User\UserResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\Notification;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +23,9 @@ class NotificationMapper
     ) {
     }
 
-    public function entityToItemDto(Notification $entity): NotificationItemDto
+    public function entityToItemDto(Notification $entity): NotificationResource
     {
-        $dto = new NotificationItemDto();
+        $dto = new NotificationResource();
         $dto->id = $entity->getId();
         $dto->message = $entity->getMessage();
         $dto->date = $entity->getDate();
@@ -33,20 +33,17 @@ class NotificationMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
         $dto->user = $entity->getUser()
-            ? ($this->iriFromResource)(User::class,$entity->getUser()->getId())
+            ? ($this->iriFromResource)(UserResource::class, $entity->getUser()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(Notification $entity): NotificationCollectionItemDto
+    public function entityToCollectionDto(Notification $entity): NotificationResource
     {
-        $dto = new NotificationCollectionItemDto();
+        $dto = new NotificationResource();
         $dto->id = $entity->getId();
         $dto->message = $entity->getMessage();
         $dto->date = $entity->getDate();
@@ -54,49 +51,66 @@ class NotificationMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-         $dto->user = $entity->getUser()
-             ? ($this->iriFromResource)(User::class,$entity->getUser()->getId())
-             : null;
+        $dto->user = $entity->getUser()
+            ? ($this->iriFromResource)(UserResource::class, $entity->getUser()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(NotificationCreateDto $dto): Notification
     {
         $entity = new Notification();
-        $entity->setMessage($dto->message);
-        $entity->setDate($dto->date);
-        $entity->setType($dto->type);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setUser($dto->user);
+        if (null !== $dto->message) {
+            $entity->setMessage($dto->message);
+        }
+        if (null !== $dto->date) {
+            $entity->setDate($dto->date);
+        }
+        if (null !== $dto->type) {
+            $entity->setType($dto->type);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->user) {
+            $entity->setUser($this->resolveIri($dto->user ?? null, \App\Entity\User::class, 'user', required: true));
+        }
 
 
-         $entity->setUser($this->resolveIri($dto->user ?? null, User::class, 'user', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(Notification $entity, NotificationUpdateDto $dto): Notification
     {
-        $entity = new Notification();
-        $entity->setMessage($dto->message);
-        $entity->setDate($dto->date);
-        $entity->setType($dto->type);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->message) {
+            $entity->setMessage($dto->message);
+        }
+        if (null !== $dto->date) {
+            $entity->setDate($dto->date);
+        }
+        if (null !== $dto->type) {
+            $entity->setType($dto->type);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->user) {
+            $entity->setUser($this->resolveIri($dto->user ?? null, \App\Entity\User::class, 'user', required: true));
+        }
 
-        /*
-                    $entity->setUser($dto->user);
 
-
-        */
         return $entity;
     }
 
@@ -105,7 +119,7 @@ class NotificationMapper
     {
                $dto = new NotificationCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(Notification $entity, object $dto): void

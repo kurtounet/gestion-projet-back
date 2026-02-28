@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Notification;
 
 use App\Entity\Notification;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,24 +11,23 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Notification::class)]
 final class NotificationUpdateDto
 {
-    #[Groups(['Notification:update'])]
-    public ?string $message;
+    #[Groups(['update'])]
+    public ?string $message = null;
 
-    #[Groups(['Notification:update'])]
-    public ?\DateTimeInterface $date;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $date = null;
 
-    #[Groups(['Notification:update'])]
-    public ?string $type;
+    #[Groups(['update'])]
+    public ?string $type = null;
 
-    #[Groups(['Notification:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['Notification:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['Notification:update'])]
-    public ?string $user;
+    #[Groups(['update'])]
+    public ?string $user = null;
 }

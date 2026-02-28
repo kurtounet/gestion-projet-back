@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\ProjectTemplateSprintTemplate;
 
 use App\Entity\ProjectTemplateSprintTemplate;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,22 +12,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ProjectTemplateSprintTemplate::class)]
 final class ProjectTemplateSprintTemplateCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['ProjectTemplateSprintTemplate:create'])]
+    #[Groups(['create'])]
     public int $sprintOrder;
 
     #[Assert\NotBlank]
-    #[Groups(['ProjectTemplateSprintTemplate:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ProjectTemplateSprintTemplate:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['ProjectTemplateSprintTemplate:create'])]
-    public ?string $projectTemplate;
-    #[Groups(['ProjectTemplateSprintTemplate:create'])]
-    public ?string $sprintTemplate;
+
+
+    #[Groups(['create'])]
+    public ?string $projectTemplate = null;
+    #[Groups(['create'])]
+    public ?string $sprintTemplate = null;
 }

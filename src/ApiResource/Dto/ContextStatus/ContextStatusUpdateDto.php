@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\ContextStatus;
 
 use App\Entity\ContextStatus;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,17 +11,16 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ContextStatus::class)]
 final class ContextStatusUpdateDto
 {
-    #[Groups(['ContextStatus:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['ContextStatus:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['ContextStatus:update'])]
-    public ?string $context;
-    #[Groups(['ContextStatus:update'])]
-    public ?string $status;
+    #[Groups(['update'])]
+    public ?string $context = null;
+    #[Groups(['update'])]
+    public ?string $status = null;
 }

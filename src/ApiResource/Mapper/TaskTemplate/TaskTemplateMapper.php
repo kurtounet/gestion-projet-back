@@ -3,10 +3,11 @@
 namespace App\ApiResource\Mapper\TaskTemplate;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateCollectionItemDto;
 use App\ApiResource\Dto\TaskTemplate\TaskTemplateCreateDto;
-use App\ApiResource\Dto\TaskTemplate\TaskTemplateItemDto;
 use App\ApiResource\Dto\TaskTemplate\TaskTemplateUpdateDto;
+use App\ApiResource\Resource\SprintTemplate\SprintTemplateResource;
+use App\ApiResource\Resource\TaskTemplate\TaskTemplateResource;
+use App\ApiResource\Resource\TypeTask\TypeTaskResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\TaskTemplate;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +24,9 @@ class TaskTemplateMapper
     ) {
     }
 
-    public function entityToItemDto(TaskTemplate $entity): TaskTemplateItemDto
+    public function entityToItemDto(TaskTemplate $entity): TaskTemplateResource
     {
-        $dto = new TaskTemplateItemDto();
+        $dto = new TaskTemplateResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
@@ -33,24 +34,21 @@ class TaskTemplateMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
-
-        $dto->sprinttemplate = $entity->getSprinttemplate()
-            ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
+        $dto->sprintTemplate = $entity->getSprintTemplate()
+            ? ($this->iriFromResource)(SprintTemplateResource::class, $entity->getSprintTemplate()->getId())
             : null;
 
-        $dto->typetask = $entity->getTypetask()
-            ? ($this->iriFromResource)(TypeTask::class,$entity->getTypetask()->getId())
+        $dto->typeTask = $entity->getTypeTask()
+            ? ($this->iriFromResource)(TypeTaskResource::class, $entity->getTypeTask()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(TaskTemplate $entity): TaskTemplateCollectionItemDto
+    public function entityToCollectionDto(TaskTemplate $entity): TaskTemplateResource
     {
-        $dto = new TaskTemplateCollectionItemDto();
+        $dto = new TaskTemplateResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
@@ -58,59 +56,76 @@ class TaskTemplateMapper
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
 
-        /*
+        $dto->sprintTemplate = $entity->getSprintTemplate()
+            ? ($this->iriFromResource)(SprintTemplateResource::class, $entity->getSprintTemplate()->getId())
+            : null;
 
-         $dto->sprinttemplate = $entity->getSprinttemplate()
-             ? ($this->iriFromResource)(SprintTemplate::class,$entity->getSprinttemplate()->getId())
-             : null;
-
-         $dto->typetask = $entity->getTypetask()
-             ? ($this->iriFromResource)(TypeTask::class,$entity->getTypetask()->getId())
-             : null;
+        $dto->typeTask = $entity->getTypeTask()
+            ? ($this->iriFromResource)(TypeTaskResource::class, $entity->getTypeTask()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(TaskTemplateCreateDto $dto): TaskTemplate
     {
         $entity = new TaskTemplate();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setParentTask($dto->parentTask);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        /*
-                    $entity->setSprintTemplate($dto->sprintTemplate);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->parentTask) {
+            $entity->setParentTask($dto->parentTask);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->sprintTemplate) {
+            $entity->setSprintTemplate($this->resolveIri($dto->sprintTemplate ?? null, \App\Entity\SprintTemplate::class, 'sprintTemplate', required: true));
+        }
+        if (null !== $dto->typeTask) {
+            $entity->setTypeTask($this->resolveIri($dto->typeTask ?? null, \App\Entity\TypeTask::class, 'typeTask', required: true));
+        }
 
-             $entity->setTypeTask($dto->typeTask);
 
-
-         $entity->setSprintTemplate($this->resolveIri($dto->sprinttemplate ?? null, SprintTemplate::class, 'sprinttemplate', required: true));
-
-         $entity->setTypeTask($this->resolveIri($dto->typetask ?? null, TypeTask::class, 'typetask', required: true));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(TaskTemplate $entity, TaskTemplateUpdateDto $dto): TaskTemplate
     {
-        $entity = new TaskTemplate();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setParentTask($dto->parentTask);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->parentTask) {
+            $entity->setParentTask($dto->parentTask);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->sprintTemplate) {
+            $entity->setSprintTemplate($this->resolveIri($dto->sprintTemplate ?? null, \App\Entity\SprintTemplate::class, 'sprintTemplate', required: true));
+        }
+        if (null !== $dto->typeTask) {
+            $entity->setTypeTask($this->resolveIri($dto->typeTask ?? null, \App\Entity\TypeTask::class, 'typeTask', required: true));
+        }
 
-        /*
-                    $entity->setSprintTemplate($dto->sprintTemplate);
 
-             $entity->setTypeTask($dto->typeTask);
-
-
-        */
         return $entity;
     }
 
@@ -119,7 +134,7 @@ class TaskTemplateMapper
     {
                $dto = new TaskTemplateCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(TaskTemplate $entity, object $dto): void

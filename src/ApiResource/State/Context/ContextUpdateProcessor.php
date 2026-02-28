@@ -32,7 +32,7 @@ final readonly class ContextUpdateProcessor implements ProcessorInterface
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(Context::class)->find($id);
 
         if (! $entity instanceof Context) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', Context::class, (string) $id));

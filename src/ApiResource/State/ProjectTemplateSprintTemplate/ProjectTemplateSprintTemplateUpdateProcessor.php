@@ -32,7 +32,7 @@ final readonly class ProjectTemplateSprintTemplateUpdateProcessor implements Pro
             throw new \InvalidArgumentException('Missing "id" uriVariable for PATCH.');
         }
 
-        $entity = $this->em->getRepository(ProjectInstance::class)->find($id);
+        $entity = $this->em->getRepository(ProjectTemplateSprintTemplate::class)->find($id);
 
         if (! $entity instanceof ProjectTemplateSprintTemplate) {
             throw new \RuntimeException(sprintf('Entity %s#%s not found.', ProjectTemplateSprintTemplate::class, (string) $id));

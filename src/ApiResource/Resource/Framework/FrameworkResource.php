@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\ApiResource\Dto\Framework\FrameworkCollectionItemDto;
 use App\ApiResource\Dto\Framework\FrameworkCreateDto;
-use App\ApiResource\Dto\Framework\FrameworkItemDto;
 use App\ApiResource\Dto\Framework\FrameworkUpdateDto;
 use App\ApiResource\State\Framework\FrameworkCollectionProvider;
 use App\ApiResource\State\Framework\FrameworkCreateProcessor;
@@ -19,7 +17,6 @@ use App\ApiResource\State\Framework\FrameworkDeleteProcessor;
 use App\ApiResource\State\Framework\FrameworkItemProvider;
 use App\ApiResource\State\Framework\FrameworkUpdateProcessor;
 use App\Entity\Framework;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
@@ -27,79 +24,73 @@ use Symfony\Component\Serializer\Attribute\Groups;
     stateOptions: new Options(entityClass: Framework::class),
     operations: [
         new GetCollection(
-            uriTemplate: 'frameworks',
-            normalizationContext: ['groups' => ['Framework:collection:read']],
+            normalizationContext: ['groups' => ['collection:read']],
             provider: FrameworkCollectionProvider::class,
-            output: FrameworkCollectionItemDto::class
+            output: self::class
         ),
         new Get(
-            uriTemplate: 'frameworks/{id}',
-            normalizationContext: ['groups' => ['Framework:item:read']],
+            normalizationContext: ['groups' => ['item:read']],
             provider: FrameworkItemProvider::class,
-            output: FrameworkItemDto::class
+            output: self::class
         ),
         new Post(
-            uriTemplate: 'frameworks',
-            denormalizationContext: ['groups' => ['Framework:create']],
+            denormalizationContext: ['groups' => ['create']],
             processor: FrameworkCreateProcessor::class,
             input: FrameworkCreateDto::class,
-            output: FrameworkItemDto::class
+            output: self::class
         ),
         new Patch(
-            uriTemplate: 'frameworks/{id}',
-            denormalizationContext: ['groups' => ['Framework:update']],
+            denormalizationContext: ['groups' => ['update']],
             processor: FrameworkUpdateProcessor::class,
             input: FrameworkUpdateDto::class,
-            output: FrameworkItemDto::class
+            output: self::class
         ),
         new Delete(
-            uriTemplate: 'frameworks/{id}',
             processor: FrameworkDeleteProcessor::class,
             output: false,
             status: 204
         ),
     ]
 )]
-// #[Map(source: Framework::class)]
+
 final class FrameworkResource
 {
+    #[ApiProperty(identifier: true)]
+    #[Groups(['collection:read', 'item:read'])]
     public int $id;
-    /*
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public int $id;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public string $label;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $label;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public string $type;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $type;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public string $version;
+    #[Groups(['collection:read', 'item:read'])]
+    public string $version;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public ?string $description;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $description = null;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public ?array $configuration;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?array $configuration = null;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public ?string $icon;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $icon = null;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public ?string $color;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $color = null;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public \DateTimeInterface $createdAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public \DateTimeInterface $createdAt;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public ?\DateTimeInterface $updatedAt;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public iterable $configProjectFrameworks = [];
+    #[Groups(['collection:read', 'item:read'])]
+    public iterable $configProjectFrameworks = [];
 
-        #[Groups(['Framework:collection:read', 'Framework:item:read'])]
-        public ?string $technology = null;
+    #[Groups(['collection:read', 'item:read'])]
+    public ?string $technology = null;
 
-    */
+
 }

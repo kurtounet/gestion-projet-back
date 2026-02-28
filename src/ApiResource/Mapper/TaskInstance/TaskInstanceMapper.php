@@ -3,10 +3,16 @@
 namespace App\ApiResource\Mapper\TaskInstance;
 
 use ApiPlatform\Metadata\IriConverterInterface;
-use App\ApiResource\Dto\TaskInstance\TaskInstanceCollectionItemDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceCreateDto;
-use App\ApiResource\Dto\TaskInstance\TaskInstanceItemDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceUpdateDto;
+use App\ApiResource\Resource\Comment\CommentResource;
+use App\ApiResource\Resource\Priority\PriorityResource;
+use App\ApiResource\Resource\SprintInstance\SprintInstanceResource;
+use App\ApiResource\Resource\Status\StatusResource;
+use App\ApiResource\Resource\TaskInstance\TaskInstanceResource;
+use App\ApiResource\Resource\TaskTemplate\TaskTemplateResource;
+use App\ApiResource\Resource\TypeTask\TypeTaskResource;
+use App\ApiResource\Resource\User\UserResource;
 use App\ApiResource\Service\IriFromResource;
 use App\Entity\TaskInstance;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +29,9 @@ class TaskInstanceMapper
     ) {
     }
 
-    public function entityToItemDto(TaskInstance $entity): TaskInstanceItemDto
+    public function entityToItemDto(TaskInstance $entity): TaskInstanceResource
     {
-        $dto = new TaskInstanceItemDto();
+        $dto = new TaskInstanceResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
@@ -39,52 +45,49 @@ class TaskInstanceMapper
         $dto->createdByUser = $entity->getCreatedByUser();
         $dto->updatedByUser = $entity->getUpdatedByUser();
 
-        /*
-
         $dto->user = $entity->getUser()
-            ? ($this->iriFromResource)(User::class,$entity->getUser()->getId())
+            ? ($this->iriFromResource)(UserResource::class, $entity->getUser()->getId())
             : null;
 
-        $dto->tasktemplate = $entity->getTasktemplate()
-            ? ($this->iriFromResource)(TaskTemplate::class,$entity->getTasktemplate()->getId())
+        $dto->taskTemplate = $entity->getTaskTemplate()
+            ? ($this->iriFromResource)(TaskTemplateResource::class, $entity->getTaskTemplate()->getId())
             : null;
 
-        $dto->sprintinstance = $entity->getSprintinstance()
-            ? ($this->iriFromResource)(SprintInstance::class,$entity->getSprintinstance()->getId())
+        $dto->sprintInstance = $entity->getSprintInstance()
+            ? ($this->iriFromResource)(SprintInstanceResource::class, $entity->getSprintInstance()->getId())
             : null;
 
         $dto->priority = $entity->getPriority()
-            ? ($this->iriFromResource)(Priority::class,$entity->getPriority()->getId())
+            ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
             : null;
 
         $dto->status = $entity->getStatus()
-            ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
             : null;
 
-        $dto->typetask = $entity->getTypetask()
-            ? ($this->iriFromResource)(TypeTask::class,$entity->getTypetask()->getId())
+        $dto->typeTask = $entity->getTypeTask()
+            ? ($this->iriFromResource)(TypeTaskResource::class, $entity->getTypeTask()->getId())
             : null;
 
-        $dto->taskinstance = $entity->getTaskinstance()
-            ? ($this->iriFromResource)(TaskInstance::class,$entity->getTaskinstance()->getId())
+        $dto->parentTask = $entity->getParentTask()
+            ? ($this->iriFromResource)(TaskInstanceResource::class, $entity->getParentTask()->getId())
             : null;
 
-        $dto->taskinstance = $entity->getTaskinstance()
-            ? ($this->iriFromResource)(TaskInstance::class,$entity->getTaskinstance()->getId())
+        $dto->dependency = $entity->getDependency()
+            ? ($this->iriFromResource)(TaskInstanceResource::class, $entity->getDependency()->getId())
             : null;
 
         $dto->comment = $entity->getComment()
-            ? ($this->iriFromResource)(Comment::class,$entity->getComment()->getId())
+            ? ($this->iriFromResource)(CommentResource::class, $entity->getComment()->getId())
             : null;
 
 
-        */
         return $dto;
     }
 
-    public function entityToCollectionDto(TaskInstance $entity): TaskInstanceCollectionItemDto
+    public function entityToCollectionDto(TaskInstance $entity): TaskInstanceResource
     {
-        $dto = new TaskInstanceCollectionItemDto();
+        $dto = new TaskInstanceResource();
         $dto->id = $entity->getId();
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
@@ -98,141 +101,182 @@ class TaskInstanceMapper
         $dto->createdByUser = $entity->getCreatedByUser();
         $dto->updatedByUser = $entity->getUpdatedByUser();
 
-        /*
+        $dto->user = $entity->getUser()
+            ? ($this->iriFromResource)(UserResource::class, $entity->getUser()->getId())
+            : null;
 
-         $dto->user = $entity->getUser()
-             ? ($this->iriFromResource)(User::class,$entity->getUser()->getId())
-             : null;
+        $dto->taskTemplate = $entity->getTaskTemplate()
+            ? ($this->iriFromResource)(TaskTemplateResource::class, $entity->getTaskTemplate()->getId())
+            : null;
 
-         $dto->tasktemplate = $entity->getTasktemplate()
-             ? ($this->iriFromResource)(TaskTemplate::class,$entity->getTasktemplate()->getId())
-             : null;
+        $dto->sprintInstance = $entity->getSprintInstance()
+            ? ($this->iriFromResource)(SprintInstanceResource::class, $entity->getSprintInstance()->getId())
+            : null;
 
-         $dto->sprintinstance = $entity->getSprintinstance()
-             ? ($this->iriFromResource)(SprintInstance::class,$entity->getSprintinstance()->getId())
-             : null;
+        $dto->priority = $entity->getPriority()
+            ? ($this->iriFromResource)(PriorityResource::class, $entity->getPriority()->getId())
+            : null;
 
-         $dto->priority = $entity->getPriority()
-             ? ($this->iriFromResource)(Priority::class,$entity->getPriority()->getId())
-             : null;
+        $dto->status = $entity->getStatus()
+            ? ($this->iriFromResource)(StatusResource::class, $entity->getStatus()->getId())
+            : null;
 
-         $dto->status = $entity->getStatus()
-             ? ($this->iriFromResource)(Status::class,$entity->getStatus()->getId())
-             : null;
+        $dto->typeTask = $entity->getTypeTask()
+            ? ($this->iriFromResource)(TypeTaskResource::class, $entity->getTypeTask()->getId())
+            : null;
 
-         $dto->typetask = $entity->getTypetask()
-             ? ($this->iriFromResource)(TypeTask::class,$entity->getTypetask()->getId())
-             : null;
+        $dto->parentTask = $entity->getParentTask()
+            ? ($this->iriFromResource)(TaskInstanceResource::class, $entity->getParentTask()->getId())
+            : null;
 
-         $dto->taskinstance = $entity->getTaskinstance()
-             ? ($this->iriFromResource)(TaskInstance::class,$entity->getTaskinstance()->getId())
-             : null;
+        $dto->dependency = $entity->getDependency()
+            ? ($this->iriFromResource)(TaskInstanceResource::class, $entity->getDependency()->getId())
+            : null;
 
-         $dto->taskinstance = $entity->getTaskinstance()
-             ? ($this->iriFromResource)(TaskInstance::class,$entity->getTaskinstance()->getId())
-             : null;
-
-         $dto->comment = $entity->getComment()
-             ? ($this->iriFromResource)(Comment::class,$entity->getComment()->getId())
-             : null;
+        $dto->comment = $entity->getComment()
+            ? ($this->iriFromResource)(CommentResource::class, $entity->getComment()->getId())
+            : null;
 
 
-        */
         return $dto;
     }
 
     public function createDtoToEntity(TaskInstanceCreateDto $dto): TaskInstance
     {
         $entity = new TaskInstance();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setStartDate($dto->startDate);
-        $entity->setDueDate($dto->dueDate);
-        $entity->setPosition($dto->position);
-        $entity->setIcon($dto->icon);
-        $entity->setColor($dto->color);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        $entity->setCreatedByUser($dto->createdByUser);
-        $entity->setUpdatedByUser($dto->updatedByUser);
-        /*
-                    $entity->setUser($dto->user);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->startDate) {
+            $entity->setStartDate($dto->startDate);
+        }
+        if (null !== $dto->dueDate) {
+            $entity->setDueDate($dto->dueDate);
+        }
+        if (null !== $dto->position) {
+            $entity->setPosition($dto->position);
+        }
+        if (null !== $dto->icon) {
+            $entity->setIcon($dto->icon);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->createdByUser) {
+            $entity->setCreatedByUser($dto->createdByUser);
+        }
+        if (null !== $dto->updatedByUser) {
+            $entity->setUpdatedByUser($dto->updatedByUser);
+        }
+        if (null !== $dto->user) {
+            $entity->setUser($this->resolveIri($dto->user ?? null, \App\Entity\User::class, 'user', required: true));
+        }
+        if (null !== $dto->taskTemplate) {
+            $entity->setTaskTemplate($this->resolveIri($dto->taskTemplate ?? null, \App\Entity\TaskTemplate::class, 'taskTemplate', required: true));
+        }
+        if (null !== $dto->sprintInstance) {
+            $entity->setSprintInstance($this->resolveIri($dto->sprintInstance ?? null, \App\Entity\SprintInstance::class, 'sprintInstance', required: true));
+        }
+        if (null !== $dto->priority) {
+            $entity->setPriority($this->resolveIri($dto->priority ?? null, \App\Entity\Priority::class, 'priority', required: true));
+        }
+        if (null !== $dto->status) {
+            $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
+        }
+        if (null !== $dto->typeTask) {
+            $entity->setTypeTask($this->resolveIri($dto->typeTask ?? null, \App\Entity\TypeTask::class, 'typeTask', required: true));
+        }
+        if (null !== $dto->parentTask) {
+            $entity->setParentTask($this->resolveIri($dto->parentTask ?? null, TaskInstance::class, 'parentTask', required: false));
+        }
+        if (null !== $dto->dependency) {
+            $entity->setDependency($this->resolveIri($dto->dependency ?? null, TaskInstance::class, 'dependency', required: false));
+        }
+        if (null !== $dto->comment) {
+            $entity->setComment($this->resolveIri($dto->comment ?? null, \App\Entity\Comment::class, 'comment', required: false));
+        }
 
-             $entity->setTaskTemplate($dto->taskTemplate);
 
-             $entity->setSprintInstance($dto->sprintInstance);
-
-             $entity->setPriority($dto->priority);
-
-             $entity->setStatus($dto->status);
-
-             $entity->setTypeTask($dto->typeTask);
-
-             $entity->setParentTask($dto->parentTask);
-
-             $entity->setDependency($dto->dependency);
-
-             $entity->setComment($dto->comment);
-
-
-         $entity->setUser($this->resolveIri($dto->user ?? null, User::class, 'user', required: true));
-
-         $entity->setTaskTemplate($this->resolveIri($dto->tasktemplate ?? null, TaskTemplate::class, 'tasktemplate', required: true));
-
-         $entity->setSprintInstance($this->resolveIri($dto->sprintinstance ?? null, SprintInstance::class, 'sprintinstance', required: true));
-
-         $entity->setPriority($this->resolveIri($dto->priority ?? null, Priority::class, 'priority', required: true));
-
-         $entity->setStatus($this->resolveIri($dto->status ?? null, Status::class, 'status', required: true));
-
-         $entity->setTypeTask($this->resolveIri($dto->typetask ?? null, TypeTask::class, 'typetask', required: true));
-
-         $entity->setTaskInstance($this->resolveIri($dto->taskinstance ?? null, TaskInstance::class, 'taskinstance', required: false));
-
-         $entity->setTaskInstance($this->resolveIri($dto->taskinstance ?? null, TaskInstance::class, 'taskinstance', required: false));
-
-         $entity->setComment($this->resolveIri($dto->comment ?? null, Comment::class, 'comment', required: false));
-        */
 
         return $entity;
+
+
+
     }
 
     public function updateDtoToEntity(TaskInstance $entity, TaskInstanceUpdateDto $dto): TaskInstance
     {
-        $entity = new TaskInstance();
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setStartDate($dto->startDate);
-        $entity->setDueDate($dto->dueDate);
-        $entity->setPosition($dto->position);
-        $entity->setIcon($dto->icon);
-        $entity->setColor($dto->color);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setUpdatedAt($dto->updatedAt);
-        $entity->setCreatedByUser($dto->createdByUser);
-        $entity->setUpdatedByUser($dto->updatedByUser);
+        if (null !== $dto->name) {
+            $entity->setName($dto->name);
+        }
+        if (null !== $dto->description) {
+            $entity->setDescription($dto->description);
+        }
+        if (null !== $dto->startDate) {
+            $entity->setStartDate($dto->startDate);
+        }
+        if (null !== $dto->dueDate) {
+            $entity->setDueDate($dto->dueDate);
+        }
+        if (null !== $dto->position) {
+            $entity->setPosition($dto->position);
+        }
+        if (null !== $dto->icon) {
+            $entity->setIcon($dto->icon);
+        }
+        if (null !== $dto->color) {
+            $entity->setColor($dto->color);
+        }
+        if (null !== $dto->createdAt) {
+            $entity->setCreatedAt($dto->createdAt);
+        }
+        if (null !== $dto->updatedAt) {
+            $entity->setUpdatedAt($dto->updatedAt);
+        }
+        if (null !== $dto->createdByUser) {
+            $entity->setCreatedByUser($dto->createdByUser);
+        }
+        if (null !== $dto->updatedByUser) {
+            $entity->setUpdatedByUser($dto->updatedByUser);
+        }
+        if (null !== $dto->user) {
+            $entity->setUser($this->resolveIri($dto->user ?? null, \App\Entity\User::class, 'user', required: true));
+        }
+        if (null !== $dto->taskTemplate) {
+            $entity->setTaskTemplate($this->resolveIri($dto->taskTemplate ?? null, \App\Entity\TaskTemplate::class, 'taskTemplate', required: true));
+        }
+        if (null !== $dto->sprintInstance) {
+            $entity->setSprintInstance($this->resolveIri($dto->sprintInstance ?? null, \App\Entity\SprintInstance::class, 'sprintInstance', required: true));
+        }
+        if (null !== $dto->priority) {
+            $entity->setPriority($this->resolveIri($dto->priority ?? null, \App\Entity\Priority::class, 'priority', required: true));
+        }
+        if (null !== $dto->status) {
+            $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
+        }
+        if (null !== $dto->typeTask) {
+            $entity->setTypeTask($this->resolveIri($dto->typeTask ?? null, \App\Entity\TypeTask::class, 'typeTask', required: true));
+        }
+        if (null !== $dto->parentTask) {
+            $entity->setParentTask($this->resolveIri($dto->parentTask ?? null, TaskInstance::class, 'parentTask', required: false));
+        }
+        if (null !== $dto->dependency) {
+            $entity->setDependency($this->resolveIri($dto->dependency ?? null, TaskInstance::class, 'dependency', required: false));
+        }
+        if (null !== $dto->comment) {
+            $entity->setComment($this->resolveIri($dto->comment ?? null, \App\Entity\Comment::class, 'comment', required: false));
+        }
 
-        /*
-                    $entity->setUser($dto->user);
 
-             $entity->setTaskTemplate($dto->taskTemplate);
-
-             $entity->setSprintInstance($dto->sprintInstance);
-
-             $entity->setPriority($dto->priority);
-
-             $entity->setStatus($dto->status);
-
-             $entity->setTypeTask($dto->typeTask);
-
-             $entity->setParentTask($dto->parentTask);
-
-             $entity->setDependency($dto->dependency);
-
-             $entity->setComment($dto->comment);
-
-
-        */
         return $entity;
     }
 
@@ -241,7 +285,7 @@ class TaskInstanceMapper
     {
                $dto = new TaskInstanceCreateDto();
 
-       return $dto;
+           return $dto;
     }
     */
     private function commonFieldsEntityToDto(TaskInstance $entity, object $dto): void

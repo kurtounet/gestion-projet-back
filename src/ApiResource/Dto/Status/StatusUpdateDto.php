@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Status;
 
 use App\Entity\Status;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,21 +11,20 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Status::class)]
 final class StatusUpdateDto
 {
-    #[Groups(['Status:update'])]
-    public ?string $label;
+    #[Groups(['update'])]
+    public ?string $label = null;
 
-    #[Groups(['Status:update'])]
-    public ?string $color;
+    #[Groups(['update'])]
+    public ?string $color = null;
 
-    #[Groups(['Status:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['Status:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['Status:update'])]
-    public ?string $context;
+    #[Groups(['update'])]
+    public ?string $context = null;
 }

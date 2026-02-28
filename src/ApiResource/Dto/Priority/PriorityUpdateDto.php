@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Priority;
 
 use App\Entity\Priority;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -12,21 +11,20 @@ use Symfony\Component\Serializer\Attribute\Groups;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Priority::class)]
 final class PriorityUpdateDto
 {
-    #[Groups(['Priority:update'])]
-    public ?string $label;
+    #[Groups(['update'])]
+    public ?string $label = null;
 
-    #[Groups(['Priority:update'])]
-    public ?string $color;
+    #[Groups(['update'])]
+    public ?string $color = null;
 
-    #[Groups(['Priority:update'])]
-    public ?int $priorityNumber;
+    #[Groups(['update'])]
+    public ?int $priorityNumber = null;
 
-    #[Groups(['Priority:update'])]
-    public ?\DateTimeInterface $createdAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $createdAt = null;
 
-    #[Groups(['Priority:update'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['update'])]
+    public ?\DateTimeInterface $updatedAt = null;
 }

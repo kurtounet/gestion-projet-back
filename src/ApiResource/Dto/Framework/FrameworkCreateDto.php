@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\Framework;
 
 use App\Entity\Framework;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,40 +12,43 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: Framework::class)]
 final class FrameworkCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['Framework:create'])]
+    #[Groups(['create'])]
     public string $label;
 
     #[Assert\NotBlank]
-    #[Groups(['Framework:create'])]
+    #[Groups(['create'])]
     public string $type;
 
     #[Assert\NotBlank]
-    #[Groups(['Framework:create'])]
+    #[Groups(['create'])]
     public string $version;
 
-    #[Groups(['Framework:create'])]
-    public ?string $description;
+    #[Groups(['create'])]
+    public ?string $description = null;
 
-    #[Groups(['Framework:create'])]
-    public ?array $configuration;
+    #[Groups(['create'])]
+    public ?array $configuration = null;
 
-    #[Groups(['Framework:create'])]
-    public ?string $icon;
+    #[Groups(['create'])]
+    public ?string $icon = null;
 
-    #[Groups(['Framework:create'])]
-    public ?string $color;
+    #[Groups(['create'])]
+    public ?string $color = null;
 
     #[Assert\NotBlank]
-    #[Groups(['Framework:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['Framework:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['Framework:create'])]
-    public ?string $technology;
+
+
+    #[Groups(['create'])]
+    public iterable $configProjectFrameworks = [];
+    #[Groups(['create'])]
+    public ?string $technology = null;
 }

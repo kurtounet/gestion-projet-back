@@ -3,7 +3,6 @@
 namespace App\ApiResource\Dto\ContextStatus;
 
 use App\Entity\ContextStatus;
-use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,18 +12,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Relations ToOne attendues en IRI string (ex: "/api/statuses/1").
  */
-#[Map(target: ContextStatus::class)]
 final class ContextStatusCreateDto
 {
     #[Assert\NotBlank]
-    #[Groups(['ContextStatus:create'])]
+    #[Groups(['create'])]
     public \DateTimeInterface $createdAt;
 
-    #[Groups(['ContextStatus:create'])]
-    public ?\DateTimeInterface $updatedAt;
+    #[Groups(['create'])]
+    public ?\DateTimeInterface $updatedAt = null;
 
-    #[Groups(['ContextStatus:create'])]
-    public ?string $context;
-    #[Groups(['ContextStatus:create'])]
-    public ?string $status;
+
+
+    #[Groups(['create'])]
+    public ?string $context = null;
+    #[Groups(['create'])]
+    public ?string $status = null;
 }

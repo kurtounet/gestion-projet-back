@@ -26,7 +26,8 @@ yarn-error.log
 .env.local
 .env.test
 
-src/Command/*
+ 
+src/ApiResource_old/*
 .doc/*
 bruno/*
 

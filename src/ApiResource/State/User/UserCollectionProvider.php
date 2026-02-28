@@ -14,7 +14,7 @@ final readonly class UserCollectionProvider implements ProviderInterface
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.collection_provider')]
         private ProviderInterface $collectionProvider,
-        private UserMapper $userMapper,
+        private UserMapper $userMapper
     ) {
     }
 
@@ -31,6 +31,7 @@ final readonly class UserCollectionProvider implements ProviderInterface
 
         $items = [];
         foreach ($result as $entity) {
+
             if (! $entity instanceof User) {
                 continue;
             }
