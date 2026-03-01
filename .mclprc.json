@@ -1,0 +1,86 @@
+{
+  "cliFolder": {
+    "name": ".cli-local",
+    "path": "I:\\gestion-projet\\gestion-projet-symfony\\.cli-local",
+    "type": "directory",
+    "size": 0,
+    "level": 0,
+    "content": "",
+    "extension": "",
+    "children": [
+      {
+        "name": "mclp",
+        "path": "I:\\gestion-projet\\gestion-projet-symfony\\.cli-local\\mclp",
+        "type": "file",
+        "size": 0,
+        "level": 1,
+        "content": "",
+        "extension": ""
+      }
+    ]
+  },
+  "databases": [
+    {
+      "type": "mysql",
+      "host": "localhost",
+      "port": 3306,
+      "user": "root",
+      "password": "",
+      "database": "task_backup"
+    },
+    {
+      "type": "sqlite",
+      "host": "localhost",
+      "port": 3306,
+      "user": "root",
+      "password": "",
+      "database": "task_backup"
+    }
+  ],
+  "doc": {
+    "pathIn": "I:\\gestion-projet\\gestion-projet-symfony",
+    "pathOut": "./.doc",
+    "saveOnExecute": true
+  },
+  "tree": {
+    "exclude": [
+      ".git",
+      "dist",
+      ".doc",
+      "old_cli",
+      ".vscode",
+      "node_modules",
+      "project-test",
+      "output"
+    ],
+    "pathIn": "I:\\gestion-projet\\gestion-projet-symfony",
+    "pathOut": "./tree",
+    "analysis": {
+      "enabled": false,
+      "extensions": [
+        ".ts",
+        ".js",
+        ".php"
+      ],
+      "save": true,
+      "maxLevel": 0
+    },
+    "output": [
+      {
+        "type": "json",
+        "pathOut": "./tree",
+        "saveOnExecute": true
+      },
+      {
+        "type": "md",
+        "pathOut": "./tree",
+        "saveOnExecute": true
+      },
+      {
+        "type": "yaml",
+        "pathOut": "./tree",
+        "saveOnExecute": true
+      }
+    ]
+  }
+}

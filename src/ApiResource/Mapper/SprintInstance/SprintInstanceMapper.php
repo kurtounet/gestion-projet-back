@@ -139,6 +139,7 @@ class SprintInstanceMapper
         if (null !== $dto->position) {
             $entity->setPosition($dto->position);
         }
+        /*
         if (null !== $dto->createdAt) {
             $entity->setCreatedAt($dto->createdAt);
         }
@@ -151,6 +152,7 @@ class SprintInstanceMapper
         if (null !== $dto->updatedByUser) {
             $entity->setUpdatedByUser($dto->updatedByUser);
         }
+            */
         if (null !== $dto->priority) {
             $entity->setPriority($this->resolveIri($dto->priority ?? null, \App\Entity\Priority::class, 'priority', required: true));
         }

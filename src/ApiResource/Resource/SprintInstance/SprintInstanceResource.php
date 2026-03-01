@@ -7,10 +7,12 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceCreateDto;
 use App\ApiResource\Dto\SprintInstance\SprintInstanceUpdateDto;
+use App\ApiResource\Resource\ProjectInstance\ProjectInstanceResource;
 use App\ApiResource\State\SprintInstance\SprintInstanceCollectionProvider;
 use App\ApiResource\State\SprintInstance\SprintInstanceCreateProcessor;
 use App\ApiResource\State\SprintInstance\SprintInstanceDeleteProcessor;
@@ -23,6 +25,18 @@ use Symfony\Component\Serializer\Attribute\Groups;
     shortName: 'SprintInstance',
     stateOptions: new Options(entityClass: SprintInstance::class),
     operations: [
+        new GetCollection(
+            uriTemplate: '/sprint_instances/current_project/{projectId}',
+            uriVariables: [
+                'projectId' => new Link(
+                    fromClass: ProjectInstanceResource::class,
+                    toProperty: 'projectInstance',
+                ),
+            ],
+            normalizationContext: ['groups' => ['collection:read']],
+            provider: SprintInstanceCollectionProvider::class,
+            output: self::class
+        ),
         new GetCollection(
             normalizationContext: ['groups' => ['collection:read']],
             provider: SprintInstanceCollectionProvider::class,
@@ -63,25 +77,25 @@ final class SprintInstanceResource
     public string $name;
 
     #[Groups(['collection:read', 'item:read'])]
-    public string $description;
+    public ?string $description;
 
     #[Groups(['collection:read', 'item:read'])]
-    public string $icon;
+    public ?string $icon;
 
     #[Groups(['collection:read', 'item:read'])]
-    public string $color;
+    public ?string $color;
 
     #[Groups(['collection:read', 'item:read'])]
-    public \DateTimeInterface $startDate;
+    public ?\DateTimeInterface $startDate;
 
     #[Groups(['collection:read', 'item:read'])]
-    public \DateTimeInterface $endDate;
+    public ?\DateTimeInterface $endDate;
 
     #[Groups(['collection:read', 'item:read'])]
     public ?int $position = null;
 
     #[Groups(['collection:read', 'item:read'])]
-    public \DateTimeInterface $createdAt;
+    public ?\DateTimeInterface $createdAt;
 
     #[Groups(['collection:read', 'item:read'])]
     public ?\DateTimeInterface $updatedAt = null;

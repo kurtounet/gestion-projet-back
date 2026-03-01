@@ -163,6 +163,8 @@ class ProjectInstanceMapper
         if (null !== $dto->endDate) {
             $entity->setEndDate($dto->endDate);
         }
+
+        /*
         if (null !== $dto->createdByUser) {
             $entity->setCreatedByUser($dto->createdByUser);
         }
@@ -175,6 +177,7 @@ class ProjectInstanceMapper
         if (null !== $dto->updatedAt) {
             $entity->setUpdatedAt($dto->updatedAt);
         }
+            */
         if (null !== $dto->status) {
             $entity->setStatus($this->resolveIri($dto->status ?? null, \App\Entity\Status::class, 'status', required: true));
         }

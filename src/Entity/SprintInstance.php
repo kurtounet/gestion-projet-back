@@ -23,10 +23,10 @@ class SprintInstance
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $icon = null;
 
     #[ORM\Column(length: 7)]
@@ -46,7 +46,7 @@ class SprintInstance
     private ?Priority $priority = null;
 
     #[ORM\ManyToOne(targetEntity: SprintTemplate::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?SprintTemplate $sprintTemplate = null;
 
     #[ORM\ManyToOne(targetEntity: Status::class)]

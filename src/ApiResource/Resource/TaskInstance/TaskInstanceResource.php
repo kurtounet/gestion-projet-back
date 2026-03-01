@@ -7,10 +7,12 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceCreateDto;
 use App\ApiResource\Dto\TaskInstance\TaskInstanceUpdateDto;
+use App\ApiResource\Resource\SprintInstance\SprintInstanceResource;
 use App\ApiResource\State\TaskInstance\TaskInstanceCollectionProvider;
 use App\ApiResource\State\TaskInstance\TaskInstanceCreateProcessor;
 use App\ApiResource\State\TaskInstance\TaskInstanceDeleteProcessor;
@@ -23,6 +25,18 @@ use Symfony\Component\Serializer\Attribute\Groups;
     shortName: 'TaskInstance',
     stateOptions: new Options(entityClass: TaskInstance::class),
     operations: [
+        new GetCollection(
+            uriTemplate: 'task_instances/current_sprint/{sprintId}',
+            uriVariables: [
+                'sprintId' => new Link(
+                    fromClass: SprintInstanceResource::class,
+                    toProperty: 'sprintInstance',
+                ),
+            ],
+            normalizationContext: ['groups' => ['collection:read']],
+            provider: TaskInstanceCollectionProvider::class,
+            output: self::class
+        ),
         new GetCollection(
             normalizationContext: ['groups' => ['collection:read']],
             provider: TaskInstanceCollectionProvider::class,

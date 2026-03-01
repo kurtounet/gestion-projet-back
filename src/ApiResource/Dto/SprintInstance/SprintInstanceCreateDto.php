@@ -18,17 +18,14 @@ final class SprintInstanceCreateDto
     #[Groups(['create'])]
     public string $name;
 
-    #[Assert\NotBlank]
     #[Groups(['create'])]
-    public string $description;
+    public ?string $description = null;
 
-    #[Assert\NotBlank]
     #[Groups(['create'])]
-    public string $icon;
+    public ?string $icon = null;
 
-    #[Assert\NotBlank]
     #[Groups(['create'])]
-    public string $color;
+    public string $color = "#000000";
 
     #[Assert\NotBlank]
     #[Groups(['create'])]
@@ -40,32 +37,38 @@ final class SprintInstanceCreateDto
 
     #[Groups(['create'])]
     public ?int $position = null;
+    /*
+        #[Assert\NotBlank]
+        #[Groups(['create'])]
+        public \DateTimeInterface $createdAt;
+
+        #[Groups(['create'])]
+        public ?\DateTimeInterface $updatedAt = null;
+
+        #[Groups(['create'])]
+        public ?string $createdByUser = null;
+
+        #[Groups(['create'])]
+        public ?string $updatedByUser = null;
+    */
+    #[Assert\NotBlank]
+    #[Groups(['create'])]
+    public ?string $priority;
+
+    #[Groups(['create'])]
+    public ?string $sprintTemplate = null;
 
     #[Assert\NotBlank]
     #[Groups(['create'])]
-    public \DateTimeInterface $createdAt;
+    public ?string $status;
 
-    #[Groups(['create'])]
-    public ?\DateTimeInterface $updatedAt = null;
-
-    #[Groups(['create'])]
-    public ?string $createdByUser = null;
-
-    #[Groups(['create'])]
-    public ?string $updatedByUser = null;
-
-
-
-    #[Groups(['create'])]
-    public ?string $priority = null;
-    #[Groups(['create'])]
-    public ?string $sprintTemplate = null;
-    #[Groups(['create'])]
-    public ?string $status = null;
     #[Groups(['create'])]
     public ?string $comment = null;
+
     #[Groups(['create'])]
     public ?string $sprintDependency = null;
+
+    #[Assert\NotBlank]
     #[Groups(['create'])]
-    public ?string $projectInstance = null;
+    public ?string $projectInstance;
 }
